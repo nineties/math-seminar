@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+        <h3> 2013年 プログラマの為の数学勉強会 資料 </h3>
+        <p style="font-size:80%">
+        完成次第追加していきます。
+        </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.min.js"></script>
+
+    <script>
+      Reveal.initialize({
+        controls: false,
+        progress: false,
+        history: false,
+        overview: false,
+        touch: false,
+        center: false,
+        rollingLinks: false,
+        transition: "none",
+
+        dependencies: [
+					{ src: "reveal.js/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "reveal.js/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "reveal.js/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "reveal.js/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+    </script>
+  </body>
+</html>
