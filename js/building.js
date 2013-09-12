@@ -1,6 +1,6 @@
 define(["d3", "util", "math", "numeric"], function (d3, U, M, numeric) {
     var size = {
-            width: 800, height: 500,
+            width: 800, height: 400,
             top: 20, right: 20, bottom: 30, left: 80
         },
         dt = 0.1;
