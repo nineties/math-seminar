@@ -1,0 +1,23 @@
+.axis text {
+    font: 20px sans-serif;
+    fill: white;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: white;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+
+.line {
+    fill: none;
+    stroke: white;
+    stroke-width: 2px;
+}
+
+.label {
+    font: 24px sans-serif;
+    fill: white;
+}

@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/zenburn.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: #ffff66;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal .note {
+        font-size: 40%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin: 1em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: false,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第1回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年9月5日
+        </span>
+        </section>
+
+        <section>
+        <h2>自己紹介</h2>
+        <ul>
+          <li> 中村晃一</li>
+          <li> 東京大学 大学院 情報理工学系研究科<br>
+               コンピュータ科学専攻 後期博士課程 2年</li>
+          <li> プログラム最適化・言語処理系の実装技術・人間と言語の関係等に興味があります。</li>
+          <li> twitter: <a href="http://twitter.com/9_ties">@9_ties</a></li>
+        </ul>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> イントロダクション </h2>
+        </section>
+
+        <section>
+        <h2> 勉強会開催の動機 </h2>
+        <ul>
+          <li class="fragment"> 難しい事をやろうとすると数学が必要となる事が良くあります。</li>
+          <li class="fragment"> 特に大学1,2年次に学ぶ「<strong>微積分学</strong>」「<strong>線型代数学</strong>」「<strong>確率・統計学</strong>」の知識は前提として要求される事が多いです。</li>
+        </ul>
+        <div class="block fragment" style="font-size:90%;border-color:lightgreen">
+          <h4 style="color:lightgreen">例</h4>
+          <div style="float:left;width:75%">
+            <blockquote style="width:90%">
+              本書を理解するのに，パターン認識や機械学習について，あらかじめ何も知らなくてもよいが，<strong>多変数微積分</strong>や基礎的な<strong>線型代数</strong>についての知識は必要である．
+              また，<strong>確率</strong>について精通していれば，本書の理解に役立つ．
+            </blockquote>
+            <span style="float:right;font-size:60%"> C.M.ビショップ著「パターン認識と機械学習」まえがきより引用 </span>
+          </div>
+          <img style="float:right;width:20%" src="http://images-jp.amazon.com/images/P/4621061224">
+        </div>
+        </section>
+
+        <section>
+        <h2> 勉強会の趣旨 </h2>
+        <ul>
+          <li> 非常に初歩的な所から「微積分学」「線型代数学」「確率・統計学」の講義を行います。 </li>
+          <li> 計算機を活用する為に必要な「数値計算」の各種アルゴリズムも紹介します。 </li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> お断り </h2>
+        <ul>
+          <li> 応用を意識した内容であることと時間の制約から、基礎的な話題は省略したり簡単に紹介する形になります。 </li>
+          <li> 出来るだけ多くの具体的な応用例を紹介する予定ですが、教養レベルのお話しか出来ませんのでご了承下さい。 </li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> 参考書 </h2>
+        <p>
+        演習を重ねなければ数学の力は身につきませんが，勉強会でそこまでやる時間はありませんので，各自で練習してください。
+        </p>
+        <p>
+        良い参考書・演習書は前提知識によって変わるので一概にどれが良いとは言えませんが，全くの初心者の方は以下のようなシリーズ物の易しい参考書を選ぶと良いと思います。
+        </p>
+        <ul>
+          <li> 明解演習シリーズ</li>
+          <li> 理工系数学のキーポイントシリーズ </li>
+          <li> キャンパス・ゼミシリーズ </li>
+          <li> など </li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> 本日の内容 </h2>
+        <p class="fragment" data-fragment-index="1">
+        そもそも，数学を使って現実の問題にどうアプローチするのかよく解っていないという人もいるかと思います。
+        </p>
+        <div align="center" class="fragment" data-fragment-index="1"> <img width="600px" src="fig/intro1.png"></div>
+        <p class="fragment" data-fragment-index="2">
+        そこで、本日は細い理論には立ち入らず全体的な雰囲気を掴む為の話をします。
+        </p>
+        <p class="fragment" data-fragment-index="2">
+        また、来週以降に向けて浮動小数点数の話をします。
+        </p>
+        </section>
+
+        <section>
+        <h2> 数学はどう使われるか？ </h2>
+        <p>
+        <strong>数学</strong>は理学・工学分野で<strong>共通言語</strong>として使われます。この分野で行われるありとあらゆる事に数学が関わってきます。
+        </p>
+        <div class="block fragment" style="border-color:pink">
+          <h4 style="color:pink"> 理学・工学の問題に取り組む際のプロセス </h4>
+          <ul>
+            <li class="fragment"> 現象の<strong>観察</strong>を行う。 </li>
+            <li class="fragment"> 観察に基づき<strong>仮説</strong>を立てる。 </li>
+            <li class="fragment"> 仮説に基づき<strong>実験</strong>を行う。 </li>
+            <li class="fragment"> 実験結果に基づき<strong>評価・考察</strong>を行う。 </li>
+            <li class="fragment"> 理論に基づき<strong>計画・設計</strong>を行う。</li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <p>
+        仮説や実験などと言うと大げさに思うかもしれませんが、何かをよく調べたい・改善したいという際にはこういったプロセスが生じます。
+        </p>
+        <div class="block fragment" style="border-color:lightgreen">
+          <h4 style="color:lightgreen">例: 商品\(A\)の売上を改善したい </h4>
+          <ul>
+            <li class="fragment"> <strong>観察</strong>: 過去の売上げデータを分析する。何らかの傾向は見られるか？ </li>
+            <li class="fragment"> <strong>仮説</strong>: \(A\)の売上は\(X\)，\(Y\)，\(\cdots\)を変数とするモデル\(M\)で説明出来るのではないか？ </li>
+            <li class="fragment"> <strong>実験</strong>: モデルに従って過去のデータを再現してみる，今後のデータを予測してみる。</li>
+            <li class="fragment"> <strong>評価・考察</strong>: 実験結果は過去の\(A\)のデータを良く説明しているか？予測値と実際の値は良く一致したか？ </li>
+            <li class="fragment"> <strong>計画・設計</strong>: モデル\(M\)に従えば，商品\(A\)の売上を～%向上させる最適なプランは～だ！ </li>
+          </ul>
+        </div>
+        </section>
+
+        <section>
+        <h2> 必要となる数学 </h2>
+        <ul>
+          <li> <strong>観察</strong>: 対象の性質を表す様々な量を計算する。</li>
+          <li> <strong>仮説</strong>: 対象の数理モデルを微分方程式などを用いて記述する。</li>
+          <li> <strong>実験</strong>: モデルを解析的に解く。シミュレーションを行う。</li>
+          <li> <strong>評価・考察</strong>: 評価の目安となる各種指標を計算する。 </li>
+          <li> <strong>計画・設計</strong>: 最も良いプランを決定する為に最適化問題を解く。 </li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> モデルとは？ </h2>
+        <div class="fragment">
+          <p> <strong>モデル</strong>とは<strong>模型</strong>の事です。</p>
+          <div style="text-align: center">
+            <img height="250" src="http://upload.wikimedia.org/wikipedia/commons/2/26/Kuwait.airways.a340.arp.750pix.jpg">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <img height="250" src="http://aerospacebiz.jaxa.jp/jp/images/facilities/facility03_photo.jpg">
+          </div>
+        </div>
+        <p class="fragment">
+        何かを調べる場合・何かを説明する場合，対象の性質を良く再現する模型を利用する事は重要な手法です。
+        </p>
+        </section>
+
+        <section>
+        <h2> 数理モデルとは？ </h2>
+        <p>
+        数学的に記述されたモデルを<strong>数理モデル</strong>と言います。
+        </p>
+        <div style="float:left;width:60%;font-size:35%">
+          <p style="margin-top:3em">
+          \[ \left\{\begin{array}{c}
+          \rho\left(\frac{\partial v_x}{\partial t} + v_x\frac{\partial v_x}{\partial x}+v_y\frac{\partial v_x}{\partial y}+v_z\frac{\partial v_x}{\partial z}\right) = \rho g_x - \frac{\partial p}{\partial x} + \mu\left(\frac{\partial^2 v_x}{\partial x^2} + \frac{\partial^2 v_x}{\partial y^2} + \frac{\partial^2 v_x}{\partial z^2}\right)\\
+          \rho\left(\frac{\partial v_y}{\partial t} + v_x\frac{\partial v_y}{\partial x}+v_y\frac{\partial v_y}{\partial y}+v_z\frac{\partial v_y}{\partial z}\right) = \rho g_y - \frac{\partial p}{\partial y} + \mu\left(\frac{\partial^2 v_y}{\partial x^2} + \frac{\partial^2 v_y}{\partial y^2} + \frac{\partial^2 v_y}{\partial z^2}\right)\\
+          \rho\left(\frac{\partial v_z}{\partial t} + v_x\frac{\partial v_z}{\partial x}+v_y\frac{\partial v_z}{\partial y}+v_z\frac{\partial v_z}{\partial z}\right) = \rho g_z - \frac{\partial p}{\partial z} + \mu\left(\frac{\partial^2 v_z}{\partial x^2} + \frac{\partial^2 v_z}{\partial y^2} + \frac{\partial^2 v_z}{\partial z^2}\right)\\
+          \cdots \\
+          \end{array}\right.
+          \] 
+          </p>
+        </div>
+        <img style="float:right;width:30%" src="http://upload.wikimedia.org/wikipedia/commons/5/55/X-43A_%28Hyper_-_X%29_Mach_7_computational_fluid_dynamic_%28CFD%29.jpg">
+        <p class="fragment" data-fragment-index="1" style="clear:both">
+        数学的に厳密な解析を行ったり<sup>注</sup>，計算機を用いてシミュレーションを行う事が出来ます。実験装置を設計し組み立てるのに比べ，安く実験を行う事が出来ます。
+        </p>
+        <p class="note fragment" data-fragment-index="1">
+        注: 上の方程式はナビエ・ストークス方程式といいますが，これが一般に解けるのかは未解決の問題です。
+        </p>
+        </section>
+
+        <section>
+        <h2> 数学の普遍性 </h2>
+        <p>
+        数学はその知識の<strong>普遍性</strong>が重要です。一見異なる2つの現象が同じ数学の言葉で記述出来るという事がよくあります。
+        </p>
+        <div class="block fragment" style="border-color:lightgreen">
+          <h4 style="color:lightgreen">例 </h4>
+          <img align="right" width="300" src="http://upload.wikimedia.org/wikipedia/commons/3/3e/Wiener_process_zoom.png">
+          <p>
+          溶媒中で微粒子が不規則に運動する<strong>ブラウン運動</strong>のモデルである<strong>ランダム・ウォーク</strong>やその極限である<strong>ウィナー過程</strong>は，<strong>金融工学</strong>の価格付けのモデルや<strong>電子工学</strong>のノイズのモデルなどとして応用されます。
+          </p>
+        </div>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 具体例を見てみよう </h2>
+        </section>
+
+        <section>
+        <p>
+        本日は簡単な例として<strong>ばね</strong>と，ばねに付けられた質点の<strong>振動現象</strong>のモデルを見てみます。
+        </p>
+        <div align="center"><img width="800" src="fig/spring.png"></div>
+        <p class="fragment">
+        「そんな現象に興味ない」という人もいるかも知れませんが，分野が変わっても使われる数学は共通しています。線型微分方程式や固有値などを学ぶ良い題材なので今後も度々取り上げます。
+        </p>
+        <p class="fragment">
+        <strong style="font-size:1.5em">本日は理論的な事は解らなくて良いです。</strong>数学がどのように使われるのかという雰囲気を感じて下さい。
+        </p>
+        </section>
+
+        <section graphics="spring">
+        <h2> ばねの力 </h2>
+        <p>
+        まず，ばねに生じる力のモデルを考えます。
+        </p>
+        <div align="center"><svg></svg></div>
+        <p>
+        以下のような性質が観察出来るはずです。
+        </p>
+        <ul>
+          <li class="fragment"> 伸ばせば，引く力が生じる。</li>
+          <li class="fragment"> 縮めれば，押す力が生じる。</li>
+          <li class="fragment"> 変位が大きいほど，力も大きい。</li>
+        </ul>
+        </section>
+
+        <section graphics="spring-constant">
+        <h2>実験してみた</h2>
+        <p>
+        簡易的な装置を使って2種類のばねの力を実際に測ってみました。<sup>注</sup>
+        </p>
+        <div align="center"><svg></svg></div>
+        <p class="note">
+        注: 引きばねしか用意出来なかったので伸びに対する復元力のみ実験。
+        また，引きばねは変位\(0\)で既に力が働いているので，2cm伸ばした状態を基準長として測定。
+        </p>
+        </section>
+
+        <section>
+        <h2> ばねの力のモデル </h2>
+        <p>
+        観察結果より，ばねに生じる力の大きさは伸縮の大きさに比例すると考えて良さそうです。これは<strong>フックの法則</strong>として知られています。
+        </p>
+        <div class="block" style="border-color:pink">
+          <h4 style="color:pink"> フックの法則 </h4>
+        変位\(x\)が小さい時にばねに生じる復元力\(F\)は，その向きも考えて
+        \[ F = -k x \qquad \text{($k$は正の定数)}\]
+        と(近似的に)表せる。\(k\)は<strong>ばね定数</strong>と呼ばれる。
+        </div>
+        <p class="fragment">
+        ここではばねの材質，ばねの形状，ばねの破壊などは考えられていない事に注意して下さい。興味の対象が変われば，モデルも変わる事になります。
+        </p>
+        </section>
+
+        <section graphics="spring-constant-regression" style="font-size:80%">
+        <h2> ばね定数の推定 </h2>
+        <svg></svg>
+        <p>
+        上の測定値が\(F = kx\)というモデルで説明出来ると仮定して，\(k\)を求める事を考えます。実験データには<strong>誤差</strong>が含まれるのでそれを何らかの<strong>確率モデル</strong>で仮定し，<strong>統計学</strong>を用いて推定する事になります。
+        </p>
+        </section>
+
+        <section>
+        <h2> 最小二乗法 </h2>
+        <p>
+        変位の大きさ\(x_1,\cdots,x_n\)における測定値\(F_1,\cdots,F_n\)と理論値\(kx_1,\cdots,kx_n\)のずれの大きさを<strong>残差平方和</strong>
+        \[ E = \sum_i (F_i - kx_i)^2 \]
+        で測る事にします。誤差\(|F_i-kx_i|\)が大きいと\(E\)も大きくなる事がわかります。
+        </p>
+        <p class="fragment">
+        残差平方和の最小化によってモデルの係数を決定する方法を<strong>最小二乗法</strong>と呼びます。
+        \(E\)が最小となる係数は微分法を用いて求める事になります。
+        </p>
+        </section>
+
+        <section>
+        <h2> 何故，残差「平方」和？ </h2>
+        <p>
+        測定値の誤差は<strong>正規分布</strong>という分布に従って生じると仮定出来る事が多いです。
+        </p>
+        <div align="center"> <img width="500" src="fig/nd.png"> </div>
+        <p class="fragment">
+        各測定値が平均\(kx_i\)の正規分布に従い分散が等しく，個々の測定が独立であると仮定すると，残差平方和が最小となる\(k\)において<strong>測定データが得られる確率が最大となる</strong>という事が示されます。統計学では<strong>尤度</strong>という概念として一般化されます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 確率と統計 </h2>
+        <p>
+        最小二乗法の例で見たように，バラつきのあるデータを統計的に分析する前提として，バラつきがどのような<strong>確率モデル</strong>に従って生じるかの考察が重要です。前提が異なれば適切な分析方法も変わります。また，尤度以外にもモデルの「良さ」を評価する様々な基準が存在します。
+        </p>
+        <p class="fragment">
+        見当違いなデータ解析をしてしまわない為には，各手法を「公式」として覚えるのではなく，その原理を深く理解する事が大切だと思います。
+        </p>
+        </section>
+
+        <section graphics="spring">
+        <h2> ばねに繋がれた物体の運動 </h2>
+        <p>
+        力学の問題に戻りましょう。ばねの力のモデルが出来たので，次は「物体の運動のモデル」を考えます。
+        </p>
+        <svg></svg>
+        </section>
+
+        <section graphics="newton-law">
+        <h2> ニュートン力学 </h2>
+        <p>
+        </p>
+        <svg></svg>
+        <p class="fragment">
+        <strong>運動の第1法則</strong>: 外部から力が働いていない時，静止している質点は静止状態を続け，運動している質点は等速直線運動をする。 </strong>
+        </p>
+        <p class="fragment">
+        <strong>運動の第２法則</strong>: (第１法則が成り立つ座標系において)質点に外部から力が働くと，その力の方向に<span style="color:pink">加速度</span>が生じる。加速度の大きさは力の大きさに比例し，質点の質量に反比例する。
+        </p>
+        <p class="fragment">
+        <strong>運動の第３法則</strong>: 二つの質点の間に相互に力が働く時，それらの力は大きさが等しく逆向きである。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        速度は「位置の時間あたりの変化率」なので，直線運動では
+        \[ \text{(速度)} = \frac{\text{(変位)}}{\text{(時間)}} \]
+        という関係があります。
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        時刻\(t\)の位置を\(x(t)\)と表すと，時刻\(t\)から\(t+\Delta t\)までの平均的な速度\(v\)は
+        \[ v = \frac{x(t+\Delta t) - x(t)}{\Delta t} \]
+        と表されます。
+        </p>
+        <div align="center" class="fragment" data-fragment-index="1"> <img width="500" src="fig/average-velocity.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        \(\Delta t\)を限りなく\(0\)に近づけた時の<strong>極限</strong>を考える事によって，時刻\(t\)の瞬間の速度を<strong>微分係数</strong>として表す事が出来ます。
+        \[ v(t) = \lim_{\Delta t\rightarrow 0}\frac{x(t+\Delta t) - x(t)}{\Delta t} = \frac{\mathrm{d} x}{\mathrm{d} t}\]
+        </p>
+        <p class="fragment">
+        同様にして加速度は「速度の時間あたりの変化率」ですから，時刻\(t\)における加速度\(a(t)\)は
+        \[ a(t) = \lim_{\Delta t\rightarrow 0}\frac{v(t+\Delta t)-v(t)}{\Delta t} = \frac{\mathrm{d} v}{\mathrm{d} t} = \frac{\mathrm{d}^2 x}{\mathrm{d} t^2} \]
+        と表す事が出来ます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 運動方程式 </h2>
+        <p>
+        従ってニュートン力学の第２法則は以下の様に運動方程式と呼ばれる<strong>微分方程式</strong>として記述する事が出来ます。
+        </p>
+        <div class="block" style="border-color:pink">
+          <h4 style="color:pink"> 運動方程式 </h4>
+          質量\(m\)の質点に力\(F\)が働いている時，時刻\(t\)における質点の位置\(x\)は
+          微分方程式
+          \[ m\frac{\mathrm{d}^2 x}{\mathrm{d} t^2} = F \]
+          に従う。
+        <div align="center"> <img width="500" src="fig/newton-second-law.png"> </div>
+        </div>
+        </section>
+
+        <section>
+        <h2> ばねの運動方程式 </h2>
+        <p>
+        フックの法則とニュートン力学の第２法則を組み合わせると，ばねに繋がれた質点の運動方程式を得る事が出来ます。
+        </p>
+        <div class="block" style="border-color:pink">
+          \[  m\frac{\mathrm{d}^2 x}{\mathrm{d} t^2} = -kx\ \Leftrightarrow\ \frac{\mathrm{d}^2 x}{\mathrm{d} t^2} + \frac{k}{m}x = 0 \]
+        <div align="center"> <img width="500" src="fig/motion-of-spring.png"> </div>
+        </div>
+        </section>
+
+        <section>
+        <h2> 微分方程式 </h2>
+        <p>
+        今の例の様に，理学・工学の様々な問題が<strong>微分方程式</strong>として表現されます。連続的な変化の様子を記述しようとすると必然的に<strong>微分係数・偏微分係数</strong>を用いる事になるからです。
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        特に<strong>線型微分方程式</strong>と呼ばれる
+        </p>
+        <div class="block fragment" data-fragment-index="1" style="border-color:pink">
+        \[ \frac{\mathrm{d}^ny}{\mathrm{d}x^n}+a_{n-1}\frac{\mathrm{d}^{n-1}y}{\mathrm{d}x^{n-1}}+\cdots+a_0(x)y=f(x)\]
+        </div>
+        <p class="fragment" data-fragment-index="1">
+        という形の微分方程式がよく現れます。
+        </p>
+        </section>
+
+        <section>
+        <h2> ばねの運動(解析解) </h2>
+        <p>
+        方程式を代数学や微積分学の手法を用いて厳密に解く事を，方程式を<strong>解析的に</strong>解くなどと言います。
+        </p>
+        <div class="block fragment" data-fragment-index="1" style="border-color:pink">
+          <h4 style="color:pink">ばねの運動の解析解</h4>
+          <div style="font-size:60%">
+          \[ \frac{\mathrm{d}^2 x}{\mathrm{d} t^2} + \frac{k}{m}x = 0 \quad\cdots(1)\]
+          に\(x = e^{\lambda t}\)を代入すると
+          \[ \lambda^2 e^{\lambda t} + \frac{k}{m}e^{\lambda t} = 0\ \Leftrightarrow\ \lambda = \pm i\sqrt{\frac{k}{m}} \]
+          であるので，\(x = e^{i\sqrt{\frac{k}{m}}}\)と\(x = e^{-i\sqrt{\frac{k}{m}}}\)は\((1)\)の解である。\((1)\)は斉次の二階線型微分方程式であり，得られた2解は一次独立であるから，求める一般解は
+          \[ x = \alpha e^{i\sqrt{\frac{k}{m}}} + \beta e^{-i\sqrt{\frac{k}{m}}} = A\sin\left(\sqrt{\frac{k}{m}}t + \phi\right) \qquad \text{($\alpha$,$\beta$,$A$,$\phi$は定数)}\]
+          である。
+          </div>
+        </div>
+        </section>
+
+        <section>
+        <div align="center"> <img width="700" src="fig/free-oscillation.png"> </div>
+        <p>
+          2つパラメータ\(A\)と\(\phi\)は<strong>初期条件</strong>を与える事で定まり，実際の運動の様子が得られる事になります。
+        </p>
+        <p class="fragment">
+        また初期条件によらず，周期\(T = 2\pi\sqrt{\frac{m}{k}}\) で振動するという<strong>等時性</strong>という現象など，様々な事が解ります。
+        </p>
+        </section>
+
+        <section graphics="spring-slow">
+        <h2> ばねの運動(数値計算) </h2>
+        <p> 時間や位置などの変数を<strong>離散化</strong>して，近似的に次々と求めていく事によって<strong>数値計算</strong>を行う事が出来ます。
+        </p>
+        <svg></svg>
+        <p class="fragment">
+        解析解に比べ<strong>離散化による誤差</strong>，<strong>数値演算による誤差</strong>が発生します。また，使える計算時間にも限りがあり，様々な計算手法を使い分ける必要があります。
+        </p>
+        <p class="fragment">
+        一方，解析的に解く事が出来ない問題に対しても数値計算を利用する事が出来ます。
+        </p>
+        </section>
+
+        <section graphics="oscillator1">
+        <p>
+        ばね定数:両方\(1\)，質量:\(1\)，\(\Delta t = 0.1\text{sec}\)として古典的ルンゲクッタ法という積分法で計算しています。
+        </p>
+        <svg></svg>
+        </section>
+
+        <!--
+        <section graphics="oscillator1-resistance">
+        <svg></svg>
+        </section>
+        -->
+
+        <section graphics="oscillator2">
+        <h2> 連成ばね </h2>
+        <p> 次は質点を2つにしてみましょう。 何かパターンが見えますか？</p>
+        <svg></svg>
+        </section>
+
+        <section graphics="oscillator3">
+        <p> 3つにしてみましょう。</p>
+        <svg></svg>
+        </section>
+
+        <section graphics="oscillator4">
+        <p> 4つにしてみましょう。</p>
+        <svg></svg>
+        </section>
+
+        <section>
+        <h2> 連成ばねの運動方程式 </h2>
+        <p>
+        \(n\)個の質点(質量\(m\))が\(n+1\)個のばね(ばね定数\(k\))で繋がれているとしましょう。
+        </p>
+        <div align="center"> <img width="800" src="fig/multi-spring.png"> </div>
+        <p>
+        \(i\)番目の質点に働く力は
+        \[ k(x_{i+1}-x_i)-k(x_{i}-x_{i-1}) = kx_{i-1} - 2kx_i + kx_{i+1} \]
+        となります(但し\(x_{-1}=x_{n+1}=0\)とする)。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        従って，
+        </p>
+        <div class="block" style="border-color:pink;">
+          <h4 style="color:pink">連成バネの運動方程式</h4>
+          <p style="font-size:60%">
+          \[ \left\{\begin{array}{l}
+          m\frac{\mathrm{d}^2x_1}{\mathrm{d}t^2} = -2kx_1 + kx_2 \\
+          m\frac{\mathrm{d}^2x_2}{\mathrm{d}t^2} = kx_1 -2kx_2 + kx_3 \\
+          m\frac{\mathrm{d}^2x_3}{\mathrm{d}t^2} = kx_2 -2kx_3 + kx_4 \\
+          \qquad\vdots \\
+          m\frac{\mathrm{d}^2x_i}{\mathrm{d}t^2} = kx_{i-1} -2kx_i + kx_{i+1} \\
+          \qquad\vdots \\
+          m\frac{\mathrm{d}^2x_n}{\mathrm{d}t^2} = kx_{n-1} -2kx_n \\
+          \end{array}\right. \]
+          </p>
+        </div>
+        <p>
+        となります。これを工夫せずに解くのは非常に大変です。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        今の方程式はベクトル・行列を用いると以下の様に表す事が出来ます。
+        </p>
+        <p style="font-size:80%">
+        \[
+        m\frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\begin{array}{c} x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n \end{array}\right) =
+        -k\left(\begin{array}{ccccc}
+         2 & -1 &  0 &  0 & \cdots & \\
+        -1 &  2 & -1 &  0 & \cdots & \\
+         0 & -1 &  2 & -1 & \cdots & \\
+        \vdots & \vdots & \ddots& \ddots & \ddots & \\
+         & & &  &  & \\
+        \end{array}\right)
+        \left(\begin{array}{c} x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n \end{array}\right) 
+        \]
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        つまり，変数ベクトル\(\boldsymbol{x}\)と正方行列\(A\)に対して
+        <div class="block fragment" data-fragment-index="1" style="border-color:pink;">
+        \[ 
+        \frac{\mathrm{d}^2}{\mathrm{d}t^2}\boldsymbol{x} = A\boldsymbol{x}
+        \]
+        </div>
+        <p class="fragment" data-fragment-index="1">
+        という形の微分方程式を解く問題を考えれば良いです。
+        </p>
+        </section>
+
+        <section>
+        <h2> ベクトル・行列 </h2>
+        <p>
+        現実に生じる問題の多くは<strong>多変数</strong>の方程式で表されます。
+        特に<strong>連立一次方程式</strong>はベクトル・行列で記述され，理論的に扱い易い為重要です。
+        </p>
+        <p class="fragment">
+        連成バネの方程式のように多くのモデルは自然に一次式で表す事ができ，そうでない場合も近似的に一次式で表す事が出来るので，非常に幅広く利用されます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        数理モデルを考える以外にも，計算機で扱う様々なデータを高次元のベクトルと見なす事も出来ます。
+        </p>
+        <div class="block fragment" style="border-color:lightgreen">
+          <h4 style="color:lightgreen">高次元なベクトルの例 </h4>
+          <img align="right" width="300" src="fig/ball.jpg">
+          <p>
+          例えば30ピクセル×30ピクセルのモノクロ画像を考えましょう。
+          この画像は900個の数値で表されますので，<strong>900次元空間の1点</strong>であるとして扱う事が出来ます。このような画像を沢山集めると，900次元空間内に何らかの分布を作ります。画像認識の問題は高次元ベクトル空間内の点の分布の様子を調べる問題として捉える事が出来ます。
+          </p>
+        </div>
+        </section>
+
+        <section>
+        <h2> 連成バネの解析 </h2>
+        <p>
+        連成バネの問題に戻りましょう。簡単の為に質点を2つとし\(m=k=1\)とします。
+        </p>
+        <div align="center"> <img width="700" src="fig/multi-spring2.png"> </div>
+        <p>
+        解くべき方程式は
+        \[ \begin{aligned}
+        \frac{\mathrm{d}^2 x_1}{\mathrm{d}t^2} &= -2x_1 + x_2 \\
+        \frac{\mathrm{d}^2 x_2}{\mathrm{d}t^2} &= x_1 - 2x_2 \\
+        \end{aligned} \]
+        となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        天下り的ですが，2つの方程式を足して\(\sqrt{2}\)で割ってみます。
+        </p>
+        <p class="fragment">
+        すると
+        \[ \frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{x_1+x_2}{\sqrt{2}}\right) = - \frac{x_1+x_2}{\sqrt{2}} \]
+        となります。
+        </p>
+        <p class="fragment">
+        同様に２式を引いて\(\sqrt{2}\)で割ってみると
+        \[ \frac{\mathrm{d}^2}{\mathrm{d}t^2}\left(\frac{x_1-x_2}{\sqrt{2}}\right) = -3 \frac{x_1-x_2}{\sqrt{2}} \]
+        となります。
+        </p>
+        <p class="fragment">
+        \[ X_1 = \frac{x_1+x_2}{\sqrt{2}},\ X_2 = \frac{x_1-x_2}{\sqrt{2}} \]
+        と置き直してみると，
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink">
+          <p style="font-size:90%">
+          \[ \left\{\begin{array}{c}
+        \frac{\mathrm{d}^2 x_1}{\mathrm{d}t^2} &= -2x_1 + x_2 \\
+        \frac{\mathrm{d}^2 x_2}{\mathrm{d}t^2} &= x_1 - 2x_2 \\
+        \end{array}\right.
+        \ \Leftrightarrow\ 
+        \left\{\begin{array}{c}
+        \frac{\mathrm{d}^2 X_1}{\mathrm{d}t^2} &= -X1 \\
+        \frac{\mathrm{d}^2 X_2}{\mathrm{d}t^2} &= -3X2 \\
+        \end{array}\right.\]
+        ただし
+        \[ X_1 = \frac{x_1+x_2}{\sqrt{2}},\ X_2 = \frac{x_1-x_2}{\sqrt{2}} \]
+        </p>
+        </div>
+        <p> となります。 </p>
+        <p class="fragment">
+        <strong>座標変換</strong>を施すことによって「連成バネ」の運動が「２つの別々のバネ」の運動になってしまいました。
+        </p>
+        </section>
+
+        <section>
+        <h2> 固有値・固有ベクトル・固有空間 </h2>
+        <p>
+        今の現象は線型代数学において，元の二次元の空間を行列
+        \[ \left(\begin{array}{cc}
+        2 & -1 \\
+        -1 & 2 
+        \end{array}\right) \]
+        に関する2つの1次元の<strong>固有空間</strong>に分解したのだ、と説明する事が出来ます。
+        </p>
+        <p>
+        変換後の係数である\(1, 3\)は<strong>固有値</strong>，変換の係数である
+        \[ \frac{1}{\sqrt{2}}\left(\begin{array}{c} 1 \\ 1 \end{array}\right),
+        \quad \frac{1}{\sqrt{2}}\left(\begin{array}{c} 1 \\ -1 \end{array}\right)
+        \]
+        は<strong>固有ベクトル</strong>と呼ばれます。
+        </p>
+        <p class="fragment">
+        データの特徴が分り易くなるように座標変換を行う，高次元の空間を独立な低次元の空間に分解するという非常に重要な手法・考え方を線型代数から学ぶ事が出来ます。
+        </p>
+        </section>
+
+        <section graphics="oscillator2-normalmode">
+        <h2> もう一度見てみよう </h2>
+        <svg></svg>
+        </section>
+
+        <section>
+        <p>
+        以上で微積分学，線型代数学，確率・統計学が一体どのような事を記述し調べる為に利用されるのか，何となくイメージ出来たのではないかと思います。
+        </p>
+        <p class="fragment">
+        しかし，バネのモデルはまだまだ奥が深いのでもう少し見てみましょう。
+        </p>
+        </section>
+
+        <section graphics="oscillator100">
+        <h2> 100点の連成バネ </h2>
+        <svg class="fragment"></svg>
+        </section>
+
+        <section graphics="oscillator100-2">
+        <h2> 右半分だけ硬いバネにした場合 </h2>
+        <svg></svg>
+        </section>
+
+        <section>
+        <p>
+        方程式は何も変えず，ただ質点の数をただ増やしただけですが<strong>波動</strong>という現象が現れました。波形がぶつかっても崩れずに通りぬけるといった波動の性質をしっかり示しています。
+        </p>
+        <p>
+        フックの法則とニュートン力学という非常にシンプルなモデルが，このような複雑な現象を説明するということに面白さを感じる事が出来ます。
+        </p>
+        <div class="block fragment" style="border-color:pink">
+          <h4 style="color:pink">波動方程式</h4>
+        この現象は，連成バネの方程式において，質点の数を無限個にする極限を考えると<strong>波動方程式</strong>と呼ばれる偏微分方程式が得られる事によって説明出来ます。
+        \[ \frac{\partial^2 u}{\partial t^2} = c^2\frac{\partial^2 u}{\partial x^2} \]
+        </div>
+        </section>
+
+        <section>
+        <h2> 数理モデルの普遍性 </h2>
+        <p>
+        ある系が<strong>安定状態からずれた時に復元力が働き，慣性が存在する</strong>ならば，ずれが十分小さい時には
+        \[ \frac{\mathrm{d}^2x}{\mathrm{d}t^2} = -kx\qquad (k > 0) \]
+        と表す事が出来ます。非常に多くの現象に同様の方程式が現れます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 例:せん断変形 </h2>
+        <p>
+        非常に簡単な例として，下図のようなに物体に<strong>せん断変形</strong>が生じた状況を考えましょう。
+        </p>
+        <div align="center"> <img width="300" src="fig/shearing-deformation.png"> </div>
+        <p class="fragment">
+        すると，元の状態に戻ろうとする復元力\(F\)は\(x\)の関数であると考える事が出来ます。\(x\)が小さい時は近似的に
+        \[ F = kx \]
+        と表す事ができ，フックの法則と同じ形の法則が現れます。
+        </p>
+        <p class="fragment">
+        さらに，この物体を\(n\)個積み重ねれば連成バネと(両端を除いて)全く同じ微分方程式が現れます。
+        </p>
+        </section>
+
+        <section graphics="building">
+        <svg></svg>
+        <p style="font-size:60%">注:このシミュレーションは抵抗力を加えた上で行っています。</p>
+        </section>
+
+        <section>
+        <h2> 基礎が大切 </h2>
+        <img align="right" src="http://www.hitachi-kokusai.co.jp/goyo/pict/kaiseki09.jpg">
+        <p>
+        本日は1次元方向の変形しか考えませんでしたが，3次元方向の変形を考えるようにモデルを拡張する事ができ，<strong> 変形と応力 </strong>の関係を解析する<strong>構造力学</strong>という学問に繋がります。
+        </p>
+        <p class="fragment">
+        非常に難しいモデルも単純なモデルの延長上にありますので，基礎をしっかりと理解することが重要です。
+        </p>
+        <span style="float:right;font-size:50%">(株)五洋電子ホームページより引用</span>
+        </section>
+
+        <section>
+        <h2> 本日のまとめ </h2>
+        <p>
+        現実の問題に数学を使いどのようにアプローチするのか，何となく見えて来たのではないかと思います。
+        </p>
+        <p class="fragment">
+        微積分学・線形代数学・確率統計という学問についてもイメージが湧いたでしょうか？
+        </p>
+        </section>
+
+        <section>
+        <h2> 次回予告 </h2>
+        <p>
+        次回から具体的な数学の理論を学んで行きます。微積分学・線形代数学・確率統計学の順番に進めます。
+        </p>
+        <p class="fragment">
+        次回は微積分学に入る前に<strong>浮動小数点数</strong>と<strong>演算誤差</strong>の話をします。
+        </p>
+        <p class="fragment">
+        その後，<strong>極限・微分・偏微分</strong>から解説を始めたいと思います。
+        </p>
+        </section>
+
+        <!--
+        <section>
+        <h2> 微積分学 </h2>
+        <p> <strong>連続的に変化する現象</strong>を記述する為に必要となります。</p>
+        <ul>
+          <li> 微視的な変化の様子を扱う<strong>微分</strong>と変化の集積を扱う<strong>積分</strong>からなります。</li>
+          <li> 物理的な現象の多くは連続的であり，その法則は<strong>微分方程式</strong>や<strong>積分方程式</strong>として記述されます。</li>
+          <li> 離散的な現象も大局的には連続的な現象と見なせる場合が多く，適用範囲は非常に広いです。</li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> 線型代数学 </h2>
+        <p> <strong>線型性</strong>という良い性質を持った空間・写像に関する学問です。 </p>
+        <ul>
+          <li> 連立一次方程式を解くためには<strong>行列・行列式</strong>の理論が重要です。理学・工学の多くの問題は連立一次方程式で記述できます。</li>
+          <li> 微分方程式の解集合などとして<strong>線型空間</strong>が登場します。
+          従って，線型空間の性質を保存する<strong>線型写像</strong>も様々な形で登場します。線型写像を分析していく際には<strong>固有値・固有ベクトル</strong>の理論も重要となります。</li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> 確率・統計学 </h2>
+        <p> <strong>確率的に振る舞う事象</strong>を記述する為に必要となります。</p>
+        <ul>
+          <li> 現実の現象の多くにはランダムな振る舞いが見られ，そのような現象の記述・解析には<strong>確率論</strong>が必要となります。 </li>
+          <li> 観察によって得られたばらつきのあるデータを解析する為に<strong>統計学</strong>を利用します。様々な<strong>統計量</strong>を利用してデータの特徴を調べ，母集団に関する<strong>推定</strong>や仮説の<strong>検定</strong>を行います。</li>
+        </ul>
+        </section>
+        -->
+
+      </div>
+    </div>
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</html>
