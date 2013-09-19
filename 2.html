@@ -69,8 +69,8 @@
         border: solid 2px;
         position: relative;
         border-radius: 8px;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
         padding: 1em 0.8em 0.5em 0.8em;
       }
 
@@ -287,9 +287,9 @@ inf
         </p>
         <div class="block" style="border-color:lightgreen">
           <p>
-          例えば十進小数の\(a = 1.1\times 10^e\)と\(b = 1.0\times 10^e\)を考えます。これらの差をとって正規化すると
+          十進小数の方が分り易いので，\(a = 1.1\times 10^e\)と\(b = 1.0\times 10^e\)を考えます。これらの差をとって正規化すると
           \[ a - b = 0.1\times 10^e = 1.0\times 10^{e-1} \]
-          となり指数が減ってしまいます。<strong>\(e\)が最小の指数の時は\(e-1\)がアンダーフローする</strong>ので，\(a \neq b\)なのに\(a - b = 0\)となってしまいます。
+          となり指数が減ってしまいます。<strong>\(e\)が指数の範囲の最小値の時は\(e-1\)がアンダーフローする</strong>ので，\(a \neq b\)なのに\(a - b = 0\)となってしまいます。
           </p>
         </div>
         </section>
@@ -338,7 +338,7 @@ inf
         <section>
         <h2> 丸め</h2>
         <p>
-        計算機は内部的に多めの桁数で演算を行ったあと，実際の桁数収まるように結果を丸めます。
+        計算機は内部的に多めの桁数で演算を行ったあと，実際の桁数に収まるように結果を丸めます。
         </p>
         <p>
         IEEEではいくつかの丸めの方式が定義されていますが，<strong>再近接偶数丸め</strong>が標準的な方式です。
@@ -638,9 +638,9 @@ inf
         <section>
         <h2> 伝播誤差の大きさ </h2>
         <p>
-        伝播誤差の詳しい記述には微積分の知識が必要となりますが，直感的には下図の様に<strong>変化の大きい所で伝播誤差も大きくなる</strong>という事が言えます
+        伝播誤差の詳しい記述には微積分の知識が必要となりますが，直感的には下図の様に<strong>変化率の大きい所で伝播誤差も大きくなる</strong>という事が言えます
         </p>
-        <div align="center"> <div> <img width="500px" src="fig/propagation-error.png"></div> </div>
+        <div align="center"> <div> <img width="400px" src="fig/propagation-error.png"></div> </div>
         </section>
 
         <!--
