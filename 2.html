@@ -69,7 +69,8 @@
         border: solid 2px;
         position: relative;
         border-radius: 8px;
-        margin-top: 1em;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
         padding: 1em 0.8em 0.5em 0.8em;
       }
 
@@ -637,7 +638,7 @@ inf
         <section>
         <h2> 伝播誤差の大きさ </h2>
         <p>
-        伝播誤差の詳しい記述には微積分の知識が必要となりますが，直感的には下図の様に<strong>変化の大きいとこで伝播誤差も大きくなる</strong>という事が言えます
+        伝播誤差の詳しい記述には微積分の知識が必要となりますが，直感的には下図の様に<strong>変化の大きい所で伝播誤差も大きくなる</strong>という事が言えます
         </p>
         <div align="center"> <div> <img width="500px" src="fig/propagation-error.png"></div> </div>
         </section>
@@ -675,10 +676,6 @@ inf
         <svg></svg>
         </section>
         -->
-
-        <section>
-        <h2 class="chapter-title"> 休憩 </h2>
-        </section>
 
         <section>
         <h2 class="chapter-title"> 極限・微分 </h2>
@@ -769,11 +766,10 @@ inf
         <section>
         <h2> 「限りなく近づいていく」とは </h2>
         <p>
-        まず，\(a_n\)の値が\(\alpha\)に限りなく「近づける」というのは，
+        まず，\(a_n\)の値を\(\alpha\)に限りなく「近づける事が出来る」というのは，
         <strong>どのような距離の限界\(\varepsilon > 0\)を用意してもそれより近づける</strong>ということなので，
         </p>
         <div class="block" style="border-color:pink">
-          <h4 style="color:pink">限りなく近づける</h4>
         \[ \text{任意の$\varepsilon > 0$に対して}|a_n - \alpha| < \varepsilon \text{となる$n$が存在する}\]
         </div>
         と定義できます。
@@ -817,12 +813,12 @@ inf
         <h2> \(\varepsilon-\delta\)論法 </h2>
         <p> 同様にして関数の極限も定義されます。 </p>
         <div class="block" style="border-color:pink">
-          <h4 style="color:pink">\(\varepsilon-\delta\)論法による数列の極限の定義</h4>
+          <h4 style="color:pink">\(\varepsilon-\delta\)論法による関数の極限の定義</h4>
           <p>
           任意の\(\varepsilon > 0\)に対してある\(\delta > 0\)が存在して，
           \[ 0 < |x-a| < \delta\ \text{ならば}\ |f(x)-\alpha|<\varepsilon\]
           となる時\(f(x)\)は\(x\rightarrow a\)で\(\alpha\)に収束すると言い，下のように表す
-          \[ \lim_{n\rightarrow a}f(x) = \alpha \]
+          \[ \lim_{x\rightarrow a}f(x) = \alpha \]
           </p>
         </div>
         </section>
@@ -922,7 +918,7 @@ inf
         </section>
 
         <section>
-        <h2> その他三角関数 </h2>
+        <h2> その他三角関数の導関数 </h2>
         <div class="block" style="border-color:pink;font-size:90%">
           \[ \begin{aligned}
           (\tan x)' &= \frac{1}{\cos^2 x} \\
@@ -944,7 +940,7 @@ inf
           となる。
         </div>
         <p style="font-size:80%">
-        \(\left(1+\frac{1}{n}\right)\)が収束する事の証明は教科書を参照して下さい。
+        \(\left(1+\frac{1}{n}\right)^n\)が収束する事，\(e\)が無理数である事の証明は教科書を参照して下さい。
         </p>
         </section>
 
@@ -958,8 +954,8 @@ inf
           <p>
           ネイピア数\(e\)を底とする指数関数，対数関数を以下の様に表す。
           \[ \begin{aligned}
-          e^x &= \color{pink}{\exp x} \\
-          \log_e x &= \color{pink}{\ln x}
+          \color{pink}{\exp x} &= e^x\\
+          \color{pink}{\ln x} &= \log_e x
           \end{aligned} \]
           </p>
         </div>
@@ -1031,136 +1027,13 @@ inf
         </p>
         </section>
 
-        <!--
         <section>
-        <h2 class="chapter-title"> 微分法の応用 </h2>
-        </section>
-
-        <section>
-        <h2> 極大値・極小値 </h2>
+        <h2> 今回はここで終わります。 </h2>
         <p>
-        局所的に見れば最大値・最小値を極値と言います。
-        </p>
-        <div class="block" style="border-color:pink;font-size:90%">
-          <h4 style="color:pink"> 極値 </h4>
-          <p>
-          \(f(x\))を連続な関数，\(a\)を定数とする。適当な\(\varepsilon > 0\)に対して
-          \(f(a)\)が区間(\(a-\varepsilon, a+\varepsilon\))の唯一の最大値となるとき
-          \(f(a)\)を<strong>極大値</strong>という。
-          </p>
-          <p>
-          同様に，唯一の最小値となるとき\(f(a)\)を<strong>極小値</strong>といい，
-          これらを併せて<strong>極値</strong>という。
-          <div align="center"> <div> <img width="400px" src="fig/local-maximum.png"></div> </div>
-          </p>
-        </div>
-        </section>
-
-        <section>
-        <p>
-        \(f(x)\)が微分可能な関数で\(f(a)\)が極値であるならば，定義より十分小さい\(h>0\)に対して常に
-        \[ f(a + h) - f(a) \text{と} f(a - h) - f(a) \text{は同符号} \]
-        となります。従って
-        \[ \frac{f(a+h)-f(a)}{h}\text{と}\frac{f(a-h)-f(a)}{-h} \]
-        は異符号となります。ところで
-        \[ f'(a) = \lim_{h\rightarrow 0}\frac{f(a+h)-f(a)}{h} = \lim_{h\rightarrow 0}\frac{f(a-h)-f(a)}{-h} \]
-        なので，この時\(\color{pink}{f'(a) = 0}\)となります。
+        次回は微分法の応用として，極値・テイラー展開・近似・差分法などの説明をします。時間があれば，多変数関数の微分法の説明もします。
         </p>
         </section>
 
-        <section>
-        <h2> 極値と導関数 </h2>
-        <div class="block" style="border-color:pink;font-size:90%">
-          <h4 style="color:pink"> 極値と導関数 </h4>
-          <p>
-          微分可能な関数\(f(x)\)に関して
-          \[ f(a)\text{が極値ならば}f'(a) = 0\]
-          が成立する。
-          </p>
-        </div>
-        <p style="font-size:80%">
-        この定理の逆は成立しないので注意して下さい。
-        </p>
-        </section>
-
-        <section>
-        <h2> 平均値の定理 </h2>
-        <p>
-        これを応用して誤差評価に使える公式を導きます。
-        </p>
-        <p>
-        \(f(b)\)の値を\(f(a)\qquad(a< b)\)で近似した場合の誤差は
-        \[ f(b) - f(a) \]
-        となります。この誤差を評価する為に定数\(r\)を用いて
-        \[ f(b) - f(a) = r(b-a) \]
-        置いてみます。\(b\)を動かした時の両辺の差
-        \[ F(x) = f(x)-f(a)-r(x-a) \]
-        を考えると
-        \[ \color{pink}{F(a) = F(b) = 0} \]
-        となります。
-        </p>
-        </section>
-
-        <section>
-        <p>
-        区間\([a,b]\)で\(f(x)\)が連続であるとすると\(F(x)\)も連続となり，\(F(a)=F(b)\)であることから
-        この区間内に最大値・最小値を持ちます。従って明らかに極値を持ちます。
-        </p>
-        <p>
-        さらに，区間\((a,b)\)で\(f(x)\)が微分可能ならば\(F(x)\)も微分可能となり，\(F(c)\)が極値となるとき
-        \[ F'(c) = 0\ \Leftrightarrow f'(c)-r = 0\ \Leftrightarrow\ \color{pink}{r=f'(c)} \]
-        となり\(r\)をより具体的に評価する事が可能になります。以上の議論は\(a > b\)の時も同様です。
-        </p>
-        <div align="center"> <div> <img width="600px" src="fig/rolle-theorem.png"></div> </div>
-        </section>
-
-        <section>
-        <h2> 平均値の定理 </h2>
-        <div class="block" style="border-color:pink;font-size:90%">
-          <h4 style="color:pink"> 平均値の定理 </h4>
-          <p>
-          関数\(f(x)\)が区間\([a,b]\)で連続，区間\((a,b)\)で微分可能であるならば
-          \[ f(b)-f(a) = f'(c)(b-a) \]
-          を満たす\(c \in (a,b)\)が必ず存在する。
-          </p>
-        </div>
-        </section>
-
-        <section>
-        <h2> 一次近似 </h2>
-        <p>
-        平均値の定理より
-        \[ f(b)-f(a) = f'(c)(b-a) \]
-        が成り立つので\(c\)の替わりに\(a)\を代入した
-        \[ f(b) - f(a) \approx f'(a)(b-a) \]
-        すなわち
-        \[ f(b) \approx f(a) + f'(a)(b-a) \]
-        がより良い近似となっている気がします。
-        </p>
-        </section>
-
-        -->
-
-        <!--
-        <section>
-        <h2> 練習問題 </h2>
-        <p>
-        データ列\((x_1,y_1),\ (x_2,y_2)\ ,\cdots,\ (x_n, y_n)\)に対して
-        \[ E = \sum_{i}(y_i - kx_i)^2 \]
-        と置いた時，
-        \[ \frac{\mathrm{d}E}{\mathrm{d}k} = 0 \]
-        となる\(k\)を求める公式を導いて下さい。
-        </p>
-        </section>
-
-        <section>
-        <h2> マクローリン展開 </h2>
-        </section>
-
-        <section>
-        <h2> テイラー展開 </h2>
-        </section>
-        -->
       </div>
     </div>
 

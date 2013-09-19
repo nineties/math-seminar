@@ -112,7 +112,7 @@ define(["d3", "util", "math"], function (d3, U, M) {
             .attr("class", "label")
             .attr("x", G.graph1.area.x(x0)+20)
             .attr("y", G.graph1.area.y(f(x0)))
-            .text("微分係数=" + 1.0);
+            .text("微分係数=" + df(x0));
 
         // mouse event
         G.graph1.point.style("cursor", "pointer");

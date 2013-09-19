@@ -34,7 +34,7 @@ define(["d3", "util", "math"], function (d3, U, M) {
         var yrange2 = [0, Math.E];
         var x = d3.range(1/Math.E, Math.E, 0.01);
         var dx = 0.2;
-        var x0 = 0.5;
+        var x0 = 1.0;
 
         var G = {};
         G.graph1 = {};
@@ -112,7 +112,7 @@ define(["d3", "util", "math"], function (d3, U, M) {
             .attr("class", "label")
             .attr("x", G.graph1.area.x(x0)+20)
             .attr("y", G.graph1.area.y(f(x0)))
-            .text("微分係数=" + 1.0);
+            .text("微分係数=" + Math.round(df(x0)*1000)/1000);
 
         // mouse event
         G.graph1.point.style("cursor", "pointer");
