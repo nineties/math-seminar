@@ -75,7 +75,7 @@ define(["d3", "util", "math"], function (d3, U, M) {
             .attr("class", "label")
             .attr("x", G.area.x(x1)+30)
             .attr("y", G.area.y(f(x1)))
-            .text("傾き=" + Math.round(grad(x0, x1)*1000)/1000);
+            .text("h=" + Math.round((x1-x0)*1000)/1000 + ",傾き=" + Math.round(grad(x0, x1)*1000)/1000);
 
         // mouse event
         G.point.style("cursor", "pointer");
@@ -109,7 +109,7 @@ define(["d3", "util", "math"], function (d3, U, M) {
                     G.info
                         .attr("x", G.area.x(x)+30)
                         .attr("y", G.area.y(f(x)))
-                        .text("傾き=" + Math.round(grad(x0, x)*1000)/1000);
+                        .text("h=" + Math.round((x-x0)*1000)/1000 + ",傾き=" + Math.round(grad(x0, x)*1000)/1000);
                 }));
 
         slide.G = G;
