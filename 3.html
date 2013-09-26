@@ -1123,8 +1123,8 @@ im.show()
 
 for x in xrange(1, im.size[0]-1):
     for y in xrange(1, im.size[1]-1):
-        dx = (ipix[x+1, y] - ipix[x-1, y])/2    # 中心差分
-        dy = (ipix[x, y+1] - ipix[x, y-1])/2    # 中心差分
+        dx = (ipix[x+1, y] - ipix[x-1, y])/2    # x方向の偏微分係数(中心差分で近似)
+        dy = (ipix[x, y+1] - ipix[x, y-1])/2    # y方向の偏微分係数(中心差分で近似)
         opix[x, y] = math.sqrt(dx**2 + dy**2)   # 勾配の大きさ
 new.show()
 </code></pre>
