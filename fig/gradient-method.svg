@@ -15,7 +15,7 @@
    id="svg3238"
    version="1.1"
    inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="新規ドキュメント 2">
+   sodipodi:docname="gradient-method.svg">
   <sodipodi:namedview
      id="base"
      pagecolor="#000000"
@@ -169,6 +169,34 @@
          d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
          id="path4739" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1MendH-7"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1MendH">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ffc0cb;fill-rule:evenodd;stroke:#ffc0cb;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         id="path4739-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1MendH-9"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1MendH">
+      <path
+         inkscape:connector-curvature="0"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ffc0cb;fill-rule:evenodd;stroke:#ffc0cb;stroke-width:1pt"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         id="path4739-2" />
+    </marker>
   </defs>
   <metadata
      id="metadata3243">
@@ -226,5 +254,17 @@
        id="path3505"
        d="M 474.7717,550.31637 456.58895,622.0372"
        style="stroke-linejoin:miter;marker-end:url(#Arrow1MendH);stroke-opacity:1;stroke:#ffc0cb;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2;fill:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3505-2"
+       d="m 456.80314,625.86356 4.0406,47.47716"
+       style="fill:none;stroke:#ffc0cb;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1MendH)"
+       sodipodi:nodetypes="cc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3505-2-3"
+       d="m 529.70458,494.51822 -52.52795,52.52793"
+       style="fill:none;stroke:#ffc0cb;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1MendH)"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

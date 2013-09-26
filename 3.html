@@ -462,7 +462,7 @@ cos(0.9)=0.62161, 1-(0.9)^2/2=0.59500
         が成立します。
         </p>
         <p>
-        \(F(h)\)の定義より,(3)は「\(f\)が\(a,x\)を含む区間で\(n\)回微分可能かつ,\(n\)階導関数が連続」と言い換えられます。
+        \(F(h)\)の定義より,(3)は「\(f\)が\(a,x\)を含む区間で\(n+1\)回微分可能かつ,\(n+1\)階導関数が連続」と言い換えられます。
         </p>
         </section>
 
@@ -495,7 +495,7 @@ cos(0.9)=0.62161, 1-(0.9)^2/2=0.59500
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink">テイラーの定理 </h4>
         <p>
-        \(a\neq x\)の時,\(f\)が\(a,x\)を含む区間で\(n\)回微分可能で\(f^{(n)}\)が連続ならば,ある\(c\)が\(a\)と\(x\)の間(\(a < c < x\ \text{または}\ x < c < a\))に存在して
+        \(a\neq x\)の時,\(f\)が\(a,x\)を含む区間で\(n+1\)回微分可能で\(f^{(n+1)}\)が連続ならば,ある\(c\)が\(a\)と\(x\)の間(\(a < c < x\ \text{または}\ x < c < a\))に存在して
         \[ \begin{aligned}
         f(x) = &f(a)+f'(a)(x-a)+\frac{f''(a)}{2}(x-a)^2+\\
                &\cdots +\frac{f^{(n)}(a)}{n!}(x-a)^n + \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1} \end{aligned}\]
@@ -585,7 +585,7 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
 </code></pre>
         </section>
 
-        <section style="font-size:80%">
+        <section style="font-size:85%">
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink">テイラー展開 </h4>
         <p>
@@ -710,8 +710,8 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         <p>
         \(x=a\)で\(f(x)\)が2回微分可能,\(f''(x)\)が連続のとき
         \[ \begin{aligned}
-        f'(a) > 0\ \text{ならば}\ y=f(x)\text{は$x=a$の近辺で下に凸} \\
-        f'(a) < 0\ \text{ならば}\ y=f(x)\text{は$x=a$の近辺で上に凸} 
+        f''(a) > 0\ \text{ならば}\ y=f(x)\text{は$x=a$の近辺で下に凸} \\
+        f''(a) < 0\ \text{ならば}\ y=f(x)\text{は$x=a$の近辺で上に凸} 
         \end{aligned} \]
         </p>
         </div>
@@ -887,7 +887,7 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         \[ \mathbf{x} + h\mathbf{u} = (a + h\alpha, b + h\beta) \]
         と表せます。これを用いて
         \[ \frac{\partial f}{\partial \mathbf{u}}(a,b) = \lim_{h\rightarrow 0}\frac{f(a+h\alpha, b+h\beta) - f(a,b)}{h} \]
-        と定義される量を<strong>方向微分係数</strong>と言います。
+        と定義される量を\(\mathbf{u}\)に沿った<strong>方向微分係数</strong>と言います。
         </p>
         <div align="center"> <img width="800px" src="fig/directional-derivative.png"> </div>
         </section>
@@ -897,7 +897,7 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         <h4 style="color:pink"> 方向微分係数 </h4>
         <p>
         \[ \frac{\partial f}{\partial \mathbf{u}}(a,b) = \lim_{h\rightarrow 0}\frac{f(a+h\alpha, b+h\beta) - f(a,b)}{h} \]
-        を二変数関数\(f(x,y\)の点\((a,b)\)におけるベクトル\(\mathbf{u}\)に沿った<strong>方向微分係数</strong>という。\(||\mathbf{u}||=\sqrt{\alpha^2+\beta^2}=1\)のとき,これは\(\mathbf{u}\)の方向の曲面の傾きを表す。
+        を二変数関数\(f(x,y)\)の点\((a,b)\)におけるベクトル\(\mathbf{u}\)に沿った<strong>方向微分係数</strong>という。\(||\mathbf{u}||=\sqrt{\alpha^2+\beta^2}=1\)のとき,これは\(\mathbf{u}\)の方向の曲面の傾きを表す。
         </p>
         <p>
         一般に,\(n\)変数関数\(f(x_1,\cdots,x_n)\)に対して点\(\mathbf{a} = (a_1,\cdots,a_n)\)におけるベクトル\(\mathbf{u} = (u_1,\cdots,u_n)\)に沿った方向微分係数を
@@ -943,7 +943,7 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         <h4 style="color:pink"> 偏微分係数・偏導関数 </h4>
         <p>
         \[ \frac{\partial f}{\partial x}(a,b) = \lim_{h\rightarrow 0}\frac{f(a+h, b) - f(a,b)}{h} \]
-        を二変数関数\(f(x,y\)の点\((a,b)\)における\(x\)に関する<strong>偏微分係数</strong>という。
+        を二変数関数\(f(x,y)\)の点\((a,b)\)における\(x\)に関する<strong>偏微分係数</strong>という。
         </p>
         <p>
         一般に,\(n\)変数関数\(f(x_1,\cdots,x_n)\)に対して点\(\mathbf{a} = (a_1,\cdots,a_n)\)における\(x_k\)に関する偏微分係数は
@@ -966,16 +966,14 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         \[ \frac{\partial f}{\partial x} =f_x\]
         を得た後に,これをさらに\(y\)で偏微分すれば高階の偏導関数
         \[ \frac{\partial}{\partial y}\left(\frac{\partial f}{\partial x}\right) = \frac{\partial^2 f}{\partial y\partial x} = f_{xy}\]
-        を得る事が出来ます。このようにして高階の偏導関数を定義する事が出来ます。変数を書く順番に気をつけて下さい。
+        を得る事が出来ます。このようにして高階の偏導関数を定義する事が出来ます。
         </p>
         </section>
 
         <section>
         <p>
         ここで,微分する変数の順序が異なる
-        \[ \frac{\partial^2 f}{\partial y\partial x} = f_{xy}\]
-        と
-        \[ \frac{\partial^2 f}{\partial x\partial y} = f_{yx}\]
+        \[ \frac{\partial^2 f}{\partial y\partial x} = f_{xy}\ \text{と}\ \frac{\partial^2 f}{\partial x\partial y} = f_{yx}\]
         は同一なのか？という疑問が生じると思います。
         </p>
         <p>
@@ -1009,19 +1007,30 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         <p>
         また,\(||\mathbf{u}||=1\)の時の偏微分係数の大きさ
         \[ \left|\frac{\partial f}{\partial\mathbf{u}}(\mathbf{a})\right| \]
-        はベクトル\((f_{x_1}(\mathbf{a}),\cdots,f_{x_n}(\mathbf{a}))\)とベクトル\(\mathbf{u}\)が平行のとき最大となり
-        \[ \left|\frac{\partial f}{\partial\mathbf{u}}(\mathbf{a})\right| \leq \sqrt{f_{x_1}(\mathbf{a})^2 + \cdots + f_{x_n}(\mathbf{a})^2}\]
-        となる。
+        はベクトル\((f_{x_1}(\mathbf{a}),\cdots,f_{x_n}(\mathbf{a}))\)とベクトル\(\mathbf{u}\)が平行のとき最大値となり
+        \[ \sqrt{f_{x_1}(\mathbf{a})^2 + \cdots + f_{x_n}(\mathbf{a})^2}\]  
+        を取る。
         </p>
         </div>
         <p>
-        後半の事実は<strong>コーシー・シュワルツの方程式</strong>により示されます。
+        後半の事実は<strong>コーシー・シュワルツの不等式</strong>により示されます。
         </p>
         </section>
 
         <section>
         <p> 【練習問題】<br>
         先ほどの\(f(x,y) = x^2 + y^2\)の例を今の定理を利用して解いて下さい。
+        </p>
+        <p class="fragment">
+        各偏導関数は\((f_x, f_y) = (2x, 2y)\)となるので,ベクトル\(\mathbf{u}=(\alpha,\beta)\)に沿った方向微分係数は
+        \[ f_x\alpha + f_y\beta = 2\alpha x + 2\beta x \]
+        となります。特に,点\((1,1)\)における微分係数は
+        \[ 2\alpha + 2\beta \]
+        となります。また
+        \[ (f_x(1,1), f_y(1,1)) = (2, 2) \]
+        なので,これと平行な方向の傾きが最大となりその大きさは
+        \[ ||(f_x(1,1), f_y(1,1))|| = \sqrt{2^2+2^2} = 2\sqrt{2} \]
+        となります。
         </p>
         </section>
 
@@ -1034,23 +1043,65 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         </p>
         </section>
 
-        <section style="font-size:90%">
+        <section style="font-size:80%">
         <h2> 応用:勾配法 </h2>
         <p>
-        直感的には曲面\(y=f(x_1,\cdots,x_n)\)の<strong>最も傾斜の急な方へ下っていく</strong>と\(f\)の最小値に辿りつけそうな気がします。つまり今説明した事実より,適当な定数\(\lambda\)を取って
+        曲面\(y=f(x_1,\cdots,x_n)\)の<strong>最も傾斜の急な方へ下っていく</strong>と\(f\)の最小値に辿りつけそうな気がします。つまり今説明した事実より,適当な定数\(\lambda\)を取って
         \[ \mathbf{x_{k+1}} = \mathbf{x_k} - \lambda \mathrm{grad} f(\mathbf{x_k}) \]
-        の様に位置を更新して行けば良いです。
+        の様に位置を更新して行けば最小値を得る事が出来そうです。
         </p>
         <p>
-        これは<strong>勾配法</strong>と呼ばれる非常に重要な解の探索アルゴリズムです。実際には単純なやり方だと上手く行かない事がある,そのアイデアは理解出来るでしょう。線型代数の回に再び取り上げ,サンプルコードを紹介します。
+        これは<strong>勾配法</strong>(最急降下法)と呼ばれる重要な探索アルゴリズムです。実際には単純なやり方にはいろいろ問題もありますが,基本となるアイデアは理解出来るでしょう。線型代数の回には共役勾配法という同種の解法を紹介します。
         </p>
         <div align="center"> <img width="350px" src="fig/gradient-method.png"> </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \(f(x,y)=x^2-4xy+5y^2-2y+2\)の最小値を最急降下法で調べてみます。厳密には\((x,y)=(2,1)\)の時の\(1\)となります。
+        </div>
+        <p>
+        \[ \mathrm{grad}f = (2x-4y, -4x+10y-2) \]
+        なので
+        \[
+        (x_{k+1}, y_{k+1}) = (x_k - \lambda(2x_k-4y_k), y_k-\lambda (-4x_k+10y_k-2))
+        \]
+        と更新していきます。
+        </p>
+        <p>
+        以下の計算例の様に,工夫しないと収束が遅いです。また\(\lambda\)をちょっと大きくしただけで\(\infty\)に発散してしまいます。よりよい方法は後々やっていきます。
+        </p>
+<pre style="font-size:60%"><code class="python" style="max-height:300px">>>>> x = 0
+>>> y = 0
+>>> l = 0.1
+>>> for i in range(100):
+...     if (i%10 == 0):
+...             print "step:{0} (x,y)=({1:.5f},{2:.5f}) f(x,y)={3:.5f}"\
+...                     .format(i,x,y,x*x-4*x*y+5*y*y-2*y+2)
+...     newx = x - l * (2*x-4*y)
+...     newy = y - l * (-4*x+10*y-2)
+...     x = newx
+...     y = newy
+...
+step:0 (x,y)=(0.00000,0.00000) f(x,y)=2.00000
+step:10 (x,y)=(0.54667,0.39801) f(x,y)=1.42457
+step:20 (x,y)=(0.97501,0.57543) f(x,y)=1.21118
+step:30 (x,y)=(1.27710,0.70057) f(x,y)=1.10504
+step:40 (x,y)=(1.49016,0.78882) f(x,y)=1.05225
+step:50 (x,y)=(1.64042,0.85106) f(x,y)=1.02599
+step:60 (x,y)=(1.74640,0.89496) f(x,y)=1.01293
+step:70 (x,y)=(1.82114,0.92592) f(x,y)=1.00643
+step:80 (x,y)=(1.87386,0.94775) f(x,y)=1.00320
+step:90 (x,y)=(1.91104,0.96315) f(x,y)=1.00159
+</code></pre>
         </section>
 
         <section style="font-size:90%">
         <h2> 応用:エッジの検出 </h2>
         <p>
-        簡単にコードが書ける偏微分の応用例として画像のエッジ検出の話題を紹介します。画像は各点\((x,y)\)に色を表す数値が割り当てられているので二変数関数だと思う事が出来ます。エッジとは色が急に変わる箇所ですので勾配を調べる事で検出する事が出来ます。実際にはより詳しく検出する為に高階の微分係数を利用しますが,基本的なアイデアは簡単に理解する事が出来ます。
+        簡単にコードが書ける偏微分の応用例として画像のエッジ検出の話題を紹介します。画像は各点\((x,y)\)に色を表す数値が割り当てられているので二変数関数だと思う事が出来ます。勾配を調べれば色が変化が大きく変化している箇所が判るのでエッジが検出できます。
+(実際にはより詳しく検出する為に高階の微分係数を利用します。)
         </p>
         <p>
         データを解析する際にその特徴がよく分かるように事前に変換を行う事はよくあります。連続的なデータが対象の場合には偏微分法の知識を利用する場合があります。
@@ -1058,12 +1109,11 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
         <div align="center"> <img width="350px" src="fig/edge-detection.png"> </div>
         </section>
 
-        <section>
+        <section style="font-size:80%">
 <p>
-簡単なコーディングの例です。各ピクセルの値を勾配の大きさに単純に置き換えるだけの例です。
+簡単なコーディングの例です。各ピクセルの値を勾配の大きさに単純に置き換えるだけの例です。実際には閾値を決めて白黒に分けるなどの処理を行います。
 </p>
-<pre style="font-size:60%"><code class="python">
-import math
+<pre style="font-size:60%"><code class="python">import math
 from PIL import Image
 im = Image.open("image.jpg")  # グレイスケールの画像を渡して下さい
 new = Image.new(im.mode, im.size, None)
@@ -1078,17 +1128,19 @@ for x in xrange(1, im.size[0]-1):
         opix[x, y] = math.sqrt(dx**2 + dy**2)   # 勾配の大きさ
 new.show()
 </code></pre>
+      <div align="center"> <img width="300px" src="fig/lego.jpg"> <img width="300px" src="fig/lego-out.jpg"> </div>
+        </section>
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        次回は全微分,多変数関数のテイラー展開などのやり残した定理を確認した後,
+        線型反復法やニュートン法などの<strong>非線形方程式の数値解法</strong>, 微分方程式の解析的解法とオイラー法やルンゲクッタ法などの<strong>常微分方程式の数値解法</strong>の紹介をします。
+        </p>
         </section>
       </div>
     </div>
 
-    <section>
-    <h2> 今回はここで終わります。 </h2>
-    <p>
-    次回は全微分,多変数関数のテイラー展開などのやり残した定理を確認した後,
-    <strong>非線形方程式の数値解法</strong>,<strong>常微分方程式の(解析的解法と)数値解法</strong>など実戦的な数値計算の手法を中心に紹介します。
-    </p>
-    </section>
 
     <script src="lib/reveal/lib/js/head.min.js"></script>
     <script src="lib/reveal/js/reveal.js"></script>
