@@ -1065,7 +1065,7 @@ cos(0.25)=0.96891, 1-(0.25)^2/2=0.96875, err=1.62422e-04
 <pre style="font-size:60%"><code class="python">
 import math
 from PIL import Image
-im = Image.open("fig/image.jpg")  # グレイスケールの画像を渡して下さい
+im = Image.open("image.jpg")  # グレイスケールの画像を渡して下さい
 new = Image.new(im.mode, im.size, None)
 ipix = im.load()
 opix = new.load()
