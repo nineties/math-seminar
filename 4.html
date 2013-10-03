@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/ir_black.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: yellow;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal table {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        border: 2px solid lightblue;
+      }
+
+      .reveal pre {
+        font-size: 0.7em;
+      }
+
+      .reveal pre code {
+        max-height: 600px;
+      }
+
+      .reveal .note {
+        font-size: 50%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .answer {
+        color: #111111;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: false,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第4回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年10月3日
+        </span>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+            <li> サンプルプログラムはPythonで記述しています。 </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 多変数関数の微分法(続き) </h2>
+        </section>
+
+        <section>
+        <p>
+        一変数関数で学んだ事を多変数関数版に拡張していきます。
+        </p>
+        <p>
+        以降登場する関数は必要なだけ微分可能で偏導関数がであるとし,いちいち断らない事にします。
+        </p>
+        </section>
+
+        <section>
+        <h2> 全微分 </h2>
+        <p>
+        前回の話より,一変数関数\(y = f(x)\)において,\(x\)を\(\Delta x\)増加させたときの\(y\)の増加量\(\Delta y = f(x+\Delta x)-f(x)\)は,\(|\Delta x|\)が十分小さいならば
+        \[ \color{yellow}{\Delta y} = f(x+\Delta x)-f(x) = \color{yellow}{f'(x)\Delta x + \mathcal{O}(\Delta x^2)} \]
+        と評価する事が出来ます。
+        </p>
+        <p>
+        これは適当な定数\(M > 0\)が存在して,\(|\Delta x|\)が十分小さい時に
+        \[ |\Delta y - f'(x)\Delta x| < M\Delta x^2 \]
+        が成立するという意味です。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        同様に,二変数関数\(z = f(x,y)\)で
+        \[ \Delta z = f(x+\Delta x, y+\Delta y) - f(x, y) \]
+        を考えます。まず\(x\)について
+        \[ f(x+\Delta x, y+\Delta y) = f(x, y + \Delta y) + \frac{\partial f}{\partial x}(x, y+\Delta y)\Delta x + \mathcal{O}(\Delta x^2) \]
+        と展開する事ができます。
+        </p>
+        <p>
+        ここで偏導関数は連続であると仮定しているので,
+        \[ \frac{\partial f}{\partial x}(x, y+\Delta y) + \frac{\partial f}{\partial x}(x, y) + \varepsilon \]
+と表すと,\(\Delta y\rightarrow 0\)のとき\(\varepsilon \rightarrow 0\)となります。
+        </p>
+        <p>
+        さらに\(f(x, y + \Delta y)\)を\(y\)について展開すると
+        \[ f(x, y + \Delta y) = f(x, y) + \frac{\partial f}{\partial y}(x, y)\Delta y + \mathcal{O}(\Delta y^2) \]
+        となります。
+        <p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        まとめると,
+        \[ f(x+\Delta x, y+\Delta y) = f(x, y) + \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y + \varepsilon \Delta x + \mathcal{O}(\Delta x^2) + \mathcal{O}(\Delta y^2)\]
+        と書けるので,\(\Delta x^2 \leq \Delta x^2 + \Delta y^2\)などの関係を使って剰余項を見やすく書けば
+        \[ \Delta z = \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y + \mathcal{O}(\Delta x^2 + \Delta y^2) \]
+        </p>
+        <p>
+        多変数関数\(f\)の増分\(\Delta f\)をこのように,独立変数の増分\(\Delta x, \Delta y, \cdots\)を用いて評価出来る事を\(f\)は<strong>全微分可能</strong>であると言い,
+        \[ \mathrm{d} z = \frac{\partial f}{\partial x}\mathrm{d} x + \frac{\partial f}{\partial y}\mathrm{d} y \]
+        と書き表します。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 全微分 </h4>
+        <p>
+        多変数関数\(f(x_1,\cdots,x_n)\)が各変数に関して一回微分可能であるとする。 絶対値の十分小さい\(\Delta x_1,\cdots, \Delta x_n\)に対して
+\(\Delta f = f(x_1+\Delta x_1, \cdots, x_n + \Delta x_n) - f(x_1,\cdots,x_n) \)を
+        \[ \Delta f = f_{x_1}\Delta x_1 + \cdots + f_{x_n}\Delta x_n + \mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
+        と表す事ができるとき,\(f\)は<strong>全微分可能</strong>であると言い,この事を
+        \[ \mathrm{d} f = \frac{\partial f}{\partial x_1}\mathrm{d} x_1 + \cdots + \frac{\partial f}{\partial x_n}\mathrm{d} x_n \]
+と表す。
+        </p>
+        </div>
+        <p>
+        \(\mathrm{grad}f = \left(\frac{\partial f}{\partial x_1},\cdots,\frac{\partial f}{\partial x_n}\right)\)は曲面の勾配を表していたので直感的にも理解出来ると思います。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 合成微分法 </h2>
+        <p>
+        多変数関数\( f(x_1, \cdots, x_n) \)が全微分可能ならば
+        \[ \Delta f = \frac{\partial f}{\partial x_1}\Delta x_1 + \cdots + \frac{\partial f}{\partial x_n}\Delta x_n + \mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
+        と表されるので,\(x_1,\cdots,x_n\)がさらに\(t\)の関数
+        \[ x_1 = x_1(t), \cdots, x_n = x_n(t) \]
+        ならば
+        \[ \frac{\Delta f}{\Delta t} = \frac{\partial f}{\partial x_1}\frac{\Delta x_1}{\Delta t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\Delta x_n}{\Delta t} + \frac{1}{\Delta t}\mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
+        となります。\(x_1,\cdots,x_n\)が\(t\)に関して微分可能ならばこの右辺は収束するので
+        \[ \frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d}t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\mathrm{d}x_n}{\mathrm{d}t} \]
+        となります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 合成微分法 </h4>
+        <p>
+        多変数関数\( f(x_1, \cdots, x_n) \)に関して\(x_1,\cdots,x_n\)が\(t\)の関数ならば
+        \[ \frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d}t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\mathrm{d}x_n}{\mathrm{d}t} \]
+        となる。
+        </p>
+        <p>
+        同様に\(x_1,\cdots,x_n\)が\(u_1,\cdots,u_m\)の多変数関数ならば
+        \[ \begin{aligned}
+        \frac{\partial f}{\partial u_1} &= \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial u_1} + \cdots + \frac{\partial f}{\partial x_n}\frac{\partial x_n}{\partial u_1} \\
+&\vdots \\
+        \frac{\partial f}{\partial u_m} &= \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial u_m} + \cdots + \frac{\partial f}{\partial x_n}\frac{\partial x_n}{\partial u_m} \\
+        \end{aligned} \]
+        となる。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+\(x = \cos \theta, y = \sin \theta\)のときの\(z = x^2+xy+y^2\)の\(\theta\)に対する変化率を計算してみます。
+        </div>
+        <p>
+        \[ \begin{aligned}
+        \frac{\mathrm{d}z}{\mathrm{d}\theta} &= \frac{\partial z}{\partial x}\frac{\mathrm{d}x}{\mathrm{d}\theta} + \frac{\partial z}{\partial y}\frac{\mathrm{d}y}{\mathrm{d}\theta} = (2x+y)(-\sin\theta) + (x+2y)\cos\theta \\
+        &= -(2\cos\theta + \sin\theta)\sin\theta + (\cos\theta + 2\sin\theta)\cos \theta = \cos 2\theta
+        \end{aligned} \]
+        となります。
+        </p>
+        <div align="center"> <img width="350px" src="fig/surface2.png"> </div>
+        </section>
+
+        <section>
+        <h2> 多変数関数のテイラーの定理 </h2>
+        <p>
+        前回,関数の変化の様子と微分係数を結びつけるテイラーの定理が重要である事を学びました。これを多変数関数に拡張します。
+        </p>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink">テイラーの定理 </h4>
+        <p>
+        \(a\neq x\)の時,\(f\)が\(a,x\)を含む区間で\(n+1\)回微分可能で\(f^{(n+1)}\)が連続ならば,ある\(c\)が\(a\)と\(x\)の間(\(a < c < x\ \text{または}\ x < c < a\))に存在して
+        \[ \begin{aligned}
+        f(x) = &f(a)+f'(a)(x-a)+\frac{f''(a)}{2}(x-a)^2+\\
+               &\cdots +\frac{f^{(n)}(a)}{n!}(x-a)^n + \frac{f^{(n+1)}(c)}{(n+1)!}(x-a)^{n+1} \end{aligned}\]
+        が成立する。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        二変数関数\(f(x,y)\)の\(\mathbf{a}=(a,b)\)の周りでの展開を考えます。必要なだけ微分可能・連続であるとします。
+        </p>
+        <p>
+        ポイントはベクトル\(\mathbf{u}=(\alpha,\beta)\)を固定して,<strong>\(h\)に関する一変数関数</strong>
+        \[ f(\mathbf{a}+h\mathbf{u})=f(a+\alpha h, b+\beta h) \]
+        のマクローリン展開を考える事です。
+        </p>
+        <p>
+        合成微分法より
+        \[ \frac{\mathrm{d}}{\mathrm{d}h}f(a+\alpha h, b+\beta h) = \frac{\partial f}{\partial x}\alpha + \frac{\partial f}{\partial y}\beta = \left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)f(a+\alpha h, b+\beta h)\] 
+        となります。もう一度微分すると
+        \[ \frac{\mathrm{d}^2}{\mathrm{d}h^2}f(a+\alpha h, b+\beta h) = \left(\alpha^2\frac{\partial^2}{\partial x^2}+2\alpha\beta\frac{\partial^2}{\partial x\partial y}+\beta^2\frac{\partial^2}{\partial y^2}\right)f(a+\alpha h, b+\beta h) \]
+        となり繰り返せば
+        \[ \frac{\mathrm{d}^n}{\mathrm{d}h^n}f(a+\alpha h, b+\beta h) = \left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^nf(a+\alpha h, b+\beta h)\] 
+        と書き表す事が出来ます。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        従って,マクローリン展開を行うとある\(c\)が\(0\)と\(h\)の間に存在して
+        \[ \begin{aligned}
+        f(a+\alpha h, b +\beta h) &= f(a,b) + \left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)f(a,b) \\
+        &+ \frac{1}{2!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^2f(a,b) + \cdots \\
+        &+ \frac{1}{n!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^nf(a,b) \\
+        &+ \frac{1}{(n+1)!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^{n+1}f(a+c,b+c) \\
+        \end{aligned} \]
+        となります。
+        </p>
+        <p>
+        これが二変数関数に対するテイラーの定理です。二変数以上の場合にも同様です。
+        </p>
+        </section>
+
+        <section>
+        <h2> 多変数関数の極値 </h2>
+        <p>
+        一変数関数の時と同様に,多変数関数\(f(x_1,\cdots,x_n)\)においても局所的に見た時の最大値・最小値を<strong>極値</strong>と言います。つまり,十分\(|h_1|,\cdots,|h_n|\)が小さい時に
+        \[ f(a_1+h_1,\cdots,a_n+h_n) \geq f(a_1,\cdots,a_n) \]
+        が常に成り立つならば\(f(a_1,\cdots,a_n)\)を極大値と呼びます。極小値も同様です。
+        </p>
+        <p>
+        すると,一変数関数のときの議論と全く同様にして
+        \[ \frac{\partial f}{\partial x_1}(a_1,\cdots,a_n) = \cdots = \frac{\partial f}{\partial x_n}(a_1,\cdots,a_n) = 0 \]
+        である事が必要となります。
+        </p>
+        </section>
+
+        <section style="font-size:90%">
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 極値と偏微分係数の関係 </h4>
+        微分可能な多変数関数\(f(x_1,\cdots,x_n)\)について
+        \[ f(a_1,\cdots,a_n) \]
+        が極値ならば
+        \[ \frac{\partial f}{\partial x_1}(a_1,\cdots,a_n)=\cdots = \frac{\partial f}{\partial x_n}(a_1,\cdots,a_n)=\cdots = 0 \]
+        である。
+        </div>
+        <p>
+        これは\(f(\mathbf{a})\)が極値ならば\(\mathrm{grad}f(\mathbf{a}) = \mathbf{0}\)ということなので,直感的には極値において曲面が水平になる事だと理解出来ます。
+        </p>
+        <div align="center"> <img width="500px" src="fig/surface3.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        一変数関数では\(f''(a)\)の正負によって\(f(a)\)が極大値・極小値のいずれであるかを調べる事が出来ましたが,多変数関数で同様の判定を行う為には線型代数の知識(行列式と二次形式)が必要となります。そこでこの話題は後に回します。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例:最小二乗法</h4>
+        <p>
+        データ列\((x_1,y_1),\cdots,(x_n,y_n)\)に対して,\(y=ax+b\)という直線モデルを当てはめる事を考えます。そこで残差平方和
+        \[ E = \sum_i (ax_i+b - y_i)^2 \]
+        が極値を取る為の\(a,b\)を求めてみます。
+        </p>
+        </div>
+        <p style="font-size:70%">
+        \[ \frac{\partial E}{\partial a} = \frac{\partial E}{\partial b} = 0 \]
+        であれば良いので,実際に計算すると
+        \[ \begin{aligned}
+        \frac{\partial E}{\partial a} = \sum_i 2x_i(ax_i+b-y_i) = 2(\sum_i x_i^2)a + 2(\sum_i x_i)b - 2\sum_i x_iy_i = 0\\
+        \frac{\partial E}{\partial b} = \sum_i 2(ax_i+b-y_i) = 2(\sum_i x_i)a + 2nb - 2\sum_iy_i = 0
+        \end{aligned} \]
+        となるのでこれを解いて
+        \[ \color{yellow}{a = \frac{n\sum_i x_iy_i-\sum_i x_i\sum_i y_i}{n(\sum_i x_i^2)-(\sum_i x_i)^2},\ b = \frac{(\sum_i x_i^2)\sum_i y_i - \sum_i x_i\sum_i x_iy_i}{n(\sum_i x_i^2)-(\sum_i x_i)^2}} \]
+        を得る事が出来ます。これが実際に極値になる事,最小値となる事に関しては後の回に扱います。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例続き</h4>
+        <p>
+        データ列\((x_1,y_1),\cdots,(x_n,y_n)\)に対して,直線モデル\(y=ax+b\)を当てはめた時の\(a,b\)を最小二乗法で求めるプログラムを書いて下さい。
+        </p>
+        </div>
+        <p>
+        先ほどの公式に従って計算するだけです。
+<pre><code class="python" style="max-height:300px">import csv
+reader = csv.reader(open("data.csv", "rb"), delimiter=",")
+
+sumx    = 0     # sum x
+sumy    = 0     # sum y
+sumx2   = 0     # sum x^2
+sumxy   = 0     # sum xy
+n       = 0     # number of the data
+
+for x,y in reader:
+    x = float(x)
+    y = float(y)
+    sumx += x
+    sumy += y
+    sumx2 += x*x
+    sumxy += x*y
+    n += 1
+
+a = (n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx)
+b = (sumx2*sumy-sumx*sumxy)/(n*sumx2-sumx*sumx)
+print "y={0:.5f}x + {1:.5f}".format(a, b)
+</code></pre>
+        <a href="./data/data1.csv">data1.csv</a>をサンプルにして試してみて下さい。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        直線モデルは簡単でしたが,<strong>多項式モデル</strong>
+        \[y=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x_1+a_0\]
+        のでの当てはめを行いたい場合はどうなるでしょうか？
+        </p>
+        <p class="fragment">
+        この場合も同様に計算すると\(k = 0,1,\cdots,n\)に対して
+        \[
+        (\sum_i x_i^kx_i^n)a_n  + \cdots + (\sum_i x_i^k)a_0  = \sum_i x_i^ky_i \]
+        という\(n+1\)元連立一次方程式を解く問題に帰着します。この計算にも線型代数が必要になりますので,後に紹介します。
+        </p>
+        <p class="fragment">
+        また,最小二乗法の背景知識や結果の評価などは統計の回にやります。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 方程式の数値解法 </h2>
+        </section>
+
+        <section>
+        <h2> 方程式の数値解法 </h2>
+        <p>
+        方程式\( x^2 = 2 \)を\(x = \pm \sqrt{2}\)と厳密に解くことに対して,\(x \approx 1.41421356\)のような数値を近似的に求める事を方程式を数値的に解くと言います。
+        </p>
+        <p>
+        微分法を応用して,方程式
+        \[ f(x) = 0\]
+        や
+        \[ f(x_1,\cdots,x_n) = 0\]
+        を数値的に解く手法をいくつか紹介します。
+        </p>
+        </section>
+
+        <section style="font-size:90%">
+        <h2> 線型反復法 </h2>
+        <p>
+        最初に
+        \[ \color{yellow}{f(x)=x} \]
+        という形の方程式を考えます。
+        </p>
+        <p>
+        真の解\(\alpha\)を中心にテイラーの定理を用いると,ある\(c\)が\(x,\alpha\)の間に存在して
+        \[ f(x) - f(\alpha) = f'(c)(x-\alpha) \]
+        と表されます。ここで\(f(\alpha) = \alpha\)だから
+        \[ |f(x)-\alpha| = |f'(c)||x-\alpha| \]
+        となります。
+        </p>
+        <p>
+        ここで\(f'(c) < 1\)を満たすならば
+        \[ |f(x)-\alpha| < |x-\alpha| \]
+        となるので<strong>\(f(x)\)は\(x\)より真の解\(\alpha\)に近づく</strong>という事になります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 線型反復法 </h4>
+        <p>
+        方程式
+        \[ f(x) = x \]
+        の解を\(\alpha\)とする。
+        </p>
+        <p>
+        \(x=\alpha\)を含む適当な区間で常に
+        \[ |f'(x)| \leq r < 1 \]
+        となるような定数\(r\)が存在するならば,この区間内の初期値\(x_0\)を取ると数列
+        \[ x_{n+1} = f(x_n) \]
+        は\(\alpha\)に収束する。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:90%">
+        <h2> 線型反復法の収束の速さ </h2>
+        <p>
+        第\(n\)ステップでの誤差を
+        \[ |x_n - \alpha| = \varepsilon_n \]
+        と置くと\(\alpha\)と\(x_n\)が近いとき
+        \[ \frac{\varepsilon_{n+1}}{\varepsilon_n} = \left|\frac{f(x_n)-f(\alpha)}{x_n-\alpha}\right| \approx |f'(\alpha)| \]
+        となります。つまり,線型反復法の第\(n\)ステップ目での誤差は
+        \[ \varepsilon_n \approx \varepsilon_0|f'(\alpha)|^n \]
+        程度となります。つまり\(|f'(\alpha)|\)が小さいほど速く収束し,
+        約\(- 1/\log_{10}|f'(\alpha)|\)ステップで精度が一桁良くなるという事が判ります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \( \cos x = x \)の解を線型反復法で求めましょう。
+        </div>
+        <p>
+        \(y=\cos x\)と\(y=x\)のグラフを書いてみると\(x = 0.7\)の近くに解がありそうです。この近辺で\(|(\cos x)'| = |\sin x|\)を1未満の定数で押さえられるのも明らかです。
+        <div align="center"> <img width="500px" src="fig/linear-iteration-method.png"> </div>
+        </p>
+        </section>
+
+        <section>
+        <p>
+        
+        以下が計算例です。\( \log_{10}|(\cos x)'|_{x=0.7} = \log_{10}|\sin 0.7| \approx -0.2 \)なので,約5ステップで一桁精度が改善しているはずです。
+        </p>
+<pre><code class="python" style="max-height:400px">>>>> from math import cos
+>>> x = 0.7             # x(n)
+>>> xm1 = 0             # x(n-1)
+>>> for i in range(1, 60):
+...    if abs(x-xm1)<1e-10:
+...        break
+...    x, xm1 = cos(x), x
+...    print "step:{0} x={1}".format(i, x)
+...
+step:1 x=0.764842187284
+step:2 x=0.721491639598
+step:3 x=0.750821328839
+step:4 x=0.731128772573
+step:5 x=0.744421183627
+step:6 x=0.735480200406
+step:7 x=0.74150865166
+step:8 x=0.73745045315
+step:9 x=0.740185285397
+step:10 x=0.738343610351
+step:11 x=0.739584428695
+step:12 x=0.738748709662
+step:13 x=0.739311710338
+step:14 x=0.73893248917
+step:15 x=0.73918794747
+step:16 x=0.73901587239
+step:17 x=0.739131786367
+step:18 x=0.739053706287
+step:19 x=0.739106302407
+step:20 x=0.739070873227
+step:21 x=0.73909473884
+step:22 x=0.739078662717
+step:23 x=0.739089491805
+step:24 x=0.73908219721
+step:25 x=0.739087110941
+step:26 x=0.739083800994
+step:27 x=0.739086030615
+step:28 x=0.739084528716
+step:29 x=0.739085540413
+step:30 x=0.739084858922
+step:31 x=0.739085317983
+step:32 x=0.739085008754
+step:33 x=0.739085217054
+step:34 x=0.73908507674
+step:35 x=0.739085171257
+step:36 x=0.73908510759
+step:37 x=0.739085150477
+step:38 x=0.739085121587
+step:39 x=0.739085141048
+step:40 x=0.739085127939
+step:41 x=0.739085136769
+step:42 x=0.739085130821
+step:43 x=0.739085134828
+step:44 x=0.739085132129
+step:45 x=0.739085133947
+step:46 x=0.739085132722
+step:47 x=0.739085133547
+step:48 x=0.739085132991
+step:49 x=0.739085133366
+step:50 x=0.739085133114
+step:51 x=0.739085133284
+step:52 x=0.739085133169
+step:53 x=0.739085133246
+</code></pre>
+        </section>
+
+        <section>
+        <p> 【練習問題】<br>
+        \[ x^2 = 2 \]の解の内\(x = \sqrt{2}\)の方を線型反復法を利用して解いて下さい。
+        </p>
+        <p class="fragment">
+        \( f(x)=x \)という形に出来れば良いです。但し\(x=\sqrt{2}\)の近辺で\(|f'(x)|\leq r < 1 \)と押さえられなければならない事に注意して下さい。従って
+        \[ \frac{2}{x} = x \]
+        のような変形ではダメです。
+        例えば
+        \[ -\frac{1}{4}(x^2-2)+x = x \]
+        の様な変形ならばOKです。コードを書いてみて下さい。
+        </p>
+        </section>
+
+        <section>
+        <h2> 加速法 </h2>
+        <p>
+        収束速度を改善する手法を<strong>加速法</strong>と呼びます。様々な手法が存在しますがここでは<strong>エイトケンの\(\Delta^2\)法</strong>を紹介します。
+        </p>
+        <p>
+        線型反復法の２ステップ分を\(x=\alpha\)の周りの一次近似で表すと
+        \[ \begin{aligned}
+        x_{i+1}-\alpha &\approx f'(\alpha)(x_i-\alpha) \\
+        x_{i+2}-\alpha &\approx f'(\alpha)(x_{i+1}-\alpha) \\
+        \end{aligned} \]
+        となります。これらから\(f'(\alpha)\)を消去して\(\alpha\)について解くと
+        \[ \alpha \approx \color{yellow}{x_i-\frac{(x_{i+1}-x_i)^2}{x_{i+2}-2x_{i+1}+x_i}} \]
+        と\(\alpha\)の近似値に一気に近づける事が出来ます。線型反復法の3\(n\)ステップ目にこの近似式を用いれば,収束を加速する事が出来ます。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \( \cos x = x \)の解をエイトケンの\(\Delta^2\)法で求めましょう。
+        </div>
+<pre><code class="python" style="max-height:300px">>>> from math import cos
+>>> x = 0.7             # x(n)
+>>> xm1 = 0; xm2 = 0    # x(n-1) and x(n-2)
+>>> for i in range(1, 30):
+...     if abs(x-xm1)<1e-10:
+...         break
+...     if i%3 == 0:
+...         x, xm1, xm2 = xm2 - (xm1-xm2)*(xm1-xm2)/(x-2*xm1+xm2), x, xm1
+...     else:
+...         x, xm1, xm2 = cos(x), x, xm1
+...     print "step:{0} x={1}".format(i, x)
+...
+step:1 x=0.764842187284
+step:2 x=0.721491639598
+step:3 x=0.738861290021
+step:4 x=0.739235898166
+step:5 x=0.738983567731
+step:6 x=0.739085125763
+step:7 x=0.739085138235
+step:8 x=0.739085129834
+step:9 x=0.739085133215
+step:10 x=0.739085133215
+</code></pre>
+        </section>
+
+        <section>
+        <h2> ニュートン法 </h2>
+        <p>
+        次は\(\color{yellow}{f(x)=0}\)の解\(\alpha\)を求める問題を考えます。ここで
+        \[ g(x) = x - \frac{f(x)}{f'(x)} \]
+        と置くと\(g(\alpha) = \alpha\),また
+        \[ g'(x) = 1 - \frac{\{f'(x)\}^2-f(x)f''(x)}{\{f'(x)\}^2} = \frac{f(x)f''(x)}{\{f'(x)\}^2} \]
+        なので\(\color{yellow}{g'(\alpha)=0}\)となります。
+        </p>
+        <p>
+        従って,\(g'(x)\)が連続ならば\(x=\alpha\)の近くで必ず
+        \[ g'(x) \leq r < 1 \]
+        を満たす定数\(r\)を取ることが出来,\(r\)も非常に小さくなります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> ニュートン法 </h4>
+        <p>
+        方程式\(f(x)=0\)の解を\(\alpha\)とする。
+        </p>
+        <p>
+        \(x=\alpha\)を含む適当な区間で\(f'(x)\neq 0\),\(f(x),f'(x),f''(x)\)が連続で有限値を取るならば,この区間内に初期値\(x_0\)を取れば数列
+        \[ x_{n+1} = x_{n} - \frac{f(x_n)}{f'(x_{n+1})} \]
+が\(\alpha\)に収束する。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \( \cos x = x \)の解をニュートン法で求めましょう。
+        </div>
+<pre><code class="python"> >>> from math import sin, cos
+>>> x = 0.7             # x(n)
+>>> xm1 = 0             # x(n-1)
+>>> for i in range(1, 60):
+...     if abs(x-xm1)<1e-10:
+...         break
+...     x, xm1 = x - (x-cos(x))/(1+sin(x)), x
+...     print "step:{0} x={1}".format(i, x)
+...
+step:1 x=0.739436497848
+step:2 x=0.739085160465
+step:3 x=0.739085133215
+step:4 x=0.739085133215
+</code></pre>
+        </section>
+
+        <section>
+        <h2> ニュートン法の収束の速さ </h2>
+        <p>
+        \[ g(x) = x - \frac{f(x)}{f'(x)} \]
+        と置くと\(g(\alpha) = \alpha, g'(\alpha) = 0\)だったので
+        \(g(x)\)を\(x=\alpha\)の周りで展開すると,ある\(c\)が存在して
+        \[ g(x) = \alpha + \frac{g''(c)}{2}(x-\alpha)^2 \]
+        つまり
+        \[ |g(x)-\alpha| = \left|\frac{g''(c)}{2}\right||x-\alpha|^2 \]
+        となります。従って,数列\(x_{n+1}=g(x_n)\)の\(\alpha\)からの誤差は<strong>\(|x_n-\alpha|^2\)にほぼ比例して減少</strong>していきます。
+        </p>
+        <p>
+        このような収束の仕方を<strong>二次収束</strong>と言います。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        次は多変数の方程式へと進みたい所ですが,線型代数の知識がやはり必要となります。ニュートン法の問題点なども含め、より実戦的な話題は線型代数の回に再び取り上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 微分方程式の数値解法 </h2>
+        </section>
+
+        <section>
+        <h2> 微分方程式とは </h2>
+        <p>
+        関数\(y = f(x)\)に対して,変数\(x,y\),導関数\(y',y'',\cdots\)からなる方程式を<strong>微分方程式</strong>と言います。多変数の場合は<strong>偏微分方程式</strong>となります。
+        </p>
+        <p>
+        例えば
+        \[ \frac{\mathrm{d}y}{\mathrm{d}x} = -2y \]
+        であるとか
+        \[ \frac{\partial u}{\partial t}=k\frac{\partial^2 u}{\partial t^2} \]
+        などが微分方程式・偏微分方程式の例となります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        例えば
+        \[ \frac{\mathrm{d}y}{\mathrm{d}x}-2y \qquad\cdots(1)\]
+        という微分方程式を考えましょう。これに
+        \[ y=C\exp(-2x)\quad\text{($C$は定数)} \]
+        という関数を代入すると
+        \[ \frac{\mathrm{d}y}{\mathrm{d}x} = \frac{\mathrm{d}}{\mathrm{d}x}C\exp(-2x) = -2C\exp(-2x) = -2y \]
+        と(1)を満たしているので\(y=C\exp(-2x)\)は(1)の解となります。このように微分方程式の解は<strong>任意定数</strong>を含みます。
+        </p>
+        <p>
+        ここで\(x = 0\)のとき\(y = 1\)といった<strong>初期条件・境界条件</strong>が与えられれば\(C\)の値が決まり,具体的な解が一つ定まります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        微分方程式の解を任意定数を含む一般的な解を厳密に求める事を,微分方程式を<strong>解析的に解く</strong>と言い,与えられた初期値に基づいて各点の値を次々に求める事を<strong>数値的に解く</strong>と言います。
+        </p>
+        <p>
+        本日は先に数値解法の紹介をすることにします。解析的な解法は次回紹介します。
+        </p>
+        <div align="center"> <img width="500px" src="fig/numerical-method.png"> </div>
+        <p>
+        以後,図のように変数\(x\)の刻み\(\Delta x\)を定数にした場合を考えます。精度や計算速度を改善する為に\(\Delta x\)を可変にする手法もありますが、この勉強会では扱いません。
+        </p>
+        </section>
+
+        <section>
+        <h2> 一階常微分方程式 </h2>
+        <p>
+        まず一変数関数の微分方程式(<strong>常微分方程式</strong>)のうち,一階導関数のみを含む
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        という形の微分方程式について考えます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 陽的オイラー法 </h2>
+        <p>
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        の左辺を前進差分法で近似し,右辺に<strong>\(x=x_i\)時点の値</strong>を使うと
+        \[ \frac{f_{i+1}-f_i}{\Delta x}\approx g(x_i,f_i) \]
+        と近似出来ます。これを変形した
+        \[ f_{i+1} \approx f_i + g(x_i,f_i)\Delta x\]
+        という漸化式で次の点の値を計算する方法を<strong>陽的オイラー法</strong>と言います。
+        </p>
+        </section>
+
+        <section>
+        <h2> 陰的オイラー法 </h2>
+        <p>
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        の左辺を前進差分法で近似し,右辺に<strong>\(x=x_{i+1}\)時点の値</strong>を使うと
+        \[ \frac{f_{i+1}-f_i}{\Delta x}\approx g(x_{i+1},f_{i+1}) \]
+        と近似出来ます。これを変形した
+        \[ f_{i+1} \approx f_i + g(x_{i+1},f_{i+1})\Delta x\]
+        という漸化式で次の点の値を計算する方法を<strong>陰的オイラー法</strong>と言います。
+        </p>
+        </section>
+
+        <section>
+        <h2> オイラー法の精度 </h2>
+        <p> 陽的オイラー法
+        \[ f_{i+1} \approx f_i + g(x_i,f_i)\Delta x\]
+        の左辺を\(x_i\)の周りにテイラー展開すると
+        \[ \begin{aligned}
+        f_{i+1} &= f_i + \frac{\mathrm{d} f}{\mathrm{d} x}(x_i)\Delta x + \mathcal{O}(\Delta x^2)  \\
+                   &= f_i + g(x_i, f_i)\Delta x + \mathcal{O}(\Delta x^2)
+        \end{aligned}
+        \]
+        となるので,この近似は\(\mathcal{O}(\Delta x)\)の項まで一致しています。このことを陽的オイラー法の精度は1次であると言います。
+        </p>
+        <p>
+        陰的オイラー法の精度も同様に1次(練習問題)となります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 陽的・陰的オイラー法 </h4>
+        <p>微分方程式
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        の各点\(x_i\)における値を
+        \[ f_{i+1} \approx f_i + g(x_i,f_i)\Delta x\]
+        によって求める方法を<strong>陽的オイラー法</strong>
+        </p>
+        <p>
+        \[ f_{i+1} \approx f_i + g(x_{i+1},f_{i+1})\Delta x\]
+        によって求める方法を<strong>陰的オイラー法</strong>
+        という。
+        </p>
+        <p>
+        いずれも精度は1次である。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        微分方程式
+        \[ \frac{\mathrm{d} x}{\mathrm{d}t} = -x \]
+        初期条件\(x(0)=1\)のもとで2つのオイラー法で求めましょう。
+        </div>
+        </section>
+
+        <section>
+        <p>
+        今の例から想像出来るように陽的オイラー法は曲線のカーブの外側,陰的オイラー法は内側にずれていきます。
+        </p>
+        <p>
+        そこで両者の平均をとって
+        \[ f_{i+1} \approx f_i + \frac{g(x_i, f_i) + g(x_{i+1},f_{i+1})}{2}\Delta x\]
+        とすると精度が改善しそうです。これを<strong>改良オイラー法</strong>と言います。但し,右辺の\(f_{i+1}\)がこのままだと使いにくいので,前進オイラー法を利用して
+        \[ f_{i+1} \approx f_i + g(x_i, f_i)\Delta x \]
+        によって計算します。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 改良オイラー法 </h4>
+        <p>微分方程式
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        の各点\(x_i\)における値を
+        \[ \begin{alaigned}
+        k_1     &= g(x_i, f_i) \\
+        f_{i+1} &= f_i + \frac{g(x_i, f_i) + g(x_i + \Delta x, f_i + k_1\Delta x)}{2}\Delta x
+        \end{aligned} \]
+        によって求める方法を<strong>改良オイラー法</strong>という。
+        </p>
+        <p>
+        精度は2次である。
+        </p>
+        </div>
+        <p>
+        精度の確認は練習問題とします。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        微分方程式
+        \[ \frac{\mathrm{d} x}{\mathrm{d}t} = -x \]
+        初期条件\(x(0)=1\)のもとで改良オイラー法で求めましょう。
+        </div>
+        </section>
+
+        <!--
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 改良オイラー法 </h4>
+        <p>微分方程式
+        \[ \frac{\mathrm{d} f}{\mathrm{d} x} = g(x,f) \]
+        の各点\(x_i\)における値を
+        \[ \begin{alaigned}
+        k_1     &= g(x_i, f_i) \\
+        f_{i+1} &= f_i + \frac{g(x_i, f_i) + g(x_i + \Delta x, f_i + k_1\Delta x)}{2}\Delta x
+        \end{aligned} \]
+        によって求める方法を<strong>改良オイラー法</strong>という。
+        </p>
+        <p>
+        精度は2次である。
+        </p>
+        </div>
+        <p>
+        精度の確認は練習問題とします。
+        </p>
+        </section>
+
+        <section>
+        <h2> 連立一階常微分方程式 </h2>
+        <p>
+        \[ \begin{aligned}
+        \frac{\mathrm{d} u}{\mathrm{d} x} &= f(x, u, v) \\
+        \frac{\mathrm{d} v}{\mathrm{d} x} &= g(x, u, v) \\
+        \end{aligned} \]
+        の様な連立一階常微分方程式も同様に解くことが出来ます。例えば,陽的オイラー法であれば
+        \[ \begin{aligned}
+        u_{i+1} = u_i + f(x_i, u_i, v_i)\Delta x \\
+        v_{i+1} = v_i + f(x_i, u_i, v_i)\Delta x \\
+        \end{aligned} \]
+        の様にそれぞれ更新すれば良いです。但し,陰的解法の場合には先ほどやった方程式の数値解法が必要となります。
+        </p>
+        </section>
+
+        <section>
+        <h2> 高階常微分方程式 </h2>
+        <p>
+        二階以上の導関数を含む常微分方程式
+        \[ f\left(x, \frac{\mathrm{d}f}{\mathrm{d}x}, \frac{\mathrm{d}^2f}{\mathrm{d}x^2},\cdots, \frac{\mathrm{d}^mf}{\mathrm{d}x^m} \]
+        は,
+        \[
+        u_1 = \frac{\mathrm{d} f}{\mathrm{d} x},
+        u_2 = \frac{\mathrm{d} u_1}{\mathrm{d} x},
+        \cdots
+        u_m = \frac{\mathrm{d} u_{m-1}}{\mathrm{d} x},
+        \]
+        と各導関数に変数を割り当てれば,一階導関数のみで表す事が出来ます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 偏微分方程式 </h2>
+        </section>
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        次回は全微分,多変数関数のテイラー展開などのやり残した定理を確認した後,
+        線型反復法やニュートン法などの<strong>非線形方程式の数値解法</strong>, 微分方程式の解析的解法とオイラー法やルンゲクッタ法などの<strong>常微分方程式の数値解法</strong>の紹介をします。
+        </p>
+        </section>
+        -->
+      </div>
+    </div>
+
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</html>
