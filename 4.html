@@ -128,7 +128,7 @@
 
         MathJax.Hub.Config({
           showProcessingMessages: false,
-          skipStartupTypeset: false,
+          skipStartupTypeset: true,
           tex2jax: {
             inlineMath: [ ["\\(","\\)"] ],
             displayMath: [ ["\\[","\\]"] ]
@@ -182,7 +182,7 @@
         一変数関数で学んだ事を多変数関数版に拡張していきます。
         </p>
         <p>
-        以降登場する関数は必要なだけ微分可能で偏導関数がであるとし,いちいち断らない事にします。
+        以降登場する関数は必要なだけ微分可能で導関数が連続であるとし,いちいち断らない事にします。
         </p>
         </section>
 
@@ -210,7 +210,7 @@
         </p>
         <p>
         ここで偏導関数は連続であると仮定しているので,
-        \[ \frac{\partial f}{\partial x}(x, y+\Delta y) + \frac{\partial f}{\partial x}(x, y) + \varepsilon \]
+        \[ \frac{\partial f}{\partial x}(x, y+\Delta y) = \frac{\partial f}{\partial x}(x, y) + \varepsilon \]
 と表すと,\(\Delta y\rightarrow 0\)のとき\(\varepsilon \rightarrow 0\)となります。
         </p>
         <p>
@@ -223,12 +223,13 @@
         <section style="font-size:80%">
         <p>
         まとめると,
-        \[ f(x+\Delta x, y+\Delta y) = f(x, y) + \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y + \varepsilon \Delta x + \mathcal{O}(\Delta x^2) + \mathcal{O}(\Delta y^2)\]
+        \[ \small{f(x+\Delta x, y+\Delta y) = f(x, y) + \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y + \varepsilon \Delta x + \mathcal{O}(\Delta x^2) + \mathcal{O}(\Delta y^2)}\]
         と書けるので,\(\Delta x^2 \leq \Delta x^2 + \Delta y^2\)などの関係を使って剰余項を見やすく書けば
         \[ \Delta z = \frac{\partial f}{\partial x}\Delta x + \frac{\partial f}{\partial y}\Delta y + \mathcal{O}(\Delta x^2 + \Delta y^2) \]
+        と表す事が出来ます。
         </p>
         <p>
-        多変数関数\(f\)の増分\(\Delta f\)をこのように,独立変数の増分\(\Delta x, \Delta y, \cdots\)を用いて評価出来る事を\(f\)は<strong>全微分可能</strong>であると言い,
+        多変数関数\(f\)の増分\(\Delta f\)をこのように,独立変数の増分\(\Delta x, \Delta y\)を用いて表せる事を\(f\)は<strong>全微分可能</strong>であると言い,
         \[ \mathrm{d} z = \frac{\partial f}{\partial x}\mathrm{d} x + \frac{\partial f}{\partial y}\mathrm{d} y \]
         と書き表します。
         </p>
@@ -240,7 +241,7 @@
         <p>
         多変数関数\(f(x_1,\cdots,x_n)\)が各変数に関して一回微分可能であるとする。 絶対値の十分小さい\(\Delta x_1,\cdots, \Delta x_n\)に対して
 \(\Delta f = f(x_1+\Delta x_1, \cdots, x_n + \Delta x_n) - f(x_1,\cdots,x_n) \)を
-        \[ \Delta f = f_{x_1}\Delta x_1 + \cdots + f_{x_n}\Delta x_n + \mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
+\[ \Delta f = \frac{\partial f}{\partial x_1}\Delta x_1 + \cdots + \frac{\partial f}{\partial x_n}\Delta x_n + \mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
         と表す事ができるとき,\(f\)は<strong>全微分可能</strong>であると言い,この事を
         \[ \mathrm{d} f = \frac{\partial f}{\partial x_1}\mathrm{d} x_1 + \cdots + \frac{\partial f}{\partial x_n}\mathrm{d} x_n \]
 と表す。
@@ -252,17 +253,30 @@
         </section>
 
         <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \( f(x,y) = x\sin y \)という関数の全微分を求めましょう。
+        </div>
+        <p>
+        \(f(x,y)\)は全ての点で無限回微分可能なので全微分出来る事は明らかで
+        \[ \mathrm{d} f = \frac{\partial f}{\partial x}\mathrm{d} x + \frac{\partial f}{\partial y}\mathrm{d} y = (\sin y)\mathrm{d}x + (x\cos y)\mathrm{d} y \]
+        となります。
+        </p>
+        <div align="center"> <img width="350px" src="fig/surface4.png"> </div>
+        </section>
+
+        <section style="font-size:80%">
         <h2> 合成微分法 </h2>
         <p>
         多変数関数\( f(x_1, \cdots, x_n) \)が全微分可能ならば
         \[ \Delta f = \frac{\partial f}{\partial x_1}\Delta x_1 + \cdots + \frac{\partial f}{\partial x_n}\Delta x_n + \mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
-        と表されるので,\(x_1,\cdots,x_n\)がさらに\(t\)の関数
-        \[ x_1 = x_1(t), \cdots, x_n = x_n(t) \]
-        ならば
+        と表されるので,\(x_1,\cdots,x_n\)がさらに\(t\)の関数ならば
         \[ \frac{\Delta f}{\Delta t} = \frac{\partial f}{\partial x_1}\frac{\Delta x_1}{\Delta t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\Delta x_n}{\Delta t} + \frac{1}{\Delta t}\mathcal{O}(\Delta x_1^2 + \cdots + \Delta x_n^2) \]
-        となります。\(x_1,\cdots,x_n\)が\(t\)に関して微分可能ならばこの右辺は収束するので
-        \[ \frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d}t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\mathrm{d}x_n}{\mathrm{d}t} \]
-        となります。
+        となります。\(x_1,\cdots,x_n\)が\(t\)に関して微分可能ならばこの右辺は\(\Delta t\rightarrow 0\)のとき収束するので
+        \[ \color{yellow}{\frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\partial f}{\partial x_1}\frac{\mathrm{d}x_1}{\mathrm{d}t} + \cdots + \frac{\partial f}{\partial x_n}\frac{\mathrm{d}x_n}{\mathrm{d}t}} \]
+        となります。剰余項については
+        \[ \lim_{\Delta t\rightarrow 0}\frac{\Delta x_i^2}{\Delta t} = \lim_{\Delta t\rightarrow 0}\frac{\Delta x_i}{\Delta t}\Delta x_i = \frac{\mathrm{d}x_i}{\mathrm{d} t}\times 0 = 0 \]
+        となる事を利用しています。
         </p>
         </section>
 
@@ -289,9 +303,10 @@
         <section style="font-size:70%">
         <div class="block" style="border-color:lightgreen">
         <h4 style="color:lightgreen">例</h4>
-\(x = \cos \theta, y = \sin \theta\)のときの\(z = x^2+xy+y^2\)の\(\theta\)に対する変化率を計算してみます。
+\(x = \cos \theta, y = \sin \theta\)のときの\(z = x^2+xy+y^2\)の\(\theta\)に対する変化率を求めます。
         </div>
         <p>
+        合成微分の公式より
         \[ \begin{aligned}
         \frac{\mathrm{d}z}{\mathrm{d}\theta} &= \frac{\partial z}{\partial x}\frac{\mathrm{d}x}{\mathrm{d}\theta} + \frac{\partial z}{\partial y}\frac{\mathrm{d}y}{\mathrm{d}\theta} = (2x+y)(-\sin\theta) + (x+2y)\cos\theta \\
         &= -(2\cos\theta + \sin\theta)\sin\theta + (\cos\theta + 2\sin\theta)\cos \theta = \cos 2\theta
@@ -342,23 +357,54 @@
         <p>
         従って,マクローリン展開を行うとある\(c\)が\(0\)と\(h\)の間に存在して
         \[ \begin{aligned}
-        f(a+\alpha h, b +\beta h) &= f(a,b) + \left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)f(a,b) \\
-        &+ \frac{1}{2!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^2f(a,b) + \cdots \\
-        &+ \frac{1}{n!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^nf(a,b) \\
-        &+ \frac{1}{(n+1)!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^{n+1}f(a+c,b+c) \\
+        &f(a+\alpha h, b +\beta h) = f(a,b) + \left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)f(a,b)h \\
+        &\qquad+ \frac{1}{2!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^2f(a,b)h^2 + \cdots + \frac{1}{n!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^nf(a,b)h^n \\
+        &\qquad+ \frac{1}{(n+1)!}\left(\alpha\frac{\partial}{\partial x}+\beta\frac{\partial}{\partial y}\right)^{n+1}f(a+c\alpha,b+c\beta)h^{n+1} \\
         \end{aligned} \]
-        となります。
+        と表せ,\(a+\alpha h = x,\ b+\beta h = y\)と置き直せば
+        \[ \scriptsize{\begin{aligned}
+        f(x, y) &= f(a,b) + \left((x-a)\frac{\partial}{\partial x}+(y-b)\frac{\partial}{\partial y}\right)f(a,b) + \frac{1}{2!}\left((x-a)\frac{\partial}{\partial x}+(y-b)\frac{\partial}{\partial y}\right)^2f(a,b)\\
+        &\qquad + \cdots + \frac{1}{n!}\left((x-a)\frac{\partial}{\partial x}+(y-b)\frac{\partial}{\partial y}\right)^nf(a,b) \\
+        &\qquad + \frac{1}{(n+1)!}\left((x-a)\frac{\partial}{\partial x}+(y-b)\frac{\partial}{\partial y}\right)^{n+1}f(c_x,c_y) \\
+        \end{aligned}} \]
+        となります。但し\(c_x\)は\(a,x\)の間,\(c_y\)は\(b,y\)の間に存在します。
         </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>二変数以上の関数も同様で,一般には以下のようになります。 </p>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 多変数関数版テイラーの定理 </h4>
         <p>
-        これが二変数関数に対するテイラーの定理です。二変数以上の場合にも同様です。
+        \[ \small{\begin{aligned}
+        f(x_1,\cdots,x_m) &= \sum_{k=0}^n\frac{1}{k!}\left((x_1-a_1)\frac{\partial}{\partial x_1} + \cdots + (x_m-a_m)\frac{\partial}{\partial x_m}\right)^kf(a_1,\cdots,a_m) \\
+        &+ \frac{1}{(n+1)!}\left((x_1-a_1)\frac{\partial}{\partial x_1} + \cdots + (x_m-a_m)\frac{\partial}{\partial x_m}\right)^{n+1}f(c_1,\cdots,c_m) 
+        \end{aligned}} \]
+        但し\(c_i\)は\(a_i\)と\(x_i\)の間に存在する。
         </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \( f(x,y) = \sin(x+y) \)の点\(\left(\frac{\pi}{4},\frac{\pi}{4}\right)\)の周りでの２次の近似式を求めてみます。
+        </div>
+        <p>
+        \[ \frac{\partial f}{\partial x} = \frac{\partial f}{\partial y} = \cos(x+y),\ 
+        \frac{\partial^2 f}{\partial x^2} = \frac{\partial^2 f}{\partial y^2} = \frac{\partial^2 f}{\partial x\partial y} = -\sin(x+y) \]
+        なので,公式を用いれば
+        \[ f(x,y) \approx  1 - \frac{1}{2}(x-\frac{\pi}{4})^2 - (x-\frac{\pi}{4})(y-\frac{\pi}{4}) - \frac{1}{2}(y-\frac{\pi}{4})^2 \]
+        を得ます。
+        </p>
+        <div align="center"> <img width="350px" src="fig/surface5.png"> </div>
         </section>
 
         <section>
         <h2> 多変数関数の極値 </h2>
         <p>
-        一変数関数の時と同様に,多変数関数\(f(x_1,\cdots,x_n)\)においても局所的に見た時の最大値・最小値を<strong>極値</strong>と言います。つまり,十分\(|h_1|,\cdots,|h_n|\)が小さい時に
-        \[ f(a_1+h_1,\cdots,a_n+h_n) \geq f(a_1,\cdots,a_n) \]
+        多変数関数\(f(x_1,\cdots,x_n)\)においても局所的に見た時の最大値・最小値を<strong>極値</strong>と言います。つまり,十分\(|h_1|,\cdots,|h_n|\)が小さい時に
+        \[ f(a_1+h_1,\cdots,a_n+h_n) \leq f(a_1,\cdots,a_n) \]
         が常に成り立つならば\(f(a_1,\cdots,a_n)\)を極大値と呼びます。極小値も同様です。
         </p>
         <p>
@@ -371,14 +417,12 @@
         <section style="font-size:90%">
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink"> 極値と偏微分係数の関係 </h4>
-        微分可能な多変数関数\(f(x_1,\cdots,x_n)\)について
-        \[ f(a_1,\cdots,a_n) \]
-        が極値ならば
+        \( f(a_1,\cdots,a_n) \)が極値ならば
         \[ \frac{\partial f}{\partial x_1}(a_1,\cdots,a_n)=\cdots = \frac{\partial f}{\partial x_n}(a_1,\cdots,a_n)=\cdots = 0 \]
         である。
         </div>
         <p>
-        これは\(f(\mathbf{a})\)が極値ならば\(\mathrm{grad}f(\mathbf{a}) = \mathbf{0}\)ということなので,直感的には極値において曲面が水平になる事だと理解出来ます。
+        これは\(f(\mathbf{a})\)が極値ならば\(\mathrm{grad}f(\mathbf{a}) = \mathbf{0}\)ということなので,直感的には極値を取る点において曲面が水平になる事だと言えます。
         </p>
         <div align="center"> <img width="500px" src="fig/surface3.png"> </div>
         </section>
@@ -400,14 +444,14 @@
         </div>
         <p style="font-size:70%">
         \[ \frac{\partial E}{\partial a} = \frac{\partial E}{\partial b} = 0 \]
-        であれば良いので,実際に計算すると
+        であれば良いので,計算すると
         \[ \begin{aligned}
-        \frac{\partial E}{\partial a} = \sum_i 2x_i(ax_i+b-y_i) = 2(\sum_i x_i^2)a + 2(\sum_i x_i)b - 2\sum_i x_iy_i = 0\\
-        \frac{\partial E}{\partial b} = \sum_i 2(ax_i+b-y_i) = 2(\sum_i x_i)a + 2nb - 2\sum_iy_i = 0
+        \frac{\partial E}{\partial a} &= \sum_i 2x_i(ax_i+b-y_i) = 2(\sum_i x_i^2)a + 2(\sum_i x_i)b - 2\sum_i x_iy_i = 0\\
+        \frac{\partial E}{\partial b} &= \sum_i 2(ax_i+b-y_i) = 2(\sum_i x_i)a + 2nb - 2\sum_iy_i = 0
         \end{aligned} \]
-        となるのでこれを解いて
+        という方程式を得ます。これを解くと
         \[ \color{yellow}{a = \frac{n\sum_i x_iy_i-\sum_i x_i\sum_i y_i}{n(\sum_i x_i^2)-(\sum_i x_i)^2},\ b = \frac{(\sum_i x_i^2)\sum_i y_i - \sum_i x_i\sum_i x_iy_i}{n(\sum_i x_i^2)-(\sum_i x_i)^2}} \]
-        を得る事が出来ます。これが実際に極値になる事,最小値となる事に関しては後の回に扱います。
+        となります。これが実際に極値を与える事,さらにそれが最小値である事に関しては後の回に扱います。
         </p>
         </section>
 
@@ -442,21 +486,27 @@ a = (n*sumxy-sumx*sumy)/(n*sumx2-sumx*sumx)
 b = (sumx2*sumy-sumx*sumxy)/(n*sumx2-sumx*sumx)
 print "y={0:.5f}x + {1:.5f}".format(a, b)
 </code></pre>
-        <a href="./data/data1.csv">data1.csv</a>をサンプルにして試してみて下さい。
         </p>
         </section>
 
         <section>
         <p>
-        直線モデルは簡単でしたが,<strong>多項式モデル</strong>
+        適当に生成したサンプルデータ<a href="./data/data1.csv">data1.csv</a>に先ほどにプログラムを使用した例が以下の様になります。
+        </p>
+        <div align="center"> <img width="500px" src="fig/least-square-example.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        直線モデルは簡単でしたが,例えば<strong>多項式モデル</strong>
         \[y=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x_1+a_0\]
-        のでの当てはめを行いたい場合はどうなるでしょうか？
+        での当てはめを行いたい場合はどうなるでしょうか？
         </p>
         <p class="fragment">
         この場合も同様に計算すると\(k = 0,1,\cdots,n\)に対して
         \[
         (\sum_i x_i^kx_i^n)a_n  + \cdots + (\sum_i x_i^k)a_0  = \sum_i x_i^ky_i \]
-        という\(n+1\)元連立一次方程式を解く問題に帰着します。この計算にも線型代数が必要になりますので,後に紹介します。
+        という\(n+1\)元連立一次方程式を解く問題に帰着します。この計算にも線型代数が必要になりますので後に紹介します。
         </p>
         <p class="fragment">
         また,最小二乗法の背景知識や結果の評価などは統計の回にやります。
@@ -502,22 +552,79 @@ print "y={0:.5f}x + {1:.5f}".format(a, b)
         </p>
         </section>
 
-        <section>
+        <section style="font-size:90%">
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink"> 線型反復法 </h4>
         <p>
-        方程式
-        \[ f(x) = x \]
-        の解を\(\alpha\)とする。
+        方程式\( f(x) = x \)の解の一つを\(\alpha\)とする。
         </p>
         <p>
-        \(x=\alpha\)を含む適当な区間で常に
-        \[ |f'(x)| \leq r < 1 \]
-        となるような定数\(r\)が存在するならば,この区間内の初期値\(x_0\)を取ると数列
+        \(x=\alpha\)を含む適当な区間で常に\( |f'(x)| \leq r < 1 \)となるような定数\(r\)が存在するならば,この区間内に初期値\(x_0\)を取ると数列
         \[ x_{n+1} = f(x_n) \]
         は\(\alpha\)に収束する。
         </p>
         </div>
+        <p>
+        これは\(y=f(x)\)と\(y=x\)の交点を求める事に相当します。下図の様に交点付近での\(f'(x)\)の値が\(\alpha\)に近づくか否かに影響します。
+        </p>
+        <div align="center"> <img width="600px" src="fig/iteration-method.png"> </div>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例</h4>
+        \(\sqrt{x} = x\)に線型反復法を使用する事を考えてみます。
+        </div>
+        <p>
+        \( \sqrt{x}=x \)の解は0と1ですが,\((\sqrt{x})'=\frac{1}{2\sqrt{x}}\)なので
+        \[ \left|\frac{1}{2\sqrt{x}}\right| < 1\ \Leftrightarrow\ x > \frac{1}{4} \cdots(1)\]
+        の成立が必要です。\(x=1\)は(1)の範囲にあるので,この範囲内に\(x_0\)を取れば\(1\)に収束します。しかし\(x=0\)は(1)を満たさないので,線型反復法で求める事は出来ません。
+        </p>
+<pre><code class="python" style="max-height:200px">>>> from math import sqrt
+>>> x = 1.5
+>>> x = sqrt(x); x
+1.224744871391589
+>>> x = sqrt(x); x
+1.1066819197003215
+>>> x = sqrt(x); x
+1.0519895055086441
+>>> x = sqrt(x); x
+1.0256653964664324
+>>> x = sqrt(x); x
+1.012751399143162
+>>> x = sqrt(x); x
+1.0063555033601008
+>>> x = sqrt(x); x
+1.0031727186083665
+>>> x = sqrt(x); x
+1.001585103028378
+>>> x = sqrt(x); x
+1.0007922376939071
+>>> x = sqrt(x); x
+1.0003960404229453
+>>> x = sqrt(x); x
+1.000198000609352
+>>> x = sqrt(x); x
+1.0000989954046309
+>>> x = sqrt(x); x
+1.0000494964773647
+>>> x = sqrt(x); x
+1.0000247479324522
+>>> x = sqrt(x); x
+1.0000123738896696
+>>> x = sqrt(x); x
+1.0000061869256958
+>>> x = sqrt(x); x
+1.000003093458063
+>>> x = sqrt(x); x
+1.0000015467278354
+>>> x = sqrt(x); x
+1.0000007733636187
+>>> x = sqrt(x); x
+1.0000003866817346
+>>> x = sqrt(x); x
+1.0000001933408487
+</code></pre>
         </section>
 
         <section style="font-size:90%">
@@ -550,7 +657,7 @@ print "y={0:.5f}x + {1:.5f}".format(a, b)
         
         以下が計算例です。\( \log_{10}|(\cos x)'|_{x=0.7} = \log_{10}|\sin 0.7| \approx -0.2 \)なので,約5ステップで一桁精度が改善しているはずです。
         </p>
-<pre><code class="python" style="max-height:400px">>>>> from math import cos
+<pre><code class="python" style="max-height:400px">>>> from math import cos
 >>> x = 0.7             # x(n)
 >>> xm1 = 0             # x(n-1)
 >>> for i in range(1, 60):
@@ -615,18 +722,35 @@ step:53 x=0.739085133246
 </code></pre>
         </section>
 
-        <section>
+        <section style="font-size:70%">
         <p> 【練習問題】<br>
-        \[ x^2 = 2 \]の解の内\(x = \sqrt{2}\)の方を線型反復法を利用して解いて下さい。
+        \(\sqrt{2}\)の値を線型反復法を利用して求めて下さい。
         </p>
-        <p class="fragment">
-        \( f(x)=x \)という形に出来れば良いです。但し\(x=\sqrt{2}\)の近辺で\(|f'(x)|\leq r < 1 \)と押さえられなければならない事に注意して下さい。従って
-        \[ \frac{2}{x} = x \]
-        のような変形ではダメです。
-        例えば
-        \[ -\frac{1}{4}(x^2-2)+x = x \]
-        の様な変形ならばOKです。コードを書いてみて下さい。
+        <p class="fragment" data-fragment-index="1">【解答】<br>
+        方程式\( x^2-2=0 \)を解くことにします。\(f(x)=x\)という形で,\(x=\sqrt{2}\)の近辺で\(|f'(x)|\leq r < 1 \)と押さえなければいけない事に注意して下さい。例えば
+        \[ k(x^2-2) + x = x\]
+        という形を考えると\(f'(x) = 2kx + 1\)なので,\(k = -\frac{1}{3}\)などと取れば十分です。
         </p>
+        <p class="fragment" data-fragment-index="1">
+        他にも\(x = \frac{x}{2}+\frac{1}{x}\)といった変形などいろいろ試してみてください。
+        </p>
+<pre class="fragment" data-fragment-index="1"><code class="python" style="max-height:300px">>>> x = 1.5
+>>> xm1 = 0
+>>> for i in range(1, 10):
+...     if abs(x-xm1)<1e-10:
+...             break
+...     x, xm1 = -(x*x-2)/3+x, x
+...     print "step:{0} x={1}".format(i, x)
+...
+step:1 x=1.41666666667
+step:2 x=1.41435185185
+step:3 x=1.41422146491
+step:4 x=1.41421401431
+step:5 x=1.41421358822
+step:6 x=1.41421356385
+step:7 x=1.41421356246
+step:8 x=1.41421356238
+</code></pre>
         </section>
 
         <section>
@@ -676,7 +800,7 @@ step:10 x=0.739085133215
 </code></pre>
         </section>
 
-        <section>
+        <section style="font-size:90%">
         <h2> ニュートン法 </h2>
         <p>
         次は\(\color{yellow}{f(x)=0}\)の解\(\alpha\)を求める問題を考えます。ここで
@@ -686,31 +810,38 @@ step:10 x=0.739085133215
         なので\(\color{yellow}{g'(\alpha)=0}\)となります。
         </p>
         <p>
-        従って,\(g'(x)\)が連続ならば\(x=\alpha\)の近くで必ず
-        \[ g'(x) \leq r < 1 \]
-        を満たす定数\(r\)を取ることが出来,\(r\)も非常に小さくなります。
+        線型反復法の収束速度は\(|g'(\alpha)|\)が小さいほど速いので,ニュートン法は非常に速く収束する事が期待できます。また,\(g'\)が連続ならば必ず\(x=\alpha\)の近辺で\(|g'(x)|\leq r < 1\)と押さえる事が出来ます。
         </p>
         </section>
 
-        <section>
+        <section style="font-size:80%">
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink"> ニュートン法 </h4>
         <p>
         方程式\(f(x)=0\)の解を\(\alpha\)とする。
         </p>
         <p>
-        \(x=\alpha\)を含む適当な区間で\(f'(x)\neq 0\),\(f(x),f'(x),f''(x)\)が連続で有限値を取るならば,この区間内に初期値\(x_0\)を取れば数列
+        \(x=\alpha\)を含む適当な区間で\(f'(x)\neq 0\),\(f(x),f'(x),f''(x)\)が連続ならば,この区間内に初期値\(x_0\)を取れば数列
         \[ x_{n+1} = x_{n} - \frac{f(x_n)}{f'(x_{n+1})} \]
 が\(\alpha\)に収束する。
         </p>
         </div>
+        <p>
+        図示的には,下図の様に\(x=x_{i}\)の点で引いた接線と\(x\)軸の交点の値を\(x_{i+1}\)とする更新式になっています。
+        </p>
+        <div align="center"> <img width="300px" src="fig/newton-method.png"> </div>
         </section>
 
-        <section>
+        <section style="font-size:80%">
         <div class="block" style="border-color:lightgreen">
         <h4 style="color:lightgreen">例</h4>
         \( \cos x = x \)の解をニュートン法で求めましょう。
         </div>
+        <p>
+        \(f(x)=x-\cos x\)とおけば\(f'(x)=1+\sin x\)なので
+        \[ x_{n+1}=x_n-\frac{x_n-\cos x_n}{1+\sin x_n}\]
+        という更新式を使います。
+        </p>
 <pre><code class="python"> >>> from math import sin, cos
 >>> x = 0.7             # x(n)
 >>> xm1 = 0             # x(n-1)
@@ -727,7 +858,7 @@ step:4 x=0.739085133215
 </code></pre>
         </section>
 
-        <section>
+        <section style="font-size:80%">
         <h2> ニュートン法の収束の速さ </h2>
         <p>
         \[ g(x) = x - \frac{f(x)}{f'(x)} \]
@@ -736,7 +867,7 @@ step:4 x=0.739085133215
         \[ g(x) = \alpha + \frac{g''(c)}{2}(x-\alpha)^2 \]
         つまり
         \[ |g(x)-\alpha| = \left|\frac{g''(c)}{2}\right||x-\alpha|^2 \]
-        となります。従って,数列\(x_{n+1}=g(x_n)\)の\(\alpha\)からの誤差は<strong>\(|x_n-\alpha|^2\)にほぼ比例して減少</strong>していきます。
+        と表せます。従って,数列\(x_{n+1}=g(x_n)\)の\(\alpha\)からの誤差は<strong>\(|x_n-\alpha|^2\)にほぼ比例して減少</strong>していきます。
         </p>
         <p>
         このような収束の仕方を<strong>二次収束</strong>と言います。
@@ -749,6 +880,7 @@ step:4 x=0.739085133215
         </p>
         </section>
 
+        <!--
         <section>
         <h2 class="chapter-title"> 微分方程式の数値解法 </h2>
         </section>
@@ -917,7 +1049,6 @@ step:4 x=0.739085133215
         </div>
         </section>
 
-        <!--
         <section>
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink"> 改良オイラー法 </h4>
@@ -974,15 +1105,15 @@ step:4 x=0.739085133215
         <section>
         <h2> 偏微分方程式 </h2>
         </section>
+        -->
 
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
-        次回は全微分,多変数関数のテイラー展開などのやり残した定理を確認した後,
-        線型反復法やニュートン法などの<strong>非線形方程式の数値解法</strong>, 微分方程式の解析的解法とオイラー法やルンゲクッタ法などの<strong>常微分方程式の数値解法</strong>の紹介をします。
+        今回は時間が足りず微分方程式の数値解法を扱う事ができませんでした。
+        次回は<strong>常微分方程式・偏微分方程式の数値解法</strong>と<strong>積分法・重積分法・数値積分法</strong>を扱います。
         </p>
         </section>
-        -->
       </div>
     </div>
 
