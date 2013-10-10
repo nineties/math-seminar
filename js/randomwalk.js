@@ -1,17 +1,17 @@
 define(["d3", "util", "math"], function (d3, U, M) {
     var size = {
-                width: 900, height: 600,
+                width: 900, height: 500,
                 top: 0, right: 0, bottom: 0, left: 0
         },
         walk = {
             size: {
-                width: 800, height: 100,
+                width: 800, height: 50,
                 top: 20, right: 20, bottom: 30, left: 80
             }
         },
         graph = {
             size: {
-                width: 800, height: 300,
+                width: 800, height: 250,
                 top: 150, right: 20, bottom: 30, left: 80
             }
         },
