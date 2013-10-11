@@ -3,9 +3,13 @@ from math import sin
 
 k = 1.0
 m = 1.0
+mu = 0.2
+A = 0.5
+#B = 0.3
+B = 1.0
 
 def g(t, x):
-    return np.array([x[1], -k/m*x[0]])
+    return np.array([x[1], -k/m*x[0]-mu/m*x[1]+A/m*sin(B*t)])
 
 x = np.array([1.0, 0.0])    # x(0) = 1, v(0) = 0
 dt = 0.2

@@ -197,7 +197,7 @@
         </p>
         <p>
         例えば
-        \[ \frac{\mathrm{d}y}{\mathrm{d}x}-2y \qquad\cdots(1)\]
+        \[ \frac{\mathrm{d}y}{\mathrm{d}x}=-2y \qquad\cdots(1)\]
         という微分方程式の解は\(y=\color{yellow}{C}\exp(-2x)\quad\text{($C$は定数)}\)と表される関数全てが解となります(後述)。
         </p>
         <div align="center"> <img width="400px" src="fig/ode-fig1.png"> </div>
@@ -397,7 +397,7 @@
         となります。
         </p>
         <p>
-        これは左辺のテイラー展開の\(\mathcal{O}{\Delta x^2}\)の項まで一致しているので二次の精度となります。
+        これは左辺のテイラー展開の\(\mathcal{O}(\Delta x^2)\)の項まで一致しているので二次の精度となります。
         </p>
         </section>
 
@@ -561,7 +561,7 @@ for i in xrange(20):
         の様な連立一階常微分方程式も同様に解くことが出来ます。例えば,陽的オイラー法であれば
         \[ \begin{aligned}
         u_{i+1} = u_i + f(x_i, u_i, v_i)\Delta x \\
-        v_{i+1} = v_i + f(x_i, u_i, v_i)\Delta x \\
+        v_{i+1} = v_i + g(x_i, u_i, v_i)\Delta x \\
         \end{aligned} \]
         の様にそれぞれ更新すれば良いです。
         </p>
@@ -620,7 +620,7 @@ for i in xrange(20):
         </section>
 
         <section style="font-size:70%">
-        <p> ルンゲクッタ法でのコーディング例です。関数`g`で毎回ベクトルを生成するのは非効率ですが,読みやすさを優先します。</p>
+        <p> ルンゲクッタ法でのコーディング例です。関数gで毎回ベクトルを生成するのは非効率ですが,読みやすさを優先します。</p>
 <pre><code class="python" style="max-height:400px">
 import numpy as np
 
@@ -665,7 +665,7 @@ for i in range(100):
         <section>
         <h2> 偏微分方程式 </h2>
         <p>
-        \[ \frac{\partial u}{\partial t}=k\frac{\partial^2 u}{\partial t^2} \]
+        \[ \frac{\partial u}{\partial t}=k\frac{\partial^2 u}{\partial x^2} \]
         といった偏微分方程式も同様に差分化を行って解くのですが,解が\(\pm\infty\)に発散してしまわない為の条件の解析などが難しくなります。(フーリエ展開・超関数などの知識が必要)
         </p>
         <p>
@@ -712,7 +712,7 @@ for i in range(100):
 
         <section>
         <p>
-        導出の流れから判るように,これは熱や粒子などがランダムに拡散していく様子を記述します。
+        導出の流れから判るように,これは熱や粒子などが拡散していく様子を記述します。
         </p>
         <div class="block" style="border-color:pink;font-size:80%">
         <h4 style="color:pink"> 拡散方程式 </h4>
@@ -739,7 +739,7 @@ for i in range(100):
         <section style="font-size:70%">
         <div class="block" style="border-color:lightgreen">
         <h4 style="color:lightgreen">例</h4>
-        拡散方程式を\(0 \leq x 2\)の範囲で解いてみます。境界条件は
+        拡散方程式を\(0 \leq x \leq 2\)の範囲で解いてみます。境界条件は
         \[ \frac{\partial u}{\partial x}(0, t) = \frac{\partial u}{\partial x}(2, t) = 0 \]
         ,初期条件は\(u(0, 0) = 1,\quad u(x, 0) = 0 (x \neq 0) \)とします。
         </div>
@@ -763,8 +763,8 @@ for j in range(50):
             print "{0} {1}".format(i*dx, u[i])
         print "\n\n"
 
-    new_u[0] = u[1]
-    new_u[nx-1] = u[nx-2]
+    new_u[0] = u[1]       # 境界条件。端は水平
+    new_u[nx-1] = u[nx-2] # 境界条件
     for i in range(1, nx-1):
         new_u[i] = u[i] + D*dt/(dx*dx)*(u[i+1]-2*u[i]+u[i-1])
 
@@ -813,7 +813,7 @@ for j in range(50):
 
         <section style="font-size:90%">
         <p>
-        ここで\(n\rightarrow\infty, \lim_{n\rightarrow\infty}\max\{x_i-x_{i-1}\} = 0\)とした時のの極限が収束するならば,これを\(f(x)\)の区間\([a,b]\)での<strong>定積分</strong>と言い
+        ここで\(n\rightarrow\infty, \lim_{n\rightarrow\infty}\max\{x_i-x_{i-1}\} = 0\)とした時の極限が収束するならば,これを\(f(x)\)の区間\([a,b]\)での<strong>定積分</strong>と言い
         \[ \color{yellow}{\int_a^bf(x)\mathrm{d} x = \lim_{n\rightarrow\infty}\sum_{i=1}^nf(t_i)(x_i-x_{i-1})} \]
         と表します。
         </p>
@@ -928,7 +928,8 @@ for j in range(50):
         <section>
         <h2> 微積分学の基本定理 </h2>
         <p>
-        以上で見たように<strong>定積分</strong>と<strong>不定積分</strong>の定義は全く異なっています。これらを結びつけるのが<strong>微積分学の基本定理</strong>です。
+        以上で見たように元々<strong>定積分</strong>と<strong>微分・不定積分</strong>は全く別に定義されています。
+        これらを結びつけるのが<strong>微積分学の基本定理</strong>です。
         </p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 微積分学の基本定理 </h4>
@@ -990,7 +991,7 @@ for j in range(50):
         の様な積分が頻繁に登場します。このような積分は<strong>広義積分</strong>と呼ばれるものの一つです。
         </p>
         <p>
-        定義は単純で
+        この場合の定義は単純で
         \[ \lim_{t\rightarrow\infty}\int_a^t f(x)\mathrm{d} x \]
         が存在するときにこれを
         \[ \int_a^\infty f(x)\mathrm{d} x \]
@@ -1073,7 +1074,7 @@ for j in range(50):
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
-        次回で線型代数の回にやるものを残して微積分は終了となります。<strong>積分法の応用</strong>,<strong>数値積分法</strong>,<strong>重積分</strong>とその他関係する補完法や外挿法などの紹介をします。
+        次回で線型代数の回にやるものを残して微積分は終了となります。<strong>積分法の応用</strong>,<strong>数値積分法</strong>,<strong>重積分</strong>とその他関係する補間法や外挿法などの紹介をします。
         </p>
         </section>
       </div>
