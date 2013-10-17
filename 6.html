@@ -313,7 +313,6 @@
         <p>
         積分区間\([a,b]\)に等間隔に取った点で\(f(x)\)をラグランジュ補間し,それを積分して得られる公式を<strong>ニュートン=コーツの積分公式</strong>と言います。
         </p>
-        <div align="center"> <img width="450px" src="fig/newton-cotes.png"> </div>
         </section>
 
         <section style="font-size:80%">
@@ -336,8 +335,12 @@
         \int_{x_i}^{x_{i+1}} f(x)\mathrm{d} x &\approx \left[ -\frac{f_i}{2\Delta}(x-x_{i+1})^2 + \frac{f_{i+1}}{2\Delta x}(x-x_i)^2\right]_{x_i}^{x_{i+1}} \\
         &= \color{yellow}{\frac{f_i + f_{i+1}}{2}\Delta x}
         \end{aligned} \]
-        と近似でき,誤差は
-        \[ \int_{x_i}^{x_{i+1}}\frac{f''(c)}{2}(x-x_i)(x-x_{i+1})\mathrm{d}x = -\frac{f''(c)}{12}\Delta x^3 \]
+        と近似でき,誤差は\(|f''(c)|\leq M\)とすれば
+        \[ \begin{aligned}
+             &\left|\int_{x_i}^{x_{i+1}}\frac{f''(c)}{2}(x-x_i)(x-x_{i+1})\mathrm{d}x\right| \\
+             \leq & \frac{M}{2}\left|\int_{x_i}^{x_{i+1}}(x-x_i)(x-x_{i+1})\mathrm{d}x\right| \\
+        = &\frac{M}{12}\Delta x^3
+        \end{aligned}\]
         となります。
         </p>
         </section>
@@ -353,9 +356,10 @@
         </p>
         <p>
         また,区間内での\(|f''(x)|\)の上限を\(M\)とすれば各区間での誤差の絶対値が\( \frac{M}{12}\Delta x^3 \)以下となるので,総誤差は
-        \[ \frac{M}{12}\Delta x^3\times n = \color{yellow}{\frac{M(b-a)}{12}\Delta x^2} \]
-        となります。
+        \[ \frac{M}{12}\Delta x^3\times n = \frac{M(b-a)}{12}\Delta x^2 \]
+        以下となります。
         </p>
+        <div align="center"> <img width="450px" src="fig/trapezoidal2.png"> </div>
         </section>
 
         <section>
@@ -554,8 +558,8 @@
         \[ w_i = \int_{-1}^{1}\frac{P_n(x)}{P'_n(\alpha_i)}\frac{\mathrm{d}x}{x-\alpha_i} \]
         となる。各\(n\)に対する\((\alpha_i, w_i)\)の値は
         \[ \small{\begin{aligned}
-        n = 1 &: (0, 2)\quad n = 2 : (\pm\sqrt{\frac13}, 1)\quad n = 3 : (0, \frac89),\ (\pm\sqrt{\frac35},\frac59)\\
-        n = 4 &: (\pm\sqrt{(3-2\sqrt{6/5})/7}, (18+\sqrt{30})/36),\ (\pm\sqrt{(3+2\sqrt{6/5})/7}, (18-\sqrt{30})/36)
+        n = 1 &: \left(0, 2\right)\quad n = 2 : \left(\pm\sqrt{\frac13}, 1\right)\quad n = 3 : \left(0, \frac89\right),\ \left(\pm\sqrt{\frac35},\frac59\right)\\
+        n = 4 &: \left(\pm\sqrt{\frac{3-2\sqrt{6/5}}7}, \frac{18+\sqrt{30}}{36}\right),\ \left(\pm\sqrt{\frac{3+2\sqrt{6/5}}7}, \frac{18-\sqrt{30}}{36}\right)
         \end{aligned}} \]
         などとなる。
         </p>
@@ -613,15 +617,15 @@
 
         <section style="font-size:80%">
         <p>
-        具体的な計算です。台形公式の誤差項を展開すれば
+        まず,\(f''(c)(b-a)\approx f'(b)-f'(a)\)という近似を行うと台形公式の誤差項は
         \[ \int_a^b f(x)\mathrm{d} x = T^0_i - \frac{h_i^2}{12}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_i^3) \]
-        となります。ここで\(h_{i-1}=2h_i\)なので
-        \[ \int_a^b f(x)\mathrm{d} x = T^0_i - \frac{h_{i-1}^2}{3}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_{i-1}^3) \]
+        と表せます。ここで\(h_i =\frac{h_{i-1}}{2}\)なので
+        \[ \int_a^b f(x)\mathrm{d} x = T^0_i - \frac{h_{i-1}^2}{48}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_{i-1}^3) \]
         と表せます。ところで
         \[ \int_a^b f(x)\mathrm{d} x = T^0_{i-1} - \frac{h_{i-1}^2}{12}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_{i-1}^3) \]
         でもあるので
         \[ \int_a^b f(x)\mathrm{d} x = \frac{4T^0_i-T^0_{i-1}}{3}+\mathcal{O}(h_{i-1}^3) \]
-        と誤差項を一つ消してしまう事が出来ます。
+        と誤差項から\(\mathcal{O}(h^2)\)の項を消し去ってしまう事が出来ます。これが外挿の例です。
         </p>
         </section>
 
@@ -633,32 +637,48 @@
         <h4 style="color:pink"> ロンバーグ積分法</h4>
         <p>
         \(T^0_i\)を分割数\(2^i\)の台形公式で求めた値とする。
-        \[ T^j_i = \frac{4^jT_i^{j-1}-T_{i-1}^{j-1}}{4^j-1}\ (i = 1, 2, \cdots, j = 1, 2, \cdots, i) \]
-        によって外挿を行う。これは\(j\)が大きいほど高精度となる。
+        \[ T^j_i = \frac{4^jT_i^{j-1}-T_{i-1}^{j-1}}{4^j-1}\ (i = 1, 2, \cdots, n\ j = 1, 2, \cdots, i) \]
+        によって外挿を行い,\(T^n_n\)を求める。
         </p>
         </div>
         <p style="font-size:80%"> \(T^0_i\)は実際には漸化式でもっと効率よく計算出来ますが,分り易さの為に説明を省きます。
         </p>
+        <p>
+        ここで利用している補外法は<strong>リチャードソン補外</strong>と呼ばれます。
+        </p>
         </section>
 
-        <section>
+        <section style="font-size:80%">
         <div class="block" style="border-color:lightgreen">
         <h4 style="color:lightgreen">例</h4>
         <p> \(\int_0^1\frac{1}{1+x^2}\mathrm{d} x\)を計算してみます。厳密値は\(\frac{\pi}{4}=0.785398\cdots\)です。</p>
         </div>
-<pre><code class="python" style="max-height:400px">>>> def f(x):
-...     return 1.0/(1+x*x)
-...
->>> T00 = (f(0) + f(1))/2; T00
-0.75
->>> T10 = (f(0) + 2*f(0.5) + f(1))*0.5/2; T10
-0.775
->>> T20 = (f(0) + 2*f(0.25) + 2*f(0.5) + 2*f(0.75) + f(1))*0.25/2; T20
-0.7827941176470589
->>> T11 = (4*T10-T00)/3; T11
-0.7833333333333333
->>> T21 = (4*T20-T10)/3; T21
-0.7853921568627452
+<pre><code class="python" style="max-height:400px">from numpy import *
+
+def f(x):
+    return 1.0/(1+x*x)
+a = 0.0
+b = 1.0
+
+N = 5   # ここを変えてみて下さい
+T = zeros( (N+1, N+1) )   # N+1 x N+1の２次元配列。
+
+T[0,0] = (f(a) + f(b))*(b-a)/2
+for i in range(1, N+1):
+
+    # T[i,0]は台形公式で計算
+    n = 2**i
+    dx = (b-a)/n
+    s = 0.0
+    for j in range(n):
+        s += f(a + j*dx) + f(a + (j+1)*dx)
+    T[i,0] = s*dx/2
+
+    # 外挿
+    for j in range(1, i+1):
+        T[i,j] = T[i, j-1] + (T[i, j-1] - T[i-1,j-1])/(4**j-1)
+
+print T[N,N]
 </code></pre>
         </section>
 
@@ -684,7 +704,7 @@
         </p>
         <div align="center"> <img width="400px" src="fig/riemann-integral3.png"> </div>
         <p class="fragment">
-        普段図形の面積を計算する場面なんてないと考える人もいるかもしれませんが、少くとも<strong>確率計算が面積計算に帰着する</strong>為、統計学の計算において必要となります。<span style="font-size:80%">(変数の数によっては面積ではなくて体積などの計算となりますが,区別せずに面積と呼ぶことにします。一般的には測度と呼ばれます。)</span>
+        普段図形の面積を計算する場面なんてないと考える人もいるかもしれませんが、少くとも<strong>確率計算が面積計算に帰着する</strong>為、統計学の計算において必要となります。<span style="font-size:80%">(変数の数によっては面積ではなくて体積などとなりますが,区別せずに面積と呼ぶことにします。一般的には測度と呼ばれます。)</span>
         </p>
         </section>
 
@@ -696,45 +716,65 @@
         \[ \frac{\text{(色を塗った部分の面積)}}{\text{(正方形の面積)}} = \frac{\int_0^1(1-x^2)\mathrm{d}x}{1} = \frac{2}{3} = 0.6666\cdots\]
         と計算されます。
         </p>
-        <div align="center"> <img width="300px" src="fig/parabola.png"> </div>
+        <img align="right" width="300px" src="fig/parabola.png"> 
+<pre><code class="python" style="max-height:400px">
+>>> from random import random
+>>> N = 1000
+>>> count = 0
+>>> for i in xrange(N):
+...     x = random()
+...     y = random()
+...     if y >= x*x:
+...             count += 1
+...
+>>> count
+665
+</code></pre>
+        <p>
+        上のコードはこの結果を乱数を用いた実験で確認するものです。また、上の様なコードで確率を近似的に求める事で,逆に右図の面積の近似値を求める事が出来ます。これは<strong>モンテカルロ法</strong>と呼ばれる手法です。統計の回に説明する予定です。
+        </p>
         </section>
 
         <section style="font-size:80%">
         <div class="block" style="border-color:lightgreen">
         <h4 style="color:lightgreen">例:ビュフォンの針</h4>
-        平行線が間隔\(h\)で引いてあるところに,長さ\(\ell\)の針を全く無作為に落としたとき,平行線と交差する確率を求めて下さい。\(l < \ell\)とします。
+        間隔\(h\)で平行線がいくつも引いてある所に,長さ\(\ell\)の針を全く無作為に落としたとき,平行線と交差する確率を求めて下さい。\(\ell < h\)とします。
         </div>
-        <p>
-        針の中心と一番近い平行線の距離を\(d\)とし,図の角度を\(\theta\)とすれば無作為に
-        \[ 0\leqq d \leqq \frac{h}{2},\quad 0\leqq \theta \leqq \frac{\pi}{2} \]
+        <p style="font-size:70%">
+        針の中心と一番近い平行線の距離を\(d\)とし,図の角度を\(\theta\)とすれば\( 0\leqq d \leqq \frac{h}{2},\quad 0\leqq \theta \leqq \frac{\pi}{2} \)
         の範囲の実数が無作為に選ばれる事になります。
         </p>
-        <p>
+        <p style="font-size:70%">
         ところで,平行線と針が交わる条件は
         \[ d \leqq \frac{\ell}{2}\cos\theta \]
         であるので,右下図の面積の比率を求めれば
         \[ \frac{1}{\frac{h}{2}\frac{\pi}{2}}\int_0^\frac{\pi}{2}\frac{\ell}{2}\cos x\mathrm{d} x = \frac{2\ell}{h\pi}  \]
-        となります。
+        が求める確率となります。
         </p>
-        <div align="center"><img width="300px" src="fig/buffons-needle.png"> 
+        <div align="center"><img width="200px" src="fig/buffons-needle.png"> 
         <img width="300px" src="fig/buffons-needle2.png"> 
-        </div>>
+        </div>
         </section>
 
-        <section>
+        <section style="font-size:80%">
         <div class="block" style="border-color:lightgreen">
-        <h4 style="color:lightgreen">例:偏差値</h4>
+        <h4 style="color:lightgreen">例:確率分布の求積</h4>
         <p>
-        偏差値が\(a\)以上\(b\)以下の人の割合は
-        \[ \int_a^b \frac{1}{\sqrt{2\pi \times 100}\exp\left\{-\frac{(x-50)^2}{2\times 100}\right\}\mathrm{d} x \]
-        程度となります。偏差値が\(40~60\)の人はどれくらいでしょうか？
+        得点分布が正規分布で近似できるとき,偏差値が\(a\)以上\(b\)以下の人の割合は
+        \[ \int_a^b \frac{1}{\sqrt{2\pi \times 100}}\exp\left\{-\frac{(x-50)^2}{2\times 100}\right\}\mathrm{d} x \]
+        となります。では偏差値が40以上60以下の人の割合を求めて下さい。
         </p>
         </div>
         <p>
-        正規分布という分布に関する計算です。詳しくは統計の回にやります。
+        以下の面積を求めよという問題です。このようにして,確率分布に関する確率計算は面積計算の問題に帰着します。
+        詳しくは統計の回にやります。
         </p>
+        <div align="center"> <img width="400px" src="fig/normal-distr.png"> </div>
+        </section>
+
+        <section>
         <p>
-        簡単なシンプソン法で計算してみると以下のようになります。つまり約\(68.27\)%という事になります。
+        この積分は解析的に求める事が出来ないので数値積分を行います。シンプソン法を利用すれば以下のようになり,約\(68.27\)%という事が判ります。
         </p>
 <pre><code class="python" style="max-height:400px">>>> def f(x):
 >>> from math import pi, sqrt, exp
@@ -757,9 +797,10 @@
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
-        重積分はヤコビアンの計算など線型代数の知識が必要となるので後の回に回します。また,微分方程式の厳密解法に関しても線形空間の知識や固有値に関する知識が必要となりますので後の回に回します。
+        重積分はヤコビアンの計算など線型代数の知識が必要となるので後の回にやります。また,微分方程式の厳密解法に関しても線形空間の知識や固有値に関する知識が必要となりますので後の回に回します。ということで微積分法はここで一旦終了します。
         </p>
         <p>
+        次回から<strong>線型代数</strong>をやっていきます。初回は<strong>ベクトル・行列・行列式</strong>の基礎知識,<strong>連立一次方程式</strong>の解法,<strong>ガウス消去法</strong>などを紹介します。
         </p>
         </section>
       </div>
