@@ -335,13 +335,21 @@
         \int_{x_i}^{x_{i+1}} f(x)\mathrm{d} x &\approx \left[ -\frac{f_i}{2\Delta}(x-x_{i+1})^2 + \frac{f_{i+1}}{2\Delta x}(x-x_i)^2\right]_{x_i}^{x_{i+1}} \\
         &= \color{yellow}{\frac{f_i + f_{i+1}}{2}\Delta x}
         \end{aligned} \]
-        と近似でき,誤差は\(|f''(c)|\leq M\)とすれば
-        \[ \begin{aligned}
-             &\left|\int_{x_i}^{x_{i+1}}\frac{f''(c)}{2}(x-x_i)(x-x_{i+1})\mathrm{d}x\right| \\
-             \leq & \frac{M}{2}\left|\int_{x_i}^{x_{i+1}}(x-x_i)(x-x_{i+1})\mathrm{d}x\right| \\
-        = &\frac{M}{12}\Delta x^3
-        \end{aligned}\]
-        となります。
+        と近似できます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        次に剰余項
+        \[ R = \int_{x_i}^{x_{i+1}}\frac{f''(c)}{2}(x-x_i)(x-x_{i+1})\mathrm{d}x \]
+        についてですが,\(f''(x)\)の\([x_i,x_{i+1}]\)での最大値・最小値を\(M,m\)とすれば,この区間で\((x-x_i)(x-x_{i+1})\leq 0\)だから
+        \[ \small{\frac{M}{2}(x-x_i)(x-x_{i+1})\leq \frac{f''(c)}{2}(x-x_i)(x-x_{i+1}) \leq \frac{m}{2}(x-x_i)(x-x_{i+1})} \]
+        よって,各辺を積分して
+        \[ -\frac{M}{12}\Delta x^3 \leq R \leq -\frac{m}{12}\Delta x^3\ \Leftrightarrow\ m\leq -\frac{12}{\Delta x^3}R \leq M \]
+        となります。ところで\(f''(x)\)が連続ならば,\(m\)から\(M\)までの全ての値を取るのだからある\(c' \in [x_i, x_{i+1}]\)が存在して
+        \[ f''(c') = -\frac{12}{\Delta x^3}R\ \Leftrightarrow\ R = -\frac{f''(c')}{12}\Delta x^3 \]
+        と表せます。
         </p>
         </section>
 
@@ -388,15 +396,15 @@
 >>> n = 10
 >>> dx = (b-a)/n
 >>> def f(x):
-...     return 1/(1+x*x)
+...     return 1.0/(1+x*x)
 ...
->>> s = 0.0
->>> for i in range(n):
-...     s += f(a + i*dx) + f(a + (i+1)*dx)
+>>> s = f(a) + f(b)
+>>> for i in range(1,n):
+...     s += 2*f(a+i*dx)
 ...
 >>> s *= dx/2
 >>> s
-0.784981497227
+0.7849814972267897
 </code></pre>
         <p>
         </p>
@@ -456,11 +464,14 @@
 >>> n = 10
 >>> dx = (b-a)/n
 >>> def f(x):
-...     return 1/(1+x*x)
+...     return 1.0/(1+x*x)
 ...
->>> s = 0.0
->>> for i in range(0, n, 2):  # i = 0, 2, 4, 6, ...
-...     s += f(a + i*dx) + 4*f(a + (i+1)*dx) + f(a + (i+2)*dx)
+>>> s = f(a) + f(b)
+>>> for i in range(1,n,2):
+...     s += 4*f(a+i*dx)
+...
+>>> for i in range(2,n,2):
+...     s += 2*f(a+i*dx)
 ...
 >>> s *= dx/3
 >>> s
@@ -609,30 +620,30 @@
         <p>
         しかし,\(T^0_n\)の値を直に計算しなくても,\(T^0_0,\ T^0_1,\ T^0_2,\ \cdots\)の値からそれを予測する事が可能です。この考え方を<strong>外挿(補外)</strong>と言います。
         </p>
-        <p>
-        精度の高い予測値を出したのち,それを用いてさらに高精度の外挿を行うという事を繰り返して行きます。
-        </p>
         <div align="center"> <img width="450px" src="fig/romberg.png">  </div>
         </section>
 
-        <section style="font-size:80%">
+        <section style="font-size:70%">
         <p>
-        まず,\(f''(c)(b-a)\approx f'(b)-f'(a)\)という近似を行うと台形公式の誤差項は
-        \[ \int_a^b f(x)\mathrm{d} x = T^0_i - \frac{h_i^2}{12}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_i^3) \]
-        と表せます。ここで\(h_i =\frac{h_{i-1}}{2}\)なので
-        \[ \int_a^b f(x)\mathrm{d} x = T^0_i - \frac{h_{i-1}^2}{48}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_{i-1}^3) \]
-        と表せます。ところで
-        \[ \int_a^b f(x)\mathrm{d} x = T^0_{i-1} - \frac{h_{i-1}^2}{12}\left\{f'(b)-f'(a)\right\}+\mathcal{O}(h_{i-1}^3) \]
-        でもあるので
-        \[ \int_a^b f(x)\mathrm{d} x = \frac{4T^0_i-T^0_{i-1}}{3}+\mathcal{O}(h_{i-1}^3) \]
-        と誤差項から\(\mathcal{O}(h^2)\)の項を消し去ってしまう事が出来ます。これが外挿の例です。
+        難しくなるので詳しい導出はしませんが,台形近似の剰余項は\(i\)に依存しない定数\(\alpha_1,\alpha_2,\cdots\)を用いて
+        \[ \int_a^bf(x)\mathrm{d} x = T^0_i + \alpha_1h_i^2 + \alpha_2h_i^4 + \alpha_3h_i^6 + \cdots \]
+        と表す事が出来ます(<strong>オイラー=マクローリンの公式</strong>と言います)。
+        </p>
+        <p>
+        ここで\(h_i = \frac{h_{i-1}}{2}\)であるので,
+        \[ \int_a^bf(x)\mathrm{d} x = T^0_i + \alpha_1\frac{h_{i-1}^2}{4} + \alpha_2\frac{h_{i-1}^4}{4^2} + \alpha_3\frac{h_{i-1}^6}{4^3} + \cdots (1)\]
+        となりますが,一方
+        \[ \int_a^bf(x)\mathrm{d} x = T^0_{i-1} + \alpha_1h_{i-1}^2 + \alpha_2h_{i-1}^4 + \alpha_3h_{i-1}^6 + \cdots (2)\]
+        でもあるので,(1)を4倍して(2)を引けば
+        \[ 3\int_a^b f(x)\mathrm{d} x = 4T^0_i - T^0_{i-1} + \mathcal{O}(h_{i-1}^4)\ \Leftrightarrow\ \int_a^b f(x)\mathrm{d} x = \frac{4T^0_i - T^0_{i-1}}{3} + \mathrm{O}(h_{i-1}^4) \]
+        となって剰余項から\(\mathcal{O}(h_{i-1}^2)\)の項を消してしまう事が出来ます。
+        </p>
+        <p>
+        同様にして,剰余項が\(\mathcal{O}(h^4)\)の公式を2つ組み合わせれば\(\mathcal{O}(h^4)\)の項も消してしまう事が出来,以上を繰り返す事で精度を高める事が出来ます。
         </p>
         </section>
 
         <section>
-        <p>
-        今の考え方を一般化すると以下のような計算法が得られます。
-        </p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> ロンバーグ積分法</h4>
         <p>
@@ -643,8 +654,8 @@
         </div>
         <p style="font-size:80%"> \(T^0_i\)は実際には漸化式でもっと効率よく計算出来ますが,分り易さの為に説明を省きます。
         </p>
-        <p>
-        ここで利用している補外法は<strong>リチャードソン補外</strong>と呼ばれます。
+        <p style="font-size:80%">
+        また,今回利用した補外法は一般に<strong>リチャードソン補外</strong>と呼ばれます。
         </p>
         </section>
 
@@ -669,9 +680,9 @@ for i in range(1, N+1):
     # T[i,0]は台形公式で計算
     n = 2**i
     dx = (b-a)/n
-    s = 0.0
-    for j in range(n):
-        s += f(a + j*dx) + f(a + (j+1)*dx)
+    s = f(a) + f(b)
+    for j in range(1,n):
+        s += 2*f(a + j*dx)
     T[i,0] = s*dx/2
 
     # 外挿
@@ -683,13 +694,20 @@ print T[N,N]
         </section>
 
         <section>
+        <p>
+        ロンバーグ積分の精度は以下のようになり,分割数\(128\)では浮動小数点数で表せる範囲での誤差\(0\)を達成しています。
+        </p>
+        <div align="center"> <img width="450px" src="fig/romberg-error.png">  </div>
+        </section>
+
+        <section>
         <h2 class="chapter-title"> 積分法の応用 </h2>
         </section>
 
         <section style="font-size:80%">
         <h2> 面積 </h2>
         <p>
-        以前に説明したように,以下の領域の面積が
+        以前に説明したように,以下の領域の符号付き面積が
         \[ \int_a^b f(x)\mathrm{d} x \]
         によって得られます。
         </p>
