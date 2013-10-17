@@ -1011,66 +1011,6 @@ for j in range(50):
         </p>
         </section>
 
-        <!--
-        <section>
-        <h2 class="chapter-title"> 数値積分法 </h2>
-        </section>
-
-        <section>
-        <h2> 数値積分法 </h2>
-        <p>
-        解析的に定積分を求める事が難しい・出来ない関数では,やはり数値計算によって定積分の値を求める事になります。
-        </p>
-        </section>
-
-        <section>
-        <h2> ニュートン＝コーツ系の公式 </h2>
-        <p>
-        積分区間\([a,b]\)を<strong>\(n\)等分</strong>し,各点を通る<strong>補完多項式</strong>を積分する方法を<strong>ニュートン=コーツの積分公式</strong>と言います。
-        </p>
-        </section>
-
-        <section style="font-size:70%">
-        <h2> 台形公式 </h2>
-        <p>
-        点\((x_{i-1}, f_{i-1}), (x_i, f_i)\)を通る一次式
-        \[y=-\frac{x-x_{i}}{\Delta x}f_{i-1} + \frac{x-x_{i-1}}{\Delta x}f_i \]
-        を区間\([x_{i-1},x_i]\)で積分すると
-        \[ \small{\begin{aligned}
-        \int_{x_{i-1}}^{x_i}\left\{-\frac{x-x_{i}}{\Delta x}f_{i-1} + \frac{x-x_{i-1}}{\Delta x}f_i \right\}\mathrm{d} x &= \left[ -\frac{(x-x_{i})^2}{2\Delta x}f_{i-1} + \frac{(x-x_{i-1})^2}{2\Delta x}f_i\right]_{x_{i-1}}^{x_i} \\
-        &= \frac{\Delta x}{2}\left\{f_{i-1} + f_i\right\}
-        \end{aligned}} \]
-        となります。つまり下図の塗りつぶした部分の面積です。
-        </p>
-        <div align="center"> <img width="400px" src="fig/trapezoidal.png"> </div>
-        </section>
-
-        <section style="font-size:80%">
-        <p>
-        これを\(i=1,2,\cdots,n\)について足し合わせれば良いので
-        \[ \color{yellow}{\int_a^b f(x)\mathrm{d} x \approx \frac{\Delta x}{2}\left\{ f_0 + 2f_1 + 2f_2 + \cdots + 2f_{n-1} + f_n \right\}} \]
-        となります。
-        </p>
-        <p>
-        これは<strong>台形則</strong>と呼ばれるニュートン=コーツの積分公式です。
-        </p>
-        </section>
-
-        <section style="font-size:80%">
-        <h2> シンプソン則 </h2>
-        <p>
-        同様に3点点\((x_{i-2},f_{i-2}), (x_{i-1}, f_{i-1}), (x_i, f_i)\)を通る二次式
-        \[ \tiny{y=\frac{(x-x_{i-1})(x-x_i)}{(x_{i-2}-x_{i-1})(x_{i-2}-x_i)}f_{i-2} + \frac{(x-x_{i-2})(x-x_i)}{(x_{i-1}-x_{i-2})(x_{i-1}-x_i)}f_{i-1}+\frac{(x-x_{i-2})(x-x_{i})}{(x_i-x_{i-2})(x_i-x_{i-1})}f_i} \]
-        を区間\([x_{i-2},x_i]\)で積分すると
-        \[ \int_{x_{i-2}}^{x_i} f(x)\mathrm{d} x \approx \frac{\Delta x}{3}(f_{i-2}+4f_{i-1}+f_i) \]
-        が得られます。\(n\)を偶数として,これを足しあわせた
-        \[ \color{yellow}{\int_a^b f(x)\mathrm{d} x \approx \frac{\Delta x}{3}\left\{ f_0 + 4f_1 + 2f_2 + 4f_3 + 2f_4 + \cdots + 4f_{n-1} + f_n \right\}} \]
-        を<strong>シンプソン則</strong>と言います。
-        </p>
-        <div align="center"> <img width="400px" src="fig/simpson.png"> </div>
-        </section>
-        -->
-
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>

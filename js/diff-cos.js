@@ -1,4 +1,4 @@
-define(["d3", "util", "math"], function (d3, U, M) {
+define(["d3", "util"], function (d3, U) {
     var size = {
                 width: 900, height: 600,
                 top: 0, right: 0, bottom: 0, left: 0
