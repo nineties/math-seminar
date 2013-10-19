@@ -794,7 +794,7 @@ print T[N,N]
         <p>
         この積分は解析的に求める事が出来ないので数値積分を行います。シンプソン法を利用すれば以下のようになり,約\(68.27\)%という事が判ります。
         </p>
-<pre><code class="python" style="max-height:400px">>>> def f(x):
+<pre><code class="python" style="max-height:400px">
 >>> from math import pi, sqrt, exp
 >>> def f(x):
 ...     return 1/(sqrt(2*pi*100))*exp(-(x-50)**2/200)
