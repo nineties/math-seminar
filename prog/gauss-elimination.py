@@ -25,8 +25,8 @@ def backward_substitution(U, b):
     return x
 
 
-A = np.array([[2,3,-1],[4,6,-3],[2,-3,1]], dtype=float)
-b = np.array([5,3,-1], dtype=float)
+A = np.array([[8,4,-3],[6,1,-2],[2,-3,1]], dtype=float)
+b = np.array([7,2,-1], dtype=float)
 
 print "before forward-elimination"
 print A
@@ -37,4 +37,5 @@ print "after forward-elimination"
 print A
 print b
 
+print "the answer"
 print backward_substitution(A, b)
