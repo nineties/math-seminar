@@ -419,7 +419,7 @@
         \end{aligned} \]
         </p>
         <p>
-        最後の例のように\((1,1)\)型行列は一つの数と同一視出来るので,括弧を外して書きます。
+        最後の例のように\((1,1)\)型行列は一つの数と同一視出来るので,括弧を外して書くこともあります。
         </p>
         </section>
 
@@ -683,7 +683,7 @@ print mat_mul(a, b)
         \]
         </p>
         <p>
-        また,正方行列\(A\)が\(A^T = A\)を満たすとき,これを<strong>対称行列</strong>,\(A^T=-A\)を満たすとき<strong>反対称行列</strong>という。
+        また,正方行列\(A\)が\(A^T = A\)を満たすとき,これを<strong>対称行列</strong>,\(A^T=-A\)を満たすとき<strong>交代行列</strong>という。
         </p>
         </div>
         </section>
@@ -765,7 +765,7 @@ print mat_mul(a, b)
 
         <section>
         <p>
-        \(n\)次元列ベクトルは\((n,1)\)型行列,行ベクトルは\((1,n)\)型行列でもあります。行列と全く同じ演算器則が適用されます。
+        \(n\)次元列ベクトルは\((n,1)\)型行列,行ベクトルは\((1,n)\)型行列でもあります。行列と全く同じ演算規則が適用されます。
         </p>
         <p style="margin-top:1em">
         この勉強会では主に実数成分のベクトル(実ベクトル)を考えます。実数成分の\(n\)次元列ベクトルの集合を<strong> \(\mathbb{R}^n\) </strong>と表します。
@@ -932,7 +932,7 @@ print mat_mul(a, b)
         <section>
         <h2> 行列・ベクトルで何を表すのか？ </h2>
         <p>
-        さて,行列・ベクトルの定義と演算を確認しましたが,これらを一体どのように利用するのかイメージが沸かない方もいるでしょう。そこで,いくつか例を紹介します。
+        さて,行列・ベクトルの定義と演算を確認しましたが,これらを一体どのように利用するのかイメージが湧かない方もいるでしょう。そこで,いくつか例を紹介します。
         </p>
         </section>
 
@@ -941,7 +941,7 @@ print mat_mul(a, b)
         <p>
         連立一次方程式
         \[ \left\{\begin{array}{c}
-        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = b_1 \\
         a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
         \vdots \\
         a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
@@ -968,7 +968,7 @@ print mat_mul(a, b)
         <p>
         全く同じ事ですが,連立漸化式
         \[ \left\{\begin{array}{c}
-        x_1(i+1) = a_{11}x_1(i)+a_{12}x_1(i)+\cdots+a_{1n}x_n(i) \\
+        x_1(i+1) = a_{11}x_1(i)+a_{12}x_2(i)+\cdots+a_{1n}x_n(i) \\
         x_2(i+1) = a_{21}x_1(i)+a_{22}x_2(i)+\cdots+a_{2n}x_n(i) \\
         \vdots \\
         x_n(i+1) = a_{n1}x_1(i)+a_{m2}x_2(i)+\cdots+a_{nn}x_n(i)
@@ -1027,8 +1027,7 @@ print mat_mul(a, b)
         \[a_{100} = 354224848179261915075\]
         の計算例です。
         </p>
-<pre><code class="python" style="max-height:400px">
->>> import numpy as np
+<pre><code class="python" style="max-height:400px">>>> import numpy as np
 >>> from numpy import linalg as LA
 >>> A = np.array([[1,1],[1,0]], dtype=object)   # dtype=objectは多倍長整数を使う為
 >>> LA.matrix_power(A, 100)
@@ -1036,7 +1035,8 @@ array([[573147844013817084101, 354224848179261915075],
        [354224848179261915075, 218922995834555169026]], dtype=object)
 </code></pre>
         <p>
-        \(A^n\)はナイーブに実装しても\(\mathcal{O}(n)\),工夫すれば\(\mathcal{O}(\log n)\)(二進累乗算)で計算出来ます。
+        良くある再帰的な定義では指数オーダーの時間が掛かりますが,この方法の場合
+        ナイーブに実装しても\(\mathcal{O}(n)\),工夫すれば\(\mathcal{O}(\log n)\)(二進累乗算)で計算出来ます。
         </p>
         </section>
 
@@ -1054,7 +1054,7 @@ array([[573147844013817084101, 354224848179261915075],
         <p>
         連立一次方程式
         \[ \left\{\begin{array}{c}
-        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = b_1 \\
         a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
         \vdots \\
         a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
@@ -1110,9 +1110,9 @@ array([[573147844013817084101, 354224848179261915075],
         と書き直す事もできます。
         </p>
         <p>
-        すなわち,係数行列を\(A = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\)と分解したとき,連立方程式を
+        すなわち,係数行列を\(A = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\)と分解したとき
         \[ x_1\mathbf{a}_1 + x_2\mathbf{a}_2 + \cdots + x_n\mathbf{a}_n = \mathbf{b} \]
-        と表す事も出来ます。これは線型空間・線型写像の話題の時によく登場する形です。
+        と等価です。これは線型空間・線型写像の話題の時によく登場する形です。
         </p>
         </section>
 
@@ -1120,7 +1120,7 @@ array([[573147844013817084101, 354224848179261915075],
         <p>
         最後に
         \[ \left\{\begin{array}{c}
-        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n = b_1 \\
         a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
         \vdots \\
         a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
@@ -1146,12 +1146,12 @@ array([[573147844013817084101, 354224848179261915075],
         </p>
         <ul>
           <li> 連立一次方程式 </li>
-          <li> \( A\mathbf{x} = \mathbf{b} \) </li>
-          <li> \( x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n=\mathbf{b} \) </li>
-          <li> 拡大係数行列 </li>
+          <li> その行列表現\[ A\mathbf{x} = \mathbf{b} \] </li>
+          <li> その線型結合表現\[ x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n=\mathbf{b} \] </li>
+          <li> 拡大係数行列表現 </li>
         </ul>
         <p>
-        は全て同じ方程式となります。頭の中ですぐに変換出来るようして下さい。
+        は全て同じ方程式となります。頭の中ですぐに変換出来るようしておいて下さい。
         </p>
         </section>
 
@@ -1185,11 +1185,11 @@ array([[573147844013817084101, 354224848179261915075],
         3x + y = 2\\
         \end{array}\right.
         \]
-        です。このように<strong>\(i\)行と\(j\)行を入れ替える</strong>事によって方程式は変化しません。
+        です。このように<strong>2つの行を入れ替える</strong>事は同値変形です。
         </p>
         <p>
-        この操作を
-        \[ P_{ij} \]
+        そこで第\(i\)行と第\(j\)行を入れ替える操作を
+        \[ P_{i,j} \]
         と書くことにしましょう。
         </p>
         </section>
@@ -1207,10 +1207,10 @@ array([[573147844013817084101, 354224848179261915075],
         3x + y = 2\\
         \end{array}\right.
         \]
-        このように<strong>\(i\)行を\(c\neq 0\)倍する</strong>事によっても方程式は変化しません。\(\frac{1}{c}\)で割れば元に戻るからです。
+        このように<strong>行を\(c\neq 0\)倍する</strong>事も同値変形です。\(c\)で割れば元に戻るからです。
         </p>
         <p>
-        この操作を
+        そこで第\(i\)行を\(c\)倍する操作を
         \[ Q_{i,c} \]
         と書くことにしましょう。
         </p>
@@ -1230,10 +1230,10 @@ array([[573147844013817084101, 354224848179261915075],
          - 5y = -1\\
         \end{array}\right.
         \]
-        このように<strong>\(i\)行を\(c\)倍したものを\(j\)行に足す</strong>事によっても方程式は変化しません。\(i\)行を\(-c\)倍したものを\(j\)行に足せば元に戻るからです。
+        このように<strong>ある行を\(c\)倍したものを別の行に足す</strong>事も同値変形となります。\(-c\)倍したものを再び足せば元に戻るからです。
         </p>
         <p>
-        この操作を
+        そこで第\(i\)行を\(c\)倍し,第\(j\)列に足すという操作を
         \[ R_{i,j,c} \]
         と表す事にしましょう。
         </p>
@@ -1243,7 +1243,7 @@ array([[573147844013817084101, 354224848179261915075],
         <p>
         以上の3種類の変形を次々に行うことによって連立一次方程式を(それが唯一の解を持つ場合には)解くことが出来ます。
         </p>
-        <p style="font-size:80%">
+        <p style="font-size:90%">
         \[
         \begin{aligned}
         \left\{\begin{array}{r}
@@ -1282,8 +1282,18 @@ array([[573147844013817084101, 354224848179261915075],
 
         <section>
         <p>
-        以上,行基本変形によって連立方程式を解くことを<strong>掃き出し法</strong>と言います。
-        今後は拡大係数行列を利用して書きますので慣れて下さい。
+        以上,
+        </p>
+        <ul>
+          <li> \(P_{i,j}\): 第\(i\)行と第\(j\)行を入れ替える </li>
+          <li> \(Q_{i,c}\): 第\(i\)行を\(c \neq 0\)倍する </li>
+          <li> \(R_{i,j,c}\): 第\(i\)行を\(c\)倍したものを第\(j\)行に加える </li>
+        </ul>
+        <p>
+        を<strong>行基本変形</strong>と言い,これらを組み合わせる事によって連立一次方程式を解くことが出来ます。
+        </p>
+        今後は拡大係数行列を利用して以下の様に書きます。
+        このような連立方程式の解法は<strong>掃き出し法</strong>と呼ばれます。
         </p>
         <p style="font-size:80%">
         \[
@@ -1325,14 +1335,21 @@ array([[573147844013817084101, 354224848179261915075],
         <section>
         <h2> 連立一次方程式の数値解法 </h2>
         <p>
-        連立一次方程式の解法には大きく分けて
+        さて,連立一次方程式の解法には大きく分けて
         </p>
         <ul>
           <li> 直接法 </li>
           <li> 反復法 </li>
         </ul>
         <p>
-        の２つがあります。今回は直接法のみ紹介します。反復法は,固有値などの知識が必要になるため次回以降に説明します。
+        の２つがあります。
+        </p>
+        <p>
+        直接法は掃き出し法のように,連立方程式の同値変形によって解を求める手法です。一方,反復法は
+        微積分の回にやった様な,反復計算によって真の回に収束させていく方法です。
+        </p>
+        <p>
+        今回は直接法の解説をします。反復法は次回以降に説明します。
         </p>
         </section>
 
@@ -1343,16 +1360,18 @@ array([[573147844013817084101, 354224848179261915075],
         </p>
         <p>
         ガウス消去法は
+        </p>
         <ol>
           <li> 前進消去 </li>
           <li> 後退代入 </li>
         </ol>
+        <p>
         の2ステップからなります。
         </p>
         </section>
 
         <section style="font-size:80%">
-        <h2> 前進代入 </h2>
+        <h2> 前進消去 </h2>
         <p>
         まず,拡大係数行列
         \[
@@ -1390,7 +1409,7 @@ array([[573147844013817084101, 354224848179261915075],
         0     &0      &\cdots&a''_{nn}&:& b''_n \\
         \end{array}\right]
         \]
-        となります。以上の作業を繰り返していけば,係数行列を対角成分より下が全て\(0\)の<strong>上三角行列</strong>
+        となります。この作業を繰り返していけば,係数行列を対角成分より下が全て\(0\)の<strong>上三角行列</strong>
         \[
         \left[\begin{array}{cccccc}
         a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
@@ -1400,7 +1419,7 @@ array([[573147844013817084101, 354224848179261915075],
         0     &0      &  &a^{(n-1)}_{nn}&:& b^{(n-1)}_n \\
         \end{array}\right]
         \]
-        にすることが出来ます。以上のステップを<strong>前進代入</strong>と言います。
+        にすることが出来ます。以上のステップを<strong>前進消去</strong>と言います。
         また,消去に用いる行を<strong>ピボット行</strong>,係数\(a^{(i-1)}_{ii}\)を<strong>ピボット</strong>と言います。
         </p>
         </section>
@@ -1552,17 +1571,20 @@ print backward_substitution(A, b)
         <section>
         <h2> ガウス消去法の計算量 </h2>
         <p>
-        今のプログラムの加減算・乗算・除算の回数をカウントしてみて下さい。
+        今のプログラムの加算・乗算・除算の回数をカウントしてみて下さい。
         </p>
         <p>
-        すると加減算が約\(\frac{n^3}{3}\)回,乗算が約\(\frac{n^3}{3}\)回,除算が約\(2n\)回となります。従って(係数も無視できないのですが)ざっくりと言えば\(\color{yellow}{\mathcal{O}(n^3)}\)のオーダーの計算量という事になります。
+        すると加算が約\(\frac{n^3}{3}\)回,乗算が約\(\frac{n^3}{3}\)回,除算が約\(2n\)回となります。従って(係数も無視できないのですが)ざっくりと言えば\(\color{yellow}{\mathcal{O}(n^3)}\)のオーダーの計算量という事になります。
+        </p>
+        <p>
+        という事で,反復法は変数の数が数百～数千くらいの比較的小さな連立一次方程式の解法に適しています。それ以上のサイズの場合には,後で説明する反復法を利用する事になります。
         </p>
         </section>
 
         <section>
         <h2> ピボット選択 </h2>
         <p>
-        気づいた人もいると思いますが,ガウス消去法においてピボット\(a^{(i-1)}_{ii}\)が\(0\)だと除算が出来ません。また,\(0\)でなくても\(0\)に非常に近い数だと逆数が非常に大きくなりますから,前進代入時の引き算で桁落ちが発生してしまいます。
+        気づいた人もいると思いますが,ガウス消去法においてピボット\(a^{(i-1)}_{ii}\)が\(0\)だと除算が出来ません。また,\(0\)でなくても\(0\)に非常に近い数だと逆数が非常に大きくなりますから,前進消去時に桁落ちが発生してしまいます。
         </p>
         <p>
         そこで
@@ -1584,7 +1606,7 @@ print backward_substitution(A, b)
 import numpy as np
 
 def solve(A, b):
-    # 前進代入
+    # 前進消去
     n = b.size
     p = np.arange(n)    # [0,1,2,...,n-1] 
     for k in xrange(n-1):
@@ -1642,12 +1664,150 @@ print solve(A, b)
         </p>
         <p>
         そこで残差平方和
-        \[ E = \sum_i (w_i - ax_i - by_i - cz_i)^2 \]
+        \[ E = \sum_i (ax_i + by_i + cz_i - w_i)^2 \]
         が最小となる\(a,b,c\)を求めるプログラムを書いて下さい。
         </p>
         </div>
         </section>
 
+        <section style="font-size:80%">
+        <p>
+        \[ \frac{\partial E}{\partial a} = \frac{\partial E}{\partial b} = \frac{\partial E}{\partial c} = 0 \]
+        を解けば良いです。
+        \[ \begin{aligned}
+        \frac{\partial E}{\partial a} &= \sum 2x_i (ax_i + by_i + cz_i - w_i) \\
+                                      &= 2(\sum x_i^2)a + 2(\sum x_iy_i) b + 2(\sum z_ix_i)c - 2\sum x_iw_i
+        \end{aligned} \]
+        であるので,１つ目の方程式は
+        \[ (\sum x_i^2)a + (\sum x_iy_i) b + (\sum z_ix_i)c = \sum x_iw_i \]
+        です。\(b,c\)についても同様にすれば
+        \[
+        \left[\begin{array}{ccccc}
+        \sum x_i^2  & \sum x_iy_i & \sum z_ix_i & : & \sum x_iw_i \\
+        \sum x_iy_i & \sum y_i^2  & \sum y_iz_i & : & \sum y_iw_i \\
+        \sum z_ix_i & \sum y_iz_i & \sum z_i^2  & : & \sum z_iw_i \\
+        \end{array} \right]
+        \]
+        を解けば良いという事になります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        従って,(綺麗なコードではないですが)以下のプログラムで求める事が出来ます。
+        </p>
+        <p>
+        <a href="data/lm-test-data.csv">このデータ</a>を試してみて下さい。これは
+        \[ w=x+2y+3z \]
+        というモデルにノイズを加えたデータとなっています。
+        </p>
+<pre><code class="python" style="max-height:400px">import csv
+import numpy as np
+from numpy import linalg as LA
+
+reader = csv.reader(open("test-data.csv", "rb"), delimiter=",")
+
+sum_x2 = 0.0
+sum_y2 = 0.0
+sum_z2 = 0.0
+sum_xy = 0.0
+sum_yz = 0.0
+sum_zx = 0.0
+sum_xw = 0.0
+sum_yw = 0.0
+sum_zw = 0.0
+
+for x,y,z,w in reader:
+    x = float(x)
+    y = float(y)
+    z = float(z)
+    w = float(w)
+
+    sum_x2 += x*x
+    sum_y2 += y*y
+    sum_z2 += z*z
+    sum_xy += x*y
+    sum_yz += y*z
+    sum_zx += z*x
+    sum_xw += x*w
+    sum_yw += y*w
+    sum_zw += z*w
+
+A = np.array([[sum_x2, sum_xy, sum_zx],
+              [sum_xy, sum_y2, sum_yz],
+              [sum_zx, sum_yz, sum_z2]])
+b = np.array([sum_xw, sum_yw, sum_zw])
+print LA.solve(A, b)    # [a,b,c]
+</code></pre>
+        </section>
+
+        <section style="font-size:80%">
+        ところで,
+        \[
+        \begin{pmatrix}
+        \sum x_i^2  & \sum x_iy_i & \sum z_ix_i \\
+        \sum x_iy_i & \sum y_i^2  & \sum y_iz_i \\
+        \sum z_ix_i & \sum y_iz_i & \sum z_i^2  \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}^T
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}
+        \]
+        \[
+        \begin{pmatrix}
+        \sum x_iw_i \\
+        \sum y_iw_i \\
+        \sum z_iw_i \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}^T
+        \mathbf{w}
+        \]
+        と表されるので,解くべき方程式は
+        \[ 
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}^T
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}
+        \mathbf{a}
+        =
+        \begin{pmatrix}
+        \mathbf{x} & \mathbf{y} & \mathbf{z}
+        \end{pmatrix}^T
+        \mathbf{w}
+        \]
+        とも書けます。この話の一般化は後の回にしますが,こういった式の変形が自在に出来るように良く練習をしておいて下さい。
+        </section>
+
+        <section>
+        <p>
+        今の事実を使って、先ほどのコードを書き直すと以下のようになります。
+        </p>
+<pre><code class="python" style="max-height:400px">import csv
+import csv
+import numpy as np
+from numpy import linalg as LA
+
+reader = csv.reader(open("test-data.csv", "rb"), delimiter=",")
+arr = np.array(list(reader), dtype=float) # (x y z w)
+
+X = arr[...,0:3]    # (x y z)
+w = arr[...,3:4]    # w
+XT = X.T            # (x y z)^T
+
+print LA.solve(np.dot(XT, X), np.dot(XT, w))
+</code></pre>
+        </section>
+
+        <!--
         <section>
         <h2 class="chapter-title"> 行列式 </h2>
         </section>
@@ -1808,6 +1968,14 @@ print solve(A, b)
 
         <section>
         ...
+        </section>
+        -->
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        次回も連立一次方程式の理論を中心に学習していきます。行列式・逆行列・LU分解,固有値・固有ベクトル,連立一次方程式の反復解法,可決定問題・不足決定問題の解法などを扱います。
+        </p>
         </section>
       </div>
     </div>
