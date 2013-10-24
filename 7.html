@@ -1,0 +1,1918 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/ir_black.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: yellow;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal table {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        border: 2px solid lightblue;
+      }
+
+      .reveal pre {
+        font-size: 0.7em;
+      }
+
+      .reveal pre code {
+        max-height: 600px;
+      }
+
+      .reveal .note {
+        font-size: 50%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .answer {
+        color: #111111;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: true,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+    <script>
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第7回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年10月24日
+        </span>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+            <li> サンプルプログラムはPythonで記述しています。 </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 線型代数 </h2>
+        </section>
+
+        <section>
+        <p>
+        本日から<strong>線型代数学</strong>を学んでいきます。微積分学と同様に,理工学の様々な問題に取り組む上で必須の学問です。
+        </p>
+        <p>
+        線型代数は大きく分けて
+        </p>
+        <ul>
+          <li> 行列・行列式と連立一次方程式の理論 </li>
+          <li> 線型空間・線型写像の理論 </li>
+        </ul>
+        <p>
+        からなりますが,まず前者から解説を始めます。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 行列とベクトル </h2>
+        </section>
+
+        <section>
+        <h2> 行列とベクトル </h2>
+        <p>
+        まず,<strong>行列</strong>と<strong>ベクトル</strong>についての基本的な知識をざっと確認します。
+        </p>
+        </section>
+
+        <section>
+        <h2> 行列 </h2>
+        <p>
+        以下のように\(m\times n\)個の数・式を縦横に並べたものを<strong>\((m,n)\)型行列</strong>と言い,アルファベットの大文字を用いて
+        \[ A = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \]
+        と表します。
+        </p>
+        <p>
+        \(a_{ij}\)を\((i,j)\)成分と呼び,
+        \( a_{i1}, a_{i2}, \cdots, a_{in} \)を第\(i\)行,
+        \( a_{1j}, a_{2j}, \cdots, a_{mj} \)を第\(j\)列と呼びます。
+        </p>
+        <p>
+        また\((n,n)\)型行列を<strong>\(n\)次正方行列</strong>と呼び,\((i,i)\)成分を対角成分と呼びます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        また,\((i,j)\)成分が\(a_{ij}\)である\((m,n)\)型行列を
+        \[ (a_{ij})_{m,n} \]
+        や,添字の範囲を明示して
+        \[ (a_{ij})_{1\leq i\leq m, 1\leq i\leq n} \]
+        と書きます。前者の場合,添字は1から始める事にします。
+        </p>
+        <p>
+        例えば
+        \[ \begin{aligned}
+        (i+2j)_{2,3} 
+        &=
+        \begin{pmatrix}
+        1+2\cdot 1 & 1+2\cdot 2 & 1+2\cdot 3 \\ 
+        2+2\cdot 1 & 2+2\cdot 2 & 2+2\cdot 3 \\
+        \end{pmatrix}\\
+        &=
+        \begin{pmatrix}
+        3 & 5 & 7 \\ 
+        4 & 6 & 8
+        \end{pmatrix}
+        \end{aligned}
+        \]
+        という感じです。
+        </p>
+        <p>
+        </p>
+        </section>
+
+        <section>
+        <p>
+        成分が全て\(0\)の行列
+        \[ O = (0)_{m,n} =
+        \begin{pmatrix}
+        0 & 0 & \cdots & 0 \\
+        0 & 0 & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & 0 \\
+        \end{pmatrix}
+        \]
+        を<strong>零行列</strong>と言います。型を明示して\(O_{m,n}\)と書く場合もあります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        対角成分が全て\(1\),それ以外が\(0\)である\(n\)次正方行列を<strong>単位行列</strong>と呼び\(E\)や\(E_n\)と表します。
+        \[ E_n = (\delta_{ij})_{n,n} = 
+        \begin{pmatrix}
+        1 & 0 & \cdots & 0 \\
+        0 & 1 & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & 1 \\
+        \end{pmatrix} \]
+        但し,\(\delta_{ij}\)は<strong>クロネッカーのデルタ</strong>
+        \[\delta_{ij} = \left\{
+        \begin{array}{ll}
+        1 & (i = j) \\
+        0 & (i \neq j)
+        \end{array}
+        \right.\]
+        です。
+        </p>
+        </section>
+
+        <section>
+        <h2> 行列の演算 </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 和・差・定数倍 </h4>
+        <p>
+        型が等しい行列の和・差,行列の定数倍を
+        \[ \begin{aligned}
+        &(a_{ij})_{m,n} \pm (b_{ij})_{m,n} = (a_{ij} \pm b_{ij})_{m,n} \\
+        &k(a_{ij})_{m,n} = (ka_{ij})_{m,n}
+        \end{aligned} \]
+        によって定義する。型が異なる行列の和・差は定義されない。
+        </p>
+        <p style="font-size:70%">
+        \[ \begin{aligned}
+        &\begin{pmatrix}
+        a_{11} &  \cdots & a_{1n} \\
+        \vdots &  \ddots & \vdots \\
+        a_{m1} &  \cdots & a_{mn} \\
+        \end{pmatrix}
+        \pm
+        \begin{pmatrix}
+        b_{11} &  \cdots & b_{1n} \\
+        \vdots &  \ddots & \vdots \\
+        b_{m1} &  \cdots & b_{mn} \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        a_{11} \pm b_{11} & \cdots & a_{1n} \pm b_{1n} \\
+        \vdots & \ddots & \vdots \\
+        a_{m1} \pm b_{m1} & \cdots & a_{mn} \pm b_{mn} \\
+        \end{pmatrix} \\
+
+        &k\begin{pmatrix}
+        a_{11} & \cdots & a_{1n} \\
+        \vdots & \ddots & \vdots \\
+        a_{m1} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        ka_{11} & \cdots & ka_{1n} \\
+        \vdots &  \ddots & \vdots \\
+        ka_{m1} & \cdots & ka_{mn} \\
+        \end{pmatrix}
+        \end{aligned} \]
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 和・差・定数倍の性質 </h4>
+        以下の各演算が定義される場合には
+        \[ \begin{aligned}
+        A + B &= B + A \\
+        (A + B) + C &= A + (B + C) \\
+        k(A + B) &= kA + kB \\
+        (k + l)A &= kA + lA \\
+        (kl)A &= k(lA) \\
+        A + O &= O + A = A \\
+        A - A &= O
+        \end{aligned} \]
+        が成立する。
+        </div>
+        <p>
+        これらの成立は明らかなので証明は省略します。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 行列の積 </h4>
+        <p>
+        \((l,m)\)型行列と\((m,n)\)型行列の積を
+        \[ (a_{ij})_{l,m}(b_{ij})_{m,n} = \left( \sum_{k=1}^m a_{ik}b_{kj} \right)_{l,n} \]
+        によって定義する。これ以外の型の行列の積は定義されない。
+        </p>
+        </div>
+        <div align="center"> <img width="700px" src="fig/matrix-multiplication.png"> </div>
+        </section>
+        <section>
+        <p style="font-size:80%">
+        具体的な行列では,以下のようになります。
+        \[ \begin{aligned}
+        &\begin{pmatrix}
+        a & b \\
+        c & d
+        \end{pmatrix}
+        \begin{pmatrix}
+        e & f \\
+        g & h
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        ae+bg & af+bh \\
+        ce+dg & cf+dh
+        \end{pmatrix}
+        \\
+
+        &\begin{pmatrix}
+        a & b & c\\
+        d & e & f
+        \end{pmatrix}
+        \begin{pmatrix}
+        g \\ h \\ i
+        \end{pmatrix}
+        = 
+        \begin{pmatrix}
+        ag+bh+ci \\
+        dg+eh+fi
+        \end{pmatrix}
+        \\
+
+        &\begin{pmatrix}
+        a & b & c\\
+        \end{pmatrix}
+        \begin{pmatrix}
+        d \\ e \\ f\\
+        \end{pmatrix}
+        =
+        ad+be+cf
+        \end{aligned} \]
+        </p>
+        <p>
+        最後の例のように\((1,1)\)型行列は一つの数と同一視出来るので,括弧を外して書きます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 練習 </h4>
+        <p>
+        好きな言語で行列の和・差・定数倍・積を計算するプログラムを書いて下さい。もしくは,既存ライブラリの使い方を調べて下さい。
+        </p>
+        </div>
+        <p>
+        例えばPythonだとNumPyというライブラリを利用できます。練習として自前で実装すると以下のようなコードとなります。
+        </p>
+<pre><code class="python" style="max-height:400px"># -*- coding: utf-8 -*-
+import numpy as np
+
+def mat_add(a, b):    # 行列の和
+    if a.shape != b.shape:
+        raise ArithmeticError, u"行列の型の不一致"
+    (m,n) = a.shape   # 行列の型
+    r = np.zeros( (m,n) )
+    for i in xrange(m):
+        for j in xrange(n):
+            r[i,j] = a[i,j] + b[i,j]
+    return r
+
+def mat_scale(k, a):  # 行列の定数倍
+    (m,n) = a.shape
+    r = np.zeros( (m,n) )
+    for i in xrange(m):
+        for j in xrange(n):
+            r[i,j] = k * a[i,j]
+    return r
+
+def mat_mul(a, b):    # 行列の積
+    (l, m) = a.shape
+    (m2, n) = b.shape
+    if m != m2:
+        raise ArithmeticError, u"行列の型の不整合"
+
+    c = np.zeros( (l,n) )
+    for i in xrange(l):
+        for j in xrange(n):
+            v = 0
+            for k in xrange(m):
+                v += a[i,k] * b[k,j]
+            c[i,j] = v
+    return c
+
+a = np.array([[1,2,3],[4,5,6]])
+b = np.array([[2,1,4],[5,2,1]])
+
+print mat_add(a, b)
+print mat_scale(2, a)
+
+a = np.array([[1,2,3],[4,5,6]])
+b = np.array([[2,1,4],[5,2,1],[0,1,3]])
+print mat_mul(a, b)
+</code></pre>
+        </section>
+
+        <section>
+        <h2> 行列演算の計算量 </h2>
+        <p>
+        少し話題を変えて,行列演算の計算量について考えて見ましょう。
+        </p>
+        <p>
+        \((m,n)\)型行列の和・差・定数倍はもちろん\(\color{yellow}{\mathcal{O}(mn)}\)です。
+        </p>
+        <p>
+        \((l,m)\)型行列と\((m,n)\)型行列の積
+        \[ (a_{ij})_{l,m}(b_{ij})_{m,n} = \left( \sum_{k=1}^m a_{ik}b_{kj} \right)_{l,n} \]
+        の計算では,\( \sum_{k=1}^m a_{ik}b_{kj} \)の計算に\(m\)回の加算と乗算が必要で,これが\(ln\)要素あるので\(\color{yellow}{\mathcal{O}(lmn)}\)の計算量となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        現実の問題では,数万とか数億といった次元の行列を扱わなければならなくなりますが,
+        例えば倍精度浮動小数点数の百万次正方行列を使う場合
+        </p>
+          <ul>
+            <li> 行列一つあたり,
+            \[ \text{8バイト}\times(\text{百万}\times \text{百万})\text{要素} \approx \text{7.3テラバイト} \]
+            のメモリが必要で </li>
+            <li>
+            行列を二つ掛ける為に
+            \( \text{百万}^3 = \text{百京}\)回の加算・乗算が必要
+            </li>
+          </ul>
+        <p>
+        という事になります。
+        </p>
+        <p>
+        こんな計算を力技で行う事は困難ですので,問題を数学的に良く考察し適切にデータ構造・アルゴリズムを選択する事が重要となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        話題を戻して,行列積の性質を確認していきます。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 行列積の性質 </h4>
+        以下の等式が各演算が定義される場合において成立する。
+        \[ \begin{aligned}
+        A(BC)  &= (AB)C \qquad\text{(結合則)}\\
+        A(B+C) &= AB+AC \qquad\text{(右分配則)}\\
+        (A+B)C &= AC+BC \qquad\text{(左分配則)}\\
+        \end{aligned} \]
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        \( A = (a_{ij})_{m,n}\)という表記を利用して記述する証明に慣れておきましょう。
+        </p>
+        <p>
+        【\(A(BC)=(AB)C\)の証明】<br>
+        \[ \begin{aligned}
+        A(BC) &= (a_{ij})_{s,t}((b_{ij})_{t,u}(c_{ij})_{u,v})= (a_{ij})_{s,t}\left(\sum_{l=1}^ub_{il}c_{lj}\right)_{t,v} \\
+              &= \left(\sum_{k=1}^ta_{ik}\sum_{l=1}^ub_{kl}c_{lj}\right)_{s,v} = \left(\sum_{l=1}^u(\sum_{k=1}^ta_{ik}b_{kl})c_{lj}\right)_{s,v} \\
+              &= \left(\sum_{k=1}^ta_{ik}b_{kj}\right)_{s,u}(c_{ij})_{u,v} = ((a_{ij})_{s,t}(b_{ij})_{t,u})(c_{ij})_{u,v} \\
+              &= (AB)C
+        \end{aligned} \]
+        <span style="float:right">□</span> </p>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        【\(A(B+C)=AB+AC\)の証明】<br>
+        \[ \begin{aligned}
+        A(B+C) &= (a_{ij})_{l,m}(b_{ij}+c_{ij})_{m,n} \\
+               &= \left(\sum_{k=1}^ma_{ik}(b_{kj}+c_{kj})\right)_{m,n}\\
+               &= \left(\sum_{k=1}^ma_{ik}b_{kj}+\sum_{k=1}^ma_{ik}c_{kj}\right)_{m,n}\\
+               &= \left(\sum_{k=1}^ma_{ik}b_{kj}\right)_{m,n}+\left(\sum_{k=1}^ma_{ik}c_{kj}\right)_{m,n}\\
+               &= AB+AC
+        \end{aligned} \]
+        <span style="float:right">□</span> </p>
+        </p>
+        <p>
+        \((A+B)C=AC+BC\)の証明も同様です。
+        </p>
+        </section>
+
+        <section>
+        <h2> 行列の累乗 </h2>
+        <p>
+        正方行列\(A\)を\(n\)個掛ける場合,結合則より掛ける順番は任意なので単純に\(A^n\)と書くことが出来ます。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 正方行列の累乗 </h4>
+        <p> \(A\)を正方行列,\(n\)を自然数とする。<br>
+        \(A\)を\(n\)個掛けたものを
+        \[ A^n = A\cdot A\cdots A \]
+        と書く。また
+        \[ A^0 = E \]
+        と定める。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 単位行列・ゼロ行列との積 </h4>
+        <p>
+        \(A\)を\((m,n)\)型行列とすると
+        \[ \begin{aligned}
+        &O_{l,m}A = O_{l,n},\ AO_{n,l} = O_{m,l} \\
+        &E_m A = A E_n = A
+        \end{aligned} \]
+        が成り立つ。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        【証明】<br>
+        零行列の方は明らかに成立します。単位行列の方は
+        \[ E_m A = \left(\sum_{k=1}^m\delta_{ik}a_{kj}\right)_{m,n} = (a_{ij})_{m,n} = A \quad\text{($\because \delta_{ii}$のみ1,他は0)} \]
+        となります。\(AE_n = A\)も同様です。
+        <span style="float:right">□</span> </p>
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上の性質から解る様に,行列の計算規則は通常の文字式の計算規則と殆ど同じです。但し,以下の二点に関しては注意が必要です。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 積の非可換性 </h4>
+        一般に
+        \[ AB \neq BA \]
+        </div>
+        <p style="font-size:70%">
+        例えば
+        \[
+        \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
+        \begin{pmatrix} 0 & 1 \\ 2 & 1 \end{pmatrix}
+        =
+        \begin{pmatrix} 4 & 3 \\ 8 & 7 \end{pmatrix}
+        ,\qquad
+        \begin{pmatrix} 0 & 1 \\ 2 & 1 \end{pmatrix}
+        \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
+        =
+        \begin{pmatrix} 3 & 4 \\ 5 & 8 \end{pmatrix}
+        \]
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 零因子の存在 </h4>
+        \[ AB = O \ \not\Rightarrow\ A = O\text{または} B = O \]
+        </div>
+        <p style="font-size:70%">
+        例えば
+        \[
+        \begin{pmatrix} -2 & 1 \\ 4 & -2 \end{pmatrix}
+        \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}
+        =
+        \begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}
+        \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        非可換性によって,数式の展開公式は使えなくなります。
+        \[ \begin{aligned}
+        (A+B)^2 &= (A+B)(A+B) \\
+        &= A^2+AB+BA+B^2 \\
+        &\neq A^2+2AB+B^2
+        \end{aligned} \]
+        また,方程式を因数分解によって解くことも出来ません。
+        \[ \begin{aligned}
+        X^2-3X+2E = O\ &\Leftrightarrow\ (X-E)(X-2E) = O\\
+        &\not\Rightarrow\ X = E, 2E
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section>
+        <h2> 行列の転置 </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        行列\(A = (a_{ij})_{m,n}\)に対して,その<strong>転置行列</strong>を
+        \[ A^T = (a_{ji})_{n,m} \]
+        と定義する。
+        </p>
+        <p style="font-size:70%">
+        \[ A = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \Rightarrow
+        A^T = \begin{pmatrix}
+        a_{11} & a_{21} & \cdots & a_{n1} \\
+        a_{12} & a_{22} & \cdots & a_{n2} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{1m} & a_{2m} & \cdots & a_{nm} \\
+        \end{pmatrix}
+        \]
+        </p>
+        <p>
+        また,正方行列\(A\)が\(A^T = A\)を満たすとき,これを<strong>対称行列</strong>,\(A^T=-A\)を満たすとき<strong>反対称行列</strong>という。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 転置行列の性質 </h4>
+        <p>
+        以下の等式が各演算が定義される場合において成立する。
+        \[ \begin{aligned}
+        (A^T)^T &= A \\
+        (A+B)^T &= A^T + B^T \\
+        (kA)^T &= kA^T \\
+        (AB)^T &= B^TA^T \\
+        \end{aligned} \]
+        </p>
+        </div>
+        <p style="font-size:70%">
+        最初の3つは自明だと思います。最後の一つだけ証明しましょう。<br>
+        【\((AB)^T=B^TA^T\)の証明】<br>
+        \(A\)が\((l,m)\)型,\(B\)が\((m,n)\)型のとき
+        \[ 
+        (AB)^T = \left(\sum_{k=1}^m a_{ik}b_{kj}\right)^T_{l,n} =
+        \left(\sum_{k=1}^m a_{jk}b_{ki}\right)_{n,l} = (b_{ji})_{n,m}(a_{ji})_{m,l} = B^TA^T
+        \]
+        <span style="float:right">□</span> </p>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        <p>
+        任意の正方行列\(A\)に対して
+        \[ S = \frac{A+A^T}{2},\ T=\frac{A-A^T}{2} \]
+        とおくと,\(S\)は対称行列,\(T\)は交代行列となる事を証明して下さい。
+        </p>
+        <p>
+        すると\(A = S + T\)が成立するので,任意の正方行列は対称行列と交代行列の和で表せる事が判ります。
+        </p>
+        <p>
+        以下の行列を対称行列と交代行列に分解して下さい。
+        \[
+        \begin{pmatrix}
+        1 & 5 & 2 \\
+        2 & 1 & 3 \\
+        4 & 2 & 1
+        \end{pmatrix}
+        \]
+        </p>
+        </div>
+        <p class="fragment" style="font-size:70%">
+        【答え】<br>
+        \[
+        \begin{pmatrix} 1 & 5 & 2 \\ 2 & 1 & 3 \\ 4 & 2 & 1 \end{pmatrix}
+        =
+        \begin{pmatrix} 1 & \frac72 & 3 \\ \frac72 & 1 & \frac52 \\ 3 & \frac52 & 1 \end{pmatrix}
+        +
+        \begin{pmatrix} 0 & \frac32 & -1 \\ -\frac32 & 0 & \frac12 \\ 1 & -\frac12 & 0 \end{pmatrix}
+        \]
+        </p>
+        </section>
+
+        <section>
+        <h2> ベクトル </h2>
+        <p>
+        数や式を\(n\)個を縦に並べたものを<strong>\(n\)次元列ベクトル</strong>と言い,ボールド体を用いて
+        \[ \mathbf{x} = \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix} \]
+        と表します。また全ての成分が\(0\)の列ベクトルを<strong>零ベクトル</strong>と言い0と表します。
+        </p>
+        <p>
+        同様に\(n\)個を横に並べたものを<strong>\(n\)次元行ベクトル</strong>と言い,
+        \[ \mathbf{x}^T = \begin{pmatrix} x_1 & \cdots & x_n \end{pmatrix} \]
+        などと表します。
+        </p>
+        <p>\(x_i\)をこれらベクトルの第\(i\)成分と呼びます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        \(n\)次元列ベクトルは\((n,1)\)型行列,行ベクトルは\((1,n)\)型行列でもあります。行列と全く同じ演算器則が適用されます。
+        </p>
+        <p style="margin-top:1em">
+        この勉強会では主に実数成分のベクトル(実ベクトル)を考えます。実数成分の\(n\)次元列ベクトルの集合を<strong> \(\mathbb{R}^n\) </strong>と表します。
+        </p>
+        <p style="margin-top:1em">
+        列ベクトルと行ベクトルは常に区別されますので注意して下さい。
+        今後,単に「ベクトル」と言った場合,それは列ベクトルの事であるとします。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> ベクトルの内積・ノルム </h4>
+        <p>
+        \(n\)次元ベクトル\(\mathbf{x}, \mathbf{y}\)に対して
+        \[ (\mathbf{x}, \mathbf{y}) = x_1y_1 + x_2y_2 + \cdots + x_ny_n \]
+        を<strong>内積</strong>と言う。
+        </p>
+        <p>
+        また,実ベクトル\( \mathbf{x} = (x_1,\cdots,x_n)^T \)に対して
+        \[ ||\mathbf{x}||=\sqrt{x_1^2 + \cdots + x_n^2} \]
+        をベクトルの<strong>ノルム</strong>(ユークリドッドノルム)と言う。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        【注】 ベクトルの内積・ノルムという概念は実際にはその性質によって抽象的に定義され,上の定義以外にも様々な内積・ノルムが存在します。しかし,よく使われる上の定義だけをここでは考える事にします。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        ベクトルの内積・ノルムは,行列の記法を利用すれば
+        \[ \begin{aligned}
+        (\mathbf{x}, \mathbf{y}) &=
+        \begin{pmatrix}x_1&\cdots&x_n\end{pmatrix}
+        \begin{pmatrix}y_1\\ \vdots \\ y_n\end{pmatrix}
+        =
+        \color{yellow}{\mathbf{x}^T\mathbf{y}} \\
+        ||\mathbf{x}||^2 &= (\mathbf{x},\mathbf{x}) = \color{yellow}{\mathbf{x}^T\mathbf{x}}
+        \end{aligned} \]
+        と記述する事が出来ます。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        \(n\)次元ベクトル\(\mathbf{x}, \mathbf{y}\)と,\(n\)次正方行列\(A\)について
+        \[ (A\mathbf{x}, \mathbf{y}) = (\mathbf{x}, A^T\mathbf{y}) \]
+        である事を示して下さい。
+        </div>
+        <p class="fragment" style="font-size:70%">
+        【証明】
+        \[ (A\mathbf{x}, \mathbf{y}) = (A\mathbf{x})^T\mathbf{y} = \mathbf{x}^TA^T\mathbf{y}=(\mathbf{x}, A^T\mathbf{y}) \]
+        <span style="float:right">□</span> </p>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> コーシー・シュワルツの不等式 </h4>
+        <p>
+        \(n\)次元実ベクトル\(\mathbf{x},\mathbf{y}\)に対して
+        \[ ||\mathbf{x}||^2||\mathbf{y}||^2 \geq (\mathbf{x},\mathbf{y})^2 \]
+        が成立する。等号はある実数\(t\)が存在して\(\mathbf{y}=t\mathbf{x}\)となる時に成立する。
+        </p>
+        <p>
+        </p>
+        </div>
+        <p style="font-size:70%">
+        【証明】<br>
+        \[ (tx_i-y_i)^2 = x_i^2t^2-2x_iy_it+y_i^2\geq 0 \]
+        を\(i = 1,\cdots,n\)について加えて
+        \[ (x_1^2+\cdots+x_n^2)t^2-2(x_1y_1+\cdots+x_ny_n)t+(y_1^2+\cdots+y_n^2)\geq 0 \]
+        が任意の実数\(t\)について成立する。従って左辺の判別式を考えて
+        \[ D\leq 0\ \Leftrightarrow\ (x_1y_1+\cdots+x_ny_n)^2-(x_1^2+\cdots+x_n^2)(y_1^2+\cdots+y_n^2)\leq 0 \]
+        である。
+        <span style="float:right">□</span> </p>
+        </p> 
+        </section>
+
+
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 内積・ノルムの性質 </h4>
+        <p>
+        内積に関して
+        \[ \begin{aligned}
+        (\mathbf{x}, \mathbf{y}) &= (\mathbf{y}, \mathbf{x}) \\
+        (k\mathbf{x}, \mathbf{y}) &= k(\mathbf{x}, \mathbf{y})\\
+        (\mathbf{x}+\mathbf{y}, \mathbf{z}) &= (\mathbf{x},\mathbf{z}) + (\mathbf{y},\mathbf{z})
+        \end{aligned} \]
+        が成立する。
+        </p>
+        <p>
+        また,ノルムに関して
+        \[ \begin{aligned}
+        &||k\mathbf{x}|| = |k|\,||\mathbf{x}|| \\
+        &||\mathbf{x}+\mathbf{y}||\leq ||\mathbf{x}||+||\mathbf{y}|| \quad\text{(三角不等式)}
+        \end{aligned} \]
+        が成立する。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p style="font-size:80%">
+        【三角不等式の証明】<br>
+        \[ \begin{aligned}
+        ||\mathbf{x}+\mathbf{y}||^2 &= (x_1+y_1)^2 + \cdots + (x_n+y_n)^2 \\
+                                    &= x_1^2+\cdots+x_n^2 + y_1^2 + \cdots + y_n^2 + 2(x_1y_1 + \cdots + x_ny_n) \\
+                                    &= ||\mathbf{x}||^2 + ||\mathbf{y}||^2 + 2(\mathbf{x},\mathbf{y}) \\
+                                    &\leq ||\mathbf{x}||^2+||\mathbf{y}||^2 + 2||\mathbf{x}|| ||\mathbf{y}|| \qquad\text{(コーシー・シュワルツの不等式)}\\
+                                    &= (||\mathbf{x}|| + ||\mathbf{y}||)^2
+        \end{aligned}
+        \]
+        <span style="float:right">□</span> 
+        </p>
+        <p>
+        その他の性質の証明は省略します。
+        </p>
+        </section>
+
+        <section>
+        <h2> 小行列への分解 </h2>
+        <p>
+        \[
+        \begin{pmatrix} a & b & c \\ d & e & f \\ g & h & i \end{pmatrix}
+        =
+        \begin{pmatrix}
+        A & B \\ C & D
+        \end{pmatrix}
+        \]
+        \[
+        A = \begin{pmatrix} a & b \\ d & e \end{pmatrix},
+        B = \begin{pmatrix} c \\ f \end{pmatrix},
+        C = \begin{pmatrix} g & h \end{pmatrix},
+        D = (i)
+        \]
+        の様に行列を<strong>小行列</strong>へ分解する操作もよく行われます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        行列\(X,Y\)を小行列\(A,B,C,D,E,F,G,H\)へ分解したとき,以下の各演算が定義されるならば
+        \[ \begin{aligned}
+        XY &= \begin{pmatrix} A & B \\ C & D \end{pmatrix}
+        \begin{pmatrix} E & F \\ G & H \end{pmatrix} \\
+        &= \begin{pmatrix}
+        AE+BG & AF+BH \\ CE+DG & CF+DH 
+        \end{pmatrix} 
+        \end{aligned} \]
+        が成立します。これの成立も明らかでしょう。
+        </p>
+        <p>
+        例えば,行列\(A\)を各列ベクトルに分解して
+        \[ BA = B(\mathbf{a_1}, \cdots, \mathbf{a_n}) = (B\mathbf{a_1},\cdots,B\mathbf{a_n}) \]
+        と書くといった事が良く行われます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 行列・ベクトルで何を表すのか？ </h2>
+        <p>
+        さて,行列・ベクトルの定義と演算を確認しましたが,これらを一体どのように利用するのかイメージが沸かない方もいるでしょう。そこで,いくつか例を紹介します。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 連立一次方程式 </h2>
+        <p>
+        連立一次方程式
+        \[ \left\{\begin{array}{c}
+        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
+        \vdots \\
+        a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
+        \end{array}\right.
+        \]
+        は
+        \[
+        \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+        =
+        \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{pmatrix}
+        \]
+        と表す事が出来ます。多くの問題が連立一次方程式を解く事に帰着します。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 連立一次漸化式 </h2>
+        <p>
+        全く同じ事ですが,連立漸化式
+        \[ \left\{\begin{array}{c}
+        x_1(i+1) = a_{11}x_1(i)+a_{12}x_1(i)+\cdots+a_{1n}x_n(i) \\
+        x_2(i+1) = a_{21}x_1(i)+a_{22}x_2(i)+\cdots+a_{2n}x_n(i) \\
+        \vdots \\
+        x_n(i+1) = a_{n1}x_1(i)+a_{m2}x_2(i)+\cdots+a_{nn}x_n(i)
+        \end{array}\right.
+        \]
+        も
+        \[
+        \begin{pmatrix} x_1(i+1) \\ x_2(i+1) \\ \vdots \\ x_n(i+1) \end{pmatrix}
+        =
+        \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \cdots & a_{nn} \\
+        \end{pmatrix}
+        \begin{pmatrix} x_1(i) \\ x_2(i) \\ \vdots \\ x_n(i) \end{pmatrix}
+        \]
+        と表されます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        漸化式が
+        \[ \mathbf{x}_{i+1} = A\mathbf{x}_i \]
+        と表される場合,
+        \[ \mathbf{x}_i = A\mathbf{x}_{i-1} = AA\mathbf{x}_{i-2} = \cdots = A^i\mathbf{x}_0 \]
+        となりますから,一般項を求める事が行列の累乗を計算する事に帰着します。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p>
+        フィボナッチ数列\(a_{n+2}=a_{n+1}+a_n,\ a_1=1,\ a_0=0\)の一般項を行列の累乗計算に帰着して解いてみましょう。
+        </p>
+        </div>
+        <p>
+        フィボナッチ数列の漸化式は
+        \[ \begin{pmatrix}a_{n+2} \\ a_{n+1} \end{pmatrix} =
+        \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}
+        \begin{pmatrix} a_{n+1} \\ a_n \end{pmatrix} \]
+        と表されるので
+        \[ \begin{pmatrix} a_{n+1} \\ a_n \end{pmatrix} =
+        \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^n
+        \begin{pmatrix} 1 \\ 0 \end{pmatrix} \]
+        となります。つまり
+        \[ \begin{pmatrix} 1 & 1 \\ 1 & 0 \end{pmatrix}^n \]
+        の\((2,1)\)成分が\(a_n\)となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        \[a_{100} = 354224848179261915075\]
+        の計算例です。
+        </p>
+<pre><code class="python" style="max-height:400px">
+>>> import numpy as np
+>>> from numpy import linalg as LA
+>>> A = np.array([[1,1],[1,0]], dtype=object)   # dtype=objectは多倍長整数を使う為
+>>> LA.matrix_power(A, 100)
+array([[573147844013817084101, 354224848179261915075],
+       [354224848179261915075, 218922995834555169026]], dtype=object)
+</code></pre>
+        <p>
+        \(A^n\)はナイーブに実装しても\(\mathcal{O}(n)\),工夫すれば\(\mathcal{O}(\log n)\)(二進累乗算)で計算出来ます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        その他。勉強会中に説明し,後で追記します。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 連立一次方程式 </h2>
+        </section>
+
+        <section>
+        <p>
+        連立一次方程式
+        \[ \left\{\begin{array}{c}
+        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
+        \vdots \\
+        a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
+        \end{array}\right.
+        \]
+        の理論を説明します。
+        </p>
+        </section>
+
+        <section>
+        <h2> 連立方程式の様々な表現 </h2>
+        <p>
+        まず,先ほどの連立方程式と等価な表現を覚えて下さい。まず,
+        \[
+        \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+        =
+        \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_m \end{pmatrix}
+        \]
+        すなわち,
+        \[ A\mathbf{x} = \mathbf{b} \]
+        という表現があります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        一般に
+        \[ AX = B \]
+        という方程式は,
+        \[ A(\mathbf{x}_1,\cdots,\mathbf{x}_n)=(\mathbf{b}_1,\cdots,\mathbf{b}_n)\]
+        すなわち
+        \[ A\mathbf{x}_1=\mathbf{b}_1,\cdots,A\mathbf{x}_n=\mathbf{b}_n\]
+        と分解出来るので,係数行列\(A\)が同一の連立一次方程式の組と等価です。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        また,元の連立一次方程式を
+        \[
+        x_1\begin{pmatrix} a_{11} \\ \vdots \\ a_{m1} \end{pmatrix} +
+        x_2\begin{pmatrix} a_{12} \\ \vdots \\ a_{m2} \end{pmatrix} +
+        \cdots
+        x_n\begin{pmatrix} a_{1n} \\ \vdots \\ a_{mn} \end{pmatrix} =
+        \begin{pmatrix} b_1 \\ \vdots \\ b_n \end{pmatrix}
+        \]
+        と書き直す事もできます。
+        </p>
+        <p>
+        すなわち,係数行列を\(A = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\)と分解したとき,連立方程式を
+        \[ x_1\mathbf{a}_1 + x_2\mathbf{a}_2 + \cdots + x_n\mathbf{a}_n = \mathbf{b} \]
+        と表す事も出来ます。これは線型空間・線型写像の話題の時によく登場する形です。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        最後に
+        \[ \left\{\begin{array}{c}
+        a_{11}x_1+a_{12}x_1+\cdots+a_{1n}x_n = b_1 \\
+        a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n = b_2 \\
+        \vdots \\
+        a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n = b_m
+        \end{array}\right.
+        \]
+        を
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        a_{21}&a_{22}&\cdots&a_{2n}&:& b_2 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        a_{m1}&a_{m2}&\cdots&a_{mn}&:& b_m \\
+        \end{array}\right]
+        \]
+        と表す方法を良く利用します。これを<strong>拡大係数行列</strong>と言います。
+        </p>
+        </section>
+
+        <section>
+        <h2> 連立一次方程式の表現まとめ </h2>
+        <p>
+        以上,
+        </p>
+        <ul>
+          <li> 連立一次方程式 </li>
+          <li> \( A\mathbf{x} = \mathbf{b} \) </li>
+          <li> \( x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n=\mathbf{b} \) </li>
+          <li> 拡大係数行列 </li>
+        </ul>
+        <p>
+        は全て同じ方程式となります。頭の中ですぐに変換出来るようして下さい。
+        </p>
+        </section>
+
+        <section>
+        <h2> 行基本変形 </h2>
+        <p>
+        連立一次方程式を解くには,それを同値変形して\(x_1 = \alpha_1, \cdots, x_n = \alpha_n\)という連立方程式に直せば良いわけですが,
+        <strong>行基本変形</strong>と呼ばれる変形で,これを実行する事が出来ます。
+        </p>
+        <p>
+        具体例として
+        \[\left\{\begin{array}{c}
+        3x + y = 2\\
+        2x + 4y = 2\\
+        \end{array}\right.
+        \]
+        を考えましょう。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        まず,明らかに
+        \[\left\{\begin{array}{c}
+        3x + y = 2\\
+        2x + 4y = 2\\
+        \end{array}\right.
+        \ \Leftrightarrow\ 
+        \left\{\begin{array}{c}
+        2x + 4y = 2\\
+        3x + y = 2\\
+        \end{array}\right.
+        \]
+        です。このように<strong>\(i\)行と\(j\)行を入れ替える</strong>事によって方程式は変化しません。
+        </p>
+        <p>
+        この操作を
+        \[ P_{ij} \]
+        と書くことにしましょう。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        次に,1行目を\(\frac12\)倍しましょう。
+        \[\left\{\begin{array}{r}
+        2x + 4y = 2\\
+        3x + y = 2\\
+        \end{array}\right.
+        \ \Leftrightarrow\ 
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+        3x + y = 2\\
+        \end{array}\right.
+        \]
+        このように<strong>\(i\)行を\(c\neq 0\)倍する</strong>事によっても方程式は変化しません。\(\frac{1}{c}\)で割れば元に戻るからです。
+        </p>
+        <p>
+        この操作を
+        \[ Q_{i,c} \]
+        と書くことにしましょう。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        次に,1行目の\(-3\)倍を２行目に足しましょう。
+        \[
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+        3x + y = 2\\
+        \end{array}\right.
+        \ \Leftrightarrow\ 
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+         - 5y = -1\\
+        \end{array}\right.
+        \]
+        このように<strong>\(i\)行を\(c\)倍したものを\(j\)行に足す</strong>事によっても方程式は変化しません。\(i\)行を\(-c\)倍したものを\(j\)行に足せば元に戻るからです。
+        </p>
+        <p>
+        この操作を
+        \[ R_{i,j,c} \]
+        と表す事にしましょう。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上の3種類の変形を次々に行うことによって連立一次方程式を(それが唯一の解を持つ場合には)解くことが出来ます。
+        </p>
+        <p style="font-size:80%">
+        \[
+        \begin{aligned}
+        \left\{\begin{array}{r}
+        3x + y = 2\\
+        2x + 4y = 2\\
+        \end{array}\right.
+        &\xrightarrow{P_{1,2}}
+        \left\{\begin{array}{r}
+        2x + 4y = 2\\
+        3x + y = 2\\
+        \end{array}\right. 
+        \xrightarrow{Q_{1,\frac{1}{2}}}
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+        3x + y = 2\\
+        \end{array}\right. \\
+        &\xrightarrow{R_{1,2,-3}}
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+         -5y = -1\\
+        \end{array}\right. 
+        \xrightarrow{Q_{2,-\frac{1}{5}}}
+        \left\{\begin{array}{r}
+        x + 2y = 1\\
+         y = \frac15\\
+        \end{array}\right. \\
+        &\xrightarrow{R_{2,1,-2}}
+        \left\{\begin{array}{r}
+        x = \frac{3}{5}\\
+         y = \frac15\\
+        \end{array}\right. 
+        \end{aligned}
+        \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上,行基本変形によって連立方程式を解くことを<strong>掃き出し法</strong>と言います。
+        今後は拡大係数行列を利用して書きますので慣れて下さい。
+        </p>
+        <p style="font-size:80%">
+        \[
+        \begin{aligned}
+        \left[\begin{array}{cccc}
+        3& 1 & : &2\\
+        2& 4 & : &2\\
+        \end{array}\right]
+        &\xrightarrow{P_{1,2}}
+        \left[\begin{array}{cccc}
+        2& 4 & : &2\\
+        3& 1 & : &2\\
+        \end{array}\right] 
+        \xrightarrow{Q_{1,\frac{1}{2}}}
+        \left[\begin{array}{cccc}
+        1&  2 & : &1\\
+        3&  1 & : &2\\
+        \end{array}\right] \\
+        &\xrightarrow{R_{1,2,-3}}
+        \left[\begin{array}{cccc}
+        1& 2 & : &1\\
+        0&-5 & : &-1\\
+        \end{array}\right] 
+        \xrightarrow{Q_{2,-\frac{1}{5}}}
+        \left[\begin{array}{cccc}
+        1& 2 & : &1\\
+        0& 1 & : &\frac15\\
+        \end{array}\right] \\
+        &\xrightarrow{R_{2,1,-2}}
+        \left[\begin{array}{cccc}
+        1& 0 & : &\frac{3}{5}\\
+        0& 1 & : &\frac15\\
+        \end{array}\right] 
+        \end{aligned}
+        \]
+        </p>
+        </section>
+
+        <section>
+        <h2> 連立一次方程式の数値解法 </h2>
+        <p>
+        連立一次方程式の解法には大きく分けて
+        </p>
+        <ul>
+          <li> 直接法 </li>
+          <li> 反復法 </li>
+        </ul>
+        <p>
+        の２つがあります。今回は直接法のみ紹介します。反復法は,固有値などの知識が必要になるため次回以降に説明します。
+        </p>
+        </section>
+
+        <section>
+        <h2> 直接法:ガウス消去法 </h2>
+        <p>
+        直接法の全てのアルゴリズムの基本となるガウス消去法を紹介します。
+        </p>
+        <p>
+        ガウス消去法は
+        <ol>
+          <li> 前進消去 </li>
+          <li> 後退代入 </li>
+        </ol>
+        の2ステップからなります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 前進代入 </h2>
+        <p>
+        まず,拡大係数行列
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        a_{21}&a_{22}&\cdots&a_{2n}&:& b_2 \\
+        a_{31}&a_{32}&\cdots&a_{3n}&:& b_3 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        a_{n1}&a_{n2}&\cdots&a_{nn}&:& b_n \\
+        \end{array}\right]
+        \]
+        の第1行を\(\frac{a_{i1}}{a_{11}}\)倍して,\(i=2,3,\cdots,n\)行から引けば
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        0     &a'_{22}&\cdots&a'_{2n}&:& b'_2 \\
+        0     &a'_{32}&\cdots&a'_{3n}&:& b'_3 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        0     &a'_{n2}&\cdots&a'_{nn}&:& b'_n \\
+        \end{array}\right]
+        \]
+        となり,第1列目の\(a_{11}\)以外を\(0\)にする事が出来ます。
+        </p>
+        </section>
+
+        <section style="font-size:75%">
+        <p>
+        次は第２行を\(\frac{a'_{i2}}{a'_{22}}\)倍して,\(i=3,4,\cdots,n\)行から引けば,
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        0     &a'_{22}&\cdots&a'_{2n}&:& b'_2 \\
+        0     &0      &\cdots&a''_{3n}&:& b''_3 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        0     &0      &\cdots&a''_{nn}&:& b''_n \\
+        \end{array}\right]
+        \]
+        となります。以上の作業を繰り返していけば,係数行列を対角成分より下が全て\(0\)の<strong>上三角行列</strong>
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        0     &a'_{22}&\cdots&a'_{2n}&:& b'_2 \\
+        0     &0      &\cdots&a''_{3n}&:& b''_3 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        0     &0      &  &a^{(n-1)}_{nn}&:& b^{(n-1)}_n \\
+        \end{array}\right]
+        \]
+        にすることが出来ます。以上のステップを<strong>前進代入</strong>と言います。
+        また,消去に用いる行を<strong>ピボット行</strong>,係数\(a^{(i-1)}_{ii}\)を<strong>ピボット</strong>と言います。
+        </p>
+        </section>
+
+        <section style="font-size:90%">
+        <p>
+        実装例は以下のようになります。
+        </p>
+<pre><code class="python" style="max-height:550px">import numpy as np
+
+def forward_elimination(A, b):
+    # A,bの型チェックは省略
+    n = b.size
+    for k in xrange(n-1):
+        pivot = A[k,k]
+
+        for i in xrange(k+1, n):
+            l = A[i, k]/pivot
+
+            for j in xrange(k+1):
+                A[i, j] = 0
+
+            for j in xrange(k+1, n):
+                A[i, j] -= l * A[k, j]
+            b[i] -= l * b[k]
+
+A = np.array([[2,3,-1],[4,4,-3],[2,-3,1]], dtype=float)
+b = np.array([5,3,-1], dtype=float)
+
+print "before forward-elimination"
+print A
+print b
+
+forward_elimination(A, b)
+print "after forward-elimination"
+print A
+print b
+</code></pre>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 後退代入 </h2>
+        <p>
+        前進消去の結果
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1n}&:& b_1 \\
+        0     &a'_{22}&\cdots&a'_{2n}&:& b'_2 \\
+        0     &0      &\cdots&a''_{3n}&:& b''_3 \\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        0     &0      &  &a^{(n-1)}_{nn}&:& b^{(n-1)}_n \\
+        \end{array}\right]
+        \]
+        から,まず
+        \[ x_n = \frac{b^{(n-1)}_n}{a^{(n-1)}_{nn}} \]
+        が得られます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        これを元の連立方程式に代入すれば
+        \[
+        \left[\begin{array}{cccccc}
+        a_{11}&a_{12}&\cdots&a_{1,n-1}&:& b_1 -a_{1n}x_n\\
+        0     &a'_{22}&\cdots&a'_{2,n-1}&:& b'_2 -a'_{2n}x_n\\
+        0     &0      &\cdots&a''_{3,n-1}&:& b''_3 - a''_{3n}x_n\\
+        \vdots&\vdots&\ddots&\vdots&:&\vdots\\
+        0     &0      &  &a^{(n-2)}_{n-1,n-1}&:& b^{(n-1)}_n - a^{(n-2)}_{n-1,n}x_n\\
+        \end{array}\right]
+        \]
+        となって,\(n-1\)元のやはり係数行列が上三角な方程式になります。
+        </p>
+        <p>
+        従って,以上の作業を再帰的に繰り返せば,
+        \[ x_n, x_{n-1}, \cdots, x_1 \]
+        が順番に求まります。これを<strong>後退代入</strong>と言います。
+        </p>
+        </section>
+
+        <section style="font-size:90%">
+        <p>
+        実装例は以下のようになります。
+        </p>
+<pre><code class="python" style="max-height:550px">import numpy as np
+
+def forward_elimination(A, b):
+    # A,bの型チェックは省略
+    n = b.size
+    for k in xrange(n-1):
+        pivot = A[k,k]
+
+        for i in xrange(k+1, n):
+            l = A[i, k]/pivot
+
+            for j in xrange(k+1):
+                A[i, j] = 0   # この行は無くしても良い。
+
+            for j in xrange(k+1, n):
+                A[i, j] -= l * A[k, j]
+            b[i] -= l * b[k]
+
+def backward_substitution(U, b):
+    # U,bの型チェックは省略
+    n = b.size
+    x = np.zeros(n)
+    for i in reversed(xrange(n)):
+        x[i] = b[i]/U[i, i]
+        for j in xrange(i):
+            b[j] -= A[j,i]*x[i]
+    return x
+
+
+A = np.array([[2,3,-1],[4,4,-3],[2,-3,1]], dtype=float)
+b = np.array([5,3,-1], dtype=float)
+
+print "before forward-elimination"
+print A
+print b
+
+forward_elimination(A, b)
+print "after forward-elimination"
+print A
+print b
+
+print backward_substitution(A, b)
+</code></pre>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        <p>
+        好きな言語でガウス消去法を実装する,もしくは既存のライブラリを調べて,以下の連立一次方程式を解いて下さい。
+        \[ \left\{\begin{array}{c}
+        x + 2y + 3z = 1 \\
+        -x + 3y + 2z = 2\\
+        2x + y + 2z = 3\\
+        \end{array}\right.
+        \]
+        </p>
+        </div>
+        <p class="fragment">
+        【答え】<br>
+        \[ (x,y,z) = (2.6,  3.4, -2.8) \]
+        </p>
+        </section>
+
+        <section>
+        <h2> ガウス消去法の計算量 </h2>
+        <p>
+        今のプログラムの加減算・乗算・除算の回数をカウントしてみて下さい。
+        </p>
+        <p>
+        すると加減算が約\(\frac{n^3}{3}\)回,乗算が約\(\frac{n^3}{3}\)回,除算が約\(2n\)回となります。従って(係数も無視できないのですが)ざっくりと言えば\(\color{yellow}{\mathcal{O}(n^3)}\)のオーダーの計算量という事になります。
+        </p>
+        </section>
+
+        <section>
+        <h2> ピボット選択 </h2>
+        <p>
+        気づいた人もいると思いますが,ガウス消去法においてピボット\(a^{(i-1)}_{ii}\)が\(0\)だと除算が出来ません。また,\(0\)でなくても\(0\)に非常に近い数だと逆数が非常に大きくなりますから,前進代入時の引き算で桁落ちが発生してしまいます。
+        </p>
+        <p>
+        そこで
+        </p>
+        <ul>
+          <li> ピボットの絶対値が大きい行とピボット行を交換する(<strong>部分ピボット選択</strong>) </li>
+          <li> ピボットが小さすぎる時はエラーにする </li>
+        </ul>
+        <p>
+        といった処理が必要になります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以下が実装例です。
+        </p>
+<pre><code class="python" style="max-height:550px"># -*- coding: utf-8 -*-
+import numpy as np
+
+def solve(A, b):
+    # 前進代入
+    n = b.size
+    p = np.arange(n)    # [0,1,2,...,n-1] 
+    for k in xrange(n-1):
+
+        # ピボット選択
+        pivot_idx = p[k]
+        pivot_max = 0
+        for i in xrange(k, n):
+            v = abs(A[p[i], k])
+            if v > pivot_max:
+                pivot_max = v
+                pivot_idx = i
+
+        if pivot_max < 1e-10:
+            raise ArithmeticError, u'ピボットが小さすぎ'
+
+        # ピボット行の交換
+        if p[k] != pivot_idx:
+            p[k], p[pivot_idx] = p[pivot_idx], p[k]
+
+        pivot = A[p[k],k]
+        for i in xrange(k+1, n):
+            l = A[p[i], k]/pivot
+
+            for j in xrange(k+1, n):
+                A[p[i], j] -= l * A[p[k], j]
+            b[p[i]] -= l * b[p[k]]
+
+    # 後退代入
+    x = np.zeros(n)
+    for i in reversed(xrange(n)):
+        x[i] = b[p[i]]/A[p[i], i]
+        for j in xrange(i):
+            b[p[j]] -= A[p[j],i]*x[i]
+    return x
+
+
+A = np.array([[2,3,-1],[4,4,-3],[2,-3,1]], dtype=float)
+b = np.array([5,3,-1], dtype=float)
+
+print solve(A, b)
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        簡単な応用として,以前もやった最小二乗法を取り上げましょう。
+        </p>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        <p>
+        データ列\((x_1,y_1,z_1,w_1),\cdots,(x_n,y_n,z_n,w_n)\)があるとき,\(w\)を\(x,y,z\)を用いて
+        \[ w = ax + by + cz \]
+        というモデルで説明したいとしましょう。
+        </p>
+        <p>
+        そこで残差平方和
+        \[ E = \sum_i (w_i - ax_i - by_i - cz_i)^2 \]
+        が最小となる\(a,b,c\)を求めるプログラムを書いて下さい。
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 行列式 </h2>
+        </section>
+
+        <section>
+        <h2> 連立一次方程式の可解性 </h2>
+        <p>
+        係数が正方行列の場合(未知数の数=方程式の数)に限定しても,連立一次方程式はいつでも唯一の解を持つわけではありません。例えば
+        \[ \left\{\begin{array}{c}
+        x + y = 1 \\
+        2x + 2y = 2
+        \end{array}\right.
+        \]
+        は無数の解を持ちますし,
+        \[ \left\{\begin{array}{c}
+        x + y = 1 \\
+        2x + 2y = 3
+        \end{array}\right.
+        \]
+        は解を持ちません。
+        </p>
+        <p>
+        どのような時に,連立一次方程式が解を持つのかを知る方法は重要です。
+        </p>
+        <p>
+        本日は,その準備として<strong>行列式</strong>というものの紹介だけします。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 行列式 </h4>
+        <p>
+        正方行列\(A\)に,スカラー値\(\det A\)を対応させる関数\(\det\)が,
+        \[ \begin{aligned}
+        &\small{\det E = 1} \\
+        &\small{\det (a_1, \cdots, a_i, \cdots, a_j, \cdots, a_n) = - \det (a_1, \cdots, a_j, \cdots, a_i, \cdots, a_n)} \\
+        &\small{\det (a_i, \cdots, ka_i + la'_i, \cdots a_n) = k\det (a_1, \cdots, a_i, \cdots, a_n) + l(a_1, \cdots, a'_i, \cdots, a_n)} \\
+        \end{aligned} \]
+        を満たすとき,\(\det A\)を\(A\)の<strong>行列式</strong>と言う。
+        </p>
+        </div>
+        <p>
+        ２番目の条件より,もし行列内に同じ列があったら行列式は\(0\)になる事になります。
+        \[\det (a_1, \cdots, a, \cdots, a, \cdots, a_n) = 0 \]
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例題</h4>
+        \[ \det \begin{pmatrix} a & b \\ c & d \end{pmatrix} \]
+        を求めてみます。
+        </div>
+        <p>
+        \[ \begin{aligned}
+        \det \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+        &= \det \left( a\begin{pmatrix} 1 \\ 0 \end{pmatrix} + b\begin{pmatrix} 0 \\ 1 \end{pmatrix}, c\begin{pmatrix} 1 \\ 0\end{pmatrix} + d\begin{pmatrix} 0 \\ 1\end{pmatrix} \right) \\
+        &= ad\det \left(\begin{pmatrix} 1 \\ 0\end{pmatrix}, \begin{pmatrix} 0 \\ 1 \end{pmatrix}\right)
+        + bc\det \left(\begin{pmatrix} 0 \\ 1 \end{pmatrix}, \begin{pmatrix} 1 \\ 0 \end{pmatrix} \right) \\
+        &= ad\det \left(\begin{pmatrix} 1 \\ 0\end{pmatrix}, \begin{pmatrix} 0 \\ 1 \end{pmatrix}\right)
+        - bc\det \left(\begin{pmatrix} 1 \\ 0 \end{pmatrix}, \begin{pmatrix} 0 \\ 1 \end{pmatrix} \right) \\
+        &= \color{yellow}{ad-bc}
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        \[ \det \begin{pmatrix} a & b & c \\ d & e & f \\ g & h & i\end{pmatrix} \]
+        を求めて下さい。
+        </div>
+        </section>
+
+        <section>
+        <p>
+        以上の例から解るように,
+        \[ A = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \]
+        の行列式を計算展開すると,<strong>行・列が重複しないように\(n\)個選ぶ組み合わせの項しか残らない</strong>事が判ります。さらに<strong>列を並べ替えて,単位行列に一致させるのに必要な回数だけ\(-1\)倍される</strong>という事が判ります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        順列
+        \[ (i_1, i_2, \cdots, i_n) \]
+        を<strong>2つを入れ替える操作のみを繰り返して</strong>
+        順列
+        \[ (1,2,\cdots,n) \]
+        に一致させる為の回数が偶数のとき最初の順列を<strong>偶置換</strong>,奇数の時を<strong>奇置換</strong>と言います。
+        </p>
+        <p>
+        例えば,
+        \[ (2, 3, 1) \]
+        は偶置換,
+        \[ (3, 2, 1) \]
+        は奇置換となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        ここで,順列\((i_1,\cdots,i_n)\)に対して
+        \[ \sigma(i_1,\cdots,i_n) = \left\{
+        \begin{array}{cc}
+        1 & \text{($(i_1,\cdots,i_n)$が偶置換の時)} \\
+        -1 & \text{($(i_1,\cdots,i_n)$が奇置換の時)} \\
+        \end{array}
+        \right. \]
+        とします。これは行列式の各項に出てくる符号と一致します。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上から,行列式を直接計算する公式が得られます。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 行列式 </h4>
+        \[ \det A = \sum \sigma(i_1,\cdots,i_n) a_{1,i_1}a_{2,i_2}\cdots a_{n,i_n} \]
+        である。但し和は順列\((1,2,\cdots,n)\)の全ての置換に対して取る。
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">例題</h4>
+        公式を用いて
+        \[ \det A = \det \begin{pmatrix} a & b \\ c & d \end{pmatrix} \]
+        を求めてみます。
+        </div>
+        <p>
+        \((1,2)\)の置換は\((1,2)\)と\((2,1)\)ですから
+        \[ \begin{aligned}
+        \det A &= \sigma(1,2)a_{11}a_{22} + \sigma(2,1)a_{12}a_{21} \\
+        &= a_{11}a_{22}-a_{12}a_{21} = ad-bc
+        \end{aligned}
+        \]
+        となります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        公式を用いて
+        \[ \det \begin{pmatrix} a & b & c \\ d & e & f \\ g & h & i\end{pmatrix} \]
+        を求めて下さい。
+        </div>
+        </section>
+
+        <section>
+        ...
+        </section>
+      </div>
+    </div>
+
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</html>
