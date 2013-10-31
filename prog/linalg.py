@@ -1,46 +1,78 @@
 # -*- coding: utf-8 -*-
-
 import numpy as np
+import math
 
-def mat_add(a, b):
-    if a.shape != b.shape:
-        raise ArithmeticError, u"行列の型の不一致"
-    (m,n) = a.shape
-    r = np.zeros( (m,n) )
-    for i in xrange(m):
-        for j in xrange(n):
-            r[i,j] = a[i,j] + b[i,j]
-    return r
+def determinant(A):
+    # 前進消去
+    n = A.shape[0]
+    p = np.arange(n)    # [0,1,2,...,n-1] 
+    det = 1.0
+    for k in xrange(n-1):
 
-def mat_scale(k, a):
-    (m,n) = a.shape
-    r = np.zeros( (m,n) )
-    for i in xrange(m):
-        for j in xrange(n):
-            r[i,j] = k * a[i,j]
-    return r
+        # ピボット選択
+        pivot_idx = p[k]
+        pivot_max = 0
+        for i in xrange(k, n):
+            v = abs(A[p[i], k])
+            if v > pivot_max:
+                pivot_max = v
+                pivot_idx = i
 
-def mat_mul(a, b):
-    (l, m) = a.shape
-    (m2, n) = b.shape
-    if m != m2:
-        raise ArithmeticError, u"行列の型の不一致"
+        if pivot_max < 1e-10:
+            raise ArithmeticError, u'ピボットが小さすぎ'
 
-    c = np.zeros( (l,n) )
-    for i in xrange(l):
-        for j in xrange(n):
-            v = 0
-            for k in xrange(m):
-                v += a[i,k] * b[k,j]
-            c[i,j] = v
-    return c
+        # ピボット行の交換
+        if p[k] != pivot_idx:
+            p[k], p[pivot_idx] = p[pivot_idx], p[k]
+            det *= -1 # ピボット交換では符号を変える
 
-a = np.array([[1,2,3],[4,5,6]])
-b = np.array([[2,1,4],[5,2,1]])
+        pivot = A[p[k],k]
+        det *= pivot # 対角成分を掛け合わせる
+        for i in xrange(k+1, n):
+            l = A[p[i], k]/pivot
 
-print mat_add(a, b)
-print mat_scale(2, a)
+            for j in xrange(k+1, n):
+                A[p[i], j] -= l * A[p[k], j]
+    det *= A[p[n-1], n-1]   # これを忘れずに
+    return det
 
-a = np.array([[1,2,3],[4,5,6]])
-b = np.array([[2,1,4],[5,2,1],[0,1,3]])
-print mat_mul(a, b)
+def log_determinant(A):
+    # 前進消去
+    n = A.shape[0]
+    p = np.arange(n)    # [0,1,2,...,n-1] 
+    ldet = 0
+    sign = 1
+    for k in xrange(n-1):
+
+        # ピボット選択
+        pivot_idx = p[k]
+        pivot_max = 0
+        for i in xrange(k, n):
+            v = abs(A[p[i], k])
+            if v > pivot_max:
+                pivot_max = v
+                pivot_idx = i
+
+        if pivot_max < 1e-10:
+            raise ArithmeticError, u'ピボットが小さすぎ'
+
+        # ピボット行の交換
+        if p[k] != pivot_idx:
+            p[k], p[pivot_idx] = p[pivot_idx], p[k]
+            sign *= -1  # ピボット交換では符号を変える
+
+        pivot = A[p[k],k]
+        ldet += math.log(pivot) # 対角成分を掛け合わせる
+        for i in xrange(k+1, n):
+            l = A[p[i], k]/pivot
+
+            for j in xrange(k+1, n):
+                A[p[i], j] -= l * A[p[k], j]
+    ldet += math.log(A[p[n-1], n-1])    # これを忘れずに
+    return (sign, ldet)
+
+
+A = np.array([[3,2,5,1],[-2,3,4,1],[1,2,5,6],[0,7,1,3]],dtype=float)
+print determinant(A)
+A = np.array([[3,2,5,1],[-2,3,4,1],[1,2,5,6],[0,7,1,3]],dtype=float)
+print math.exp(log_determinant(A)[1])
