@@ -570,7 +570,7 @@
         といった展開を<strong>余因子展開</strong>と言います。上は第2列に関する余因子展開です。
         </p>
         <p>
-        ここで\(\mathbf{e}_i\)で行列\(A\)の第\(j\)行を置き換えた物の行列式を<strong>第\((i,j)\)余因子</strong>と言い,\(A_{ij}\)と書くことにします。すると,上の式は
+        ここで\(\mathbf{e}_i\)で行列\(A\)の第\(j\)列を置き換えた物の行列式を<strong>第\((i,j)\)余因子</strong>と言い,\(A_{ij}\)と書くことにします。すると,上の式は
         \[ |A| = a_{12}A_{12} + a_{22}A_{22} + a_{32}A_{32} \]
         と書くことが出来ます。
         </p>
@@ -1796,7 +1796,7 @@ print time()-start, "sec"
         については,
         \[ \frac{\partial}{\partial x_i}(a_1x_1 + a_2x_2 + \cdots + a_nx_n) = a_i \] 
         なので
-        \[ \color{yellow}{\frac{\partial}{\partial \mathbf{x}}\mathbf{a}^T\mathbf{x} = \frac{\partial}{\partial \mathbf{x}}\mathbf{x}^T\mathbf{a} = \mathbf{a}} \]
+        \[ \color{yellow}{\frac{\mathrm{d}}{\mathrm{d} \mathbf{x}}\mathbf{a}^T\mathbf{x} = \frac{\mathrm{d}}{\mathrm{d} \mathbf{x}}\mathbf{x}^T\mathbf{a} = \mathbf{a}} \]
         となります。
         </p>
         </section>
@@ -1808,7 +1808,7 @@ print time()-start, "sec"
         については
         \[ \frac{\partial}{\partial x_i}(x_1^2 + x_2^2 + \cdots + x_n^2) = 2x_i \]
         なので
-        \[ \color{yellow}{\frac{\partial}{\partial \mathbf{x}}||\mathbf{x}||^2 = 2\mathbf{x}} \]
+        \[ \color{yellow}{\frac{\mathrm{d}}{\mathrm{d} \mathbf{x}}||\mathbf{x}||^2 = 2\mathbf{x}} \]
         となります。
         </p>
         </section>
