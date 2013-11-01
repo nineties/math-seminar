@@ -1645,7 +1645,7 @@ def lu(A):
     A = np.copy(A)  # 作業用
 
     n = A.shape[0]
-    L = np.identity(n, dtype=float)      # 対角行列
+    L = np.identity(n, dtype=float)      # 単位行列
     U = np.zeros((n,n), dtype=float)     # 零行列
 
     for k in xrange(n):
