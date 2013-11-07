@@ -1,0 +1,1607 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/ir_black.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: yellow;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal table {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        border: 2px solid lightblue;
+      }
+
+      .reveal pre {
+        font-size: 0.7em;
+      }
+
+      .reveal pre code {
+        max-height: 600px;
+      }
+
+      .reveal .note {
+        font-size: 50%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .answer {
+        color: #111111;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: true,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+    <script>
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第9回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年11月7日
+        </span>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+            <li> サンプルプログラムはPythonで記述しています。 </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 線型空間 </h2>
+        </section>
+
+        <section>
+        <p>
+        これまで数を並べたベクトル
+        \[ \mathbf{x} = \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix} \]
+        や行列
+        \[ A = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn} \\
+        \end{pmatrix}
+        \]
+        といった非常に具体的な対象について考えてきましたが,
+        今回は<strong>線型空間と線型写像</strong>という抽象的な代数構造について見ていきます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 線型空間 </h4>
+        <p>
+        \(K\)を体とする。集合\(V\)が<strong>体\(K\)上の線型空間</strong>もしくは(\(K\)線型空間)であるとは,任意の\(\mathbf{x},\mathbf{y}\in V\)に対する<strong>加法</strong>\( \mathbf{x} + \mathbf{y} \in V\)と,任意の\(\mathbf{x} \in V,\ a \in K\)に対する<strong>スカラー乗法</strong>\(a\mathbf{x}\in V\)を備え,以下の公理を満たす事である。
+        \[ \begin{aligned}
+        1. & \mathbf{x} + \mathbf{y} = \mathbf{y} + \mathbf{x} \\
+        2. & (\mathbf{x} + \mathbf{y}) + \mathbf{z} = \mathbf{x} + (\mathbf{y} + \mathbf{z}) \\
+        3. &\text{ある$\mathbf{0}\in V$が存在して}\mathbf{0} + \mathbf{x} = \mathbf{x} \\
+        4. &\text{任意の$\mathbf{x}\in V$に対してある$\mathbf{y}\in V$が存在して} \mathbf{x} + \mathbf{y} = \mathbf{0} \\
+        5. &a(\mathbf{x} + \mathbf{y}) = a\mathbf{x} + a\mathbf{y} \\
+        6. &(a+b)\mathbf{x} = a\mathbf{x} + b\mathbf{x} \\
+        7. &(ab)\mathbf{x} = a(b\mathbf{x})\\
+        8. &1\mathbf{x} = \mathbf{x}\qquad \text{($1$は$K$の乗法の単位元)}
+        \end{aligned} \]
+        </p>
+        <p>
+        \(V\)の元を<strong>ベクトル</strong>,\(K\)の元を<strong>スカラー</strong>と言う。
+        </p>
+        </div>
+        <p style="font-size:70%">
+        <strong>体</strong>とは四則演算(足し算・引き算・掛け算・\(0\)以外での割り算)が自由に出来る代数系の事ですが,<strong>この勉強会では実数と普通の四則からなる体\(\mathbb{R}\)しか登場しません。</strong>
+        </p>
+        </section>
+
+        <section>
+        <h2> 線型空間の例1 </h2>
+        <p>
+        <strong>\(n\)次の実ベクトルの集合\(\mathbb{R}^n\)</strong>は,\(\mathbb{R}\)線型空間となります。これは<strong>数ベクトル空間</strong>と呼ばれます。
+        </p>
+        \[\begin{aligned}
+        &\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix} + \begin{pmatrix} y_1 \\ \vdots \\ y_n \end{pmatrix} = \begin{pmatrix} x_1 + y_1 \\ \vdots \\ x_n + y_n\end{pmatrix}\\
+        &a\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix} = \begin{pmatrix} ax_1 \\ \vdots \\ ax_n\end{pmatrix}
+        \end{aligned} \]
+        </section>
+
+
+        <section>
+        <h2> 線型空間の例2 </h2>
+        <p>
+        集合\(V\)を<strong>空間内の矢印(有向線分)の集合</strong>(但し始点の位置は区別しない)とした場合,加法を下図のように平行四辺形の対角線によって定め,実数倍を\(|a|\)倍し\(a < 0\)の時は向きを逆にする演算として定めると\(V\)は\(\mathbb{R}\)線型空間となります。
+        </p>
+        <p>
+        公理1.～8.を満たす事を確認して下さい。
+        </p>
+        <p>
+        これは<strong>幾何ベクトル空間</strong>と呼ばれます。
+        </p>
+        <div align="center"> <img width="800" src="fig/vector-space-example1.png"> </div>
+        </section>
+
+        <section>
+        <h2> 線型空間の例3 </h2>
+        <p>
+        <strong>係数が\(\mathbb{R}\)の多項式の集合\(\mathbb{R}[x]\)</strong>は,通常の加法と実数倍に関して\(\mathbb{R}\)線型空間となります。
+        </p>
+        \[ \begin{aligned}
+        & f(x),g(x)\in\mathbb{R}[x]\ \Rightarrow\ f(x)+g(x)\in\mathbb{R}[x]\\
+        & a\in\mathbb{R},\ f(x)\in\mathbb{R}[x]\ \Rightarrow af(x)\in\mathbb{R}[x]
+        \end{aligned} \]
+        </section>
+
+        <section>
+        <h2> 線型空間の例4 </h2>
+        <p>
+        <strong>複素数の集合</strong>
+        \[ \mathbb{C} = \{ a + bi\ |\ a,b\in\mathbb{R}\} \]
+        は通常の加法と実数倍に関して\(\mathbb{R}\)線型空間となります。
+        \[ \begin{aligned}
+        &(a+bi) + (c+di) = (a+c) + (b+d)i \\
+        &k(a+bi) = (ka) + (kb)i
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 零ベクトル </h4>
+        <p>
+        公理3
+        \[ \text{ある$\mathbf{0}\in V$が存在して}\mathbf{0} + \mathbf{x} = \mathbf{x} \]
+        における\(\mathbf{0}\)を<strong>零ベクトル</strong>と言う。これは唯一に定まる。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        【唯一性の証明】<br>
+        \(\mathbf{0},\mathbf{0}'\)が性質3を満たすならば
+        \[ \mathbf{0} \overset{\text{公理}3}{=} \mathbf{0}'+\mathbf{0} \overset{\text{公理1}}{=} \mathbf{0}+\mathbf{0}'\overset{\text{公理3}}{=}\mathbf{0}' \]
+        <span style="float:right">□</span>
+        </p>
+        <p style="font-size:70%">
+        【練習問題】<br>
+        任意の\(\mathbf{x} \in V\)に対して\( 0\mathbf{x} = \mathbf{0} \)である事を証明して下さい。
+        </p>
+        <p class="fragment" style="font-size:70%">
+        【証明】<br>
+        \[ 0\mathbf{x} +0\mathbf{x}\overset{\text{公理6}}{=} (0+0)\mathbf{x} = 0\mathbf{x} \]
+        であり,公理4から\(0\mathbf{x} + \mathbf{y} = \mathbf{0}\)を満たす\(\mathbf{y}\)が存在するのでこれを両辺に加えて
+        \[(0\mathbf{x}+0\mathbf{x})+\mathbf{y} = 0\mathbf{x} + \mathbf{y}
+        \overset{\text{公理}2,3}{\Leftrightarrow} 0\mathbf{x} = \mathbf{0} 
+        \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 逆ベクトル </h4>
+        <p>
+        公理4
+        \[ \text{任意の$\mathbf{x}\in V$に対してある$\mathbf{y}\in V$が存在して} \mathbf{x} + \mathbf{y} = \mathbf{0} \]
+        における\(\mathbf{y}\)を\(\mathbf{x}\)の<strong>逆ベクトル</strong>と言う。これは\(\mathbf{x}\)に対して唯一に定まるので\(\color{yellow}{-\mathbf{x}}\)と表す。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        【唯一性の証明】<br>
+        \(\mathbf{y},\mathbf{y}'\)が\(\mathbf{x}\)に対して性質4を満たすならば
+        \[ \mathbf{y} \overset{\text{公理}3}{=} \mathbf{0} + \mathbf{y} = (\mathbf{x}+\mathbf{y}')+\mathbf{y} \overset{\text{公理}2}{=} (\mathbf{x}+\mathbf{y})+\mathbf{y}'=\mathbf{0}+\mathbf{y}'\overset{\text{公理}3}{=}\mathbf{y}' \]
+        <span style="float:right">□</span>
+        </p>
+        <p style="font-size:70%">
+        【練習問題】<br>
+        任意の\(\mathbf{x} \in V\)に対して
+        \[ -1\mathbf{x} = -\mathbf{x} \]
+        である事を証明して下さい。
+        </p>
+        <p class="fragment" style="font-size:70%">
+        【証明】<br>
+        \[ \begin{aligned}
+        \mathbf{x} + (-1)\mathbf{x} \overset{\text{公理}8}{=} 1\mathbf{x}+(-1)\mathbf{x}\overset{\text{公理}6}=(1+(-1))\mathbf{x}=0\mathbf{x}\overset{\text{前頁の結果}}{=}\mathbf{0}
+        \end{aligned} \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 部分線型空間 </h4>
+        <p>
+        \(K\)線型空間\(V\)の部分集合\(W \subset V\)が\(K\)線型空間であるとき,
+        \(W\)を\(V\)の<strong>部分線型空間</strong>という。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \[ V = \left\{\begin{pmatrix} x \\ y \end{pmatrix} \in\mathbb{R}^2\,\middle|\, x + 2y = 0\right\} \]
+        は\(\mathbb{R}^2\)の線型部分空間の例です。一方
+        \[ W = \left\{\begin{pmatrix} x \\ y \end{pmatrix} \in\mathbb{R}^2\,\middle|\, 2x + 3y = 1\right\} \]
+        は\(\mathbb{R}^2\)の線型部分空間ではありません。
+        </p>
+        </div>
+        <p>
+        \(V\)は
+        \[ \begin{aligned}
+        & x_1+2y_1=0,\ x_2+2y_2=0\ \Rightarrow\ (x_1+x_2)+2(y_1+y_2) = 0 \\
+        & x+2y = 0\ \Rightarrow\ (kx) + 2(ky) = 0
+        \end{aligned}
+        \]
+        なので加法とスカラー倍について閉じています。公理1～8の成立は明らかです。<span style="font-size:60%">(実は加法とスカラー倍について閉じてさえいれば自動的に公理1～8が成り立ちます。証明してみて下さい。)</span>
+        </p>
+        <p>
+        一方\(W\)はそもそも
+        \[ 2\cdot 0 + 3\cdot 0 = 1 \]
+        が成立せず零ベクトルを持たないので,線型空間ではありません。
+        </p>
+        </section>
+
+        <!--
+        <section>
+        <p>
+        これから線型空間に関する様々な話題を紹介しますが,そもそもの問題として「空間」という概念を学ぶ事の(応用上の)意義は何でしょうか？
+        </p>
+        <p class="fragment">
+        現実の問題では,「微分方程式の解の集合」「連立一次方程式の解の集合」「解析対象のデータの集合」など様々な<strong>集合</strong>を相手にしなければなりません。集合とは唯の点の集まりですが,集合が何らかの構造を持つ場合にそれを空間と呼びます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        例えば,以下の様な何らかのデータがあるとします。これらは線形空間\(\mathbb{R}^3\)の元であると見なす事が出来ます。さて,これらにはどのような<strong>パターン</strong>があるでしょうか？
+        </p>
+        <p style="font-size:90%">
+        \[ \begin{array}{|c|cccccccccc|} \hline
+x & 7.4 & 7.4 & 5.3 & 7.3 & 9.8 & 4.9 & 6.5 & 2.4 & 2.5 & 5.3 \\
+y & 6.1 & 5.3 & 5.4 & 1.8 & 3.0 & 2.8 & 7.0 & 3.9 & 7.7 & 5.0 \\
+z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hline
+        \end{array} \]
+        </p>
+        <img class="fragment" data-fragment-index=1 align="right" width="450px" src="fig/subspace.png"> 
+        <p class="fragment" data-fragment-index=1>
+        じつは,これらの間に\(\color{yellow}{2x+3y+5z = 0}\)という関係が成立しています。表現を変えれば,上のデータは\(\mathbb{R}^3\)の部分線型空間
+        \[ \scriptsize{\{(x,y,z)^T\in\mathbb{R}^3\ |\ 2x+3y+5z=0\}} \]
+        上に分布しているのだと説明する事が出来ます。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        多くの場合、解析対象である「データ」は\(\mathbb{R}^n\)の元と見なすことができます。「データ」を沢山集めると
+        \[ \mathbf{a}_1,\cdots,\mathbf{a}_r \in \mathbb{R}^n \]
+        </p>
+        </section>
+        -->
+
+        <section>
+        <p>
+        線型空間\(\mathbb{R}^2\)の全ての元は,定ベクトル\((1,0)^T,\ (0,1)^T\)を用いて
+        \[ \begin{pmatrix} x \\ y \end{pmatrix} =
+        x\begin{pmatrix} 1 \\ 0 \end{pmatrix} +
+        y\begin{pmatrix} 0 \\ 1 \end{pmatrix} \]
+        と書くことが出来ます。
+        </p>
+        <p class="fragment">
+        \(\mathbb{C}\)を\(\mathbb{R}\)線型空間と見なした場合,\(\mathbb{C}\)の全ての元は,定ベクトル\(1, i\)を用いて
+        \[ x + yi \]
+        と書くことが出来ます。
+        </p>
+        <p class="fragment">
+        この様に線型空間を表現すると,その特徴がよく見えるようになります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 線型結合 </h4>
+        <p>
+        \(K\)線型空間\(V\)の元\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)に対して
+        \[ s_1\mathbf{a}_1 + s_2\mathbf{a}_2 + \cdots + s_n\mathbf{a}_n \qquad (s_i\in K)\]
+        の形のベクトルを\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)の<strong>線型結合</strong>と言う。
+        </p>
+        <p>
+        また,\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)の線型結合全ての集合を
+        \[ \color{yellow}{< \mathbf{a}_1,\cdots,\mathbf{a}_n >} = \{ s_1\mathbf{a}_1 + s_2\mathbf{a}_2 + \cdots + s_n\mathbf{a}_n \ |\  s_i\in K\}\]
+        と表す。これは\(V\)の部分線型空間であり(練習問題),<strong>\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)の生成する部分空間</strong>と言う。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        \(\mathbb{R}^3\)の元
+        \[ \mathbf{a}_1=(1,1,2)^T,\ \mathbf{a}_2=(-1,2,1)^T,\ \mathbf{a}_3=(0,1,1)^T \]
+        の生成する部分空間\( < \mathbf{a}_1,\mathbf{a}_2,\mathbf{a}_3 > \)を求めてみましょう。
+        </div>
+        <p>
+        \[ \begin{aligned}
+        &(x,y,z) = s(1,1,2) +t(-1,2,1) + u(0,1,1) \\
+        \Leftrightarrow&
+        \left\{\begin{array}{l}
+        x = s-t \\
+        y = s+2t+u\\
+        z = 2s+t+u
+        \end{array}\right.
+        \Leftrightarrow
+        \left\{\begin{array}{l}
+        y-x=3t+u\\
+        z-2x=3t+u
+        \end{array}\right.
+        \Leftrightarrow
+        x+y-z=0
+        \end{aligned} \]
+        であるので,
+        \[< \mathbf{a}_1,\mathbf{a}_2,\mathbf{a}_3 > = 
+        \left\{
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix} \in \mathbb{R}^3
+        \ \middle|\ 
+        x+y-z=0
+        \right\}
+        \]
+        となります。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        さて,今の例題において\(\mathbf{a}_3\)を取り除いても生成される空間は変わりません(練習問題)。つまり
+        \[ < \mathbf{a}_1,\mathbf{a}_2,\mathbf{a}_3 > = < \mathbf{a}_1, \mathbf{a}_2 > \]
+        であり,\( < \mathbf{a}_1,\mathbf{a}_2,\mathbf{a}_3 > \)という表現は冗長であると言う事が出来ます。
+        </p>
+        <p class="fragment">
+        この冗長性は
+        \[ (0,1,1) = \frac{1}{3}(1,1,2)+\frac{1}{3} (-1,2,1) \]
+        つまり
+        \[\color{yellow}{\mathbf{a}_3 = \frac{1}{3}\mathbf{a}_1 + \frac{1}{3}\mathbf{a}_2} \]
+        と表される事が原因です。\(\mathbf{a}_3\)は\(\mathbf{a}_1,\mathbf{a}_2\)で表す事が出来るから冗長だという訳です。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 線型独立 </h4>
+        \(K\)線型空間\(V\)の定ベクトル\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)について
+        \[ s_1\mathbf{a}_1 + s_2\mathbf{a}_2 + \cdots + s_n\mathbf{a}_n = \mathbf{0} \qquad (s_i\in K)\]
+        となるのが\(s_1 = s_2 = \cdots = s_n = 0\)の時のみであるならば\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)は<strong>線型独立</strong>(一次独立)であると言う。また,成立しない場合は<strong>線型従属</strong>(一次従属)であると言う。
+        </div>
+        <p style="font-size:80%">
+        例えば\( \mathbf{a},\mathbf{b} \)が線型従属ならば
+        \[ s\mathbf{a} + t\mathbf{b} = \mathbf{0} \]
+        において\(s,t\)のどちらかが\(0\)でないので
+        \[ \mathbf{a} = -\frac{t}{s}\mathbf{b}\ \text{か}\  \mathbf{b} = -\frac{s}{t}\mathbf{a} \]
+        と表される事になります。
+        </p>
+        <p style="font-size:80%">
+        \(\mathbf{a}_1,\cdots,\mathbf{a}_n\)が線型独立であるとは,\(\mathbf{a}_i\)を他の\(\mathbf{a}_j\ (j\neq i)\)の線型結合で表せないという事を表しています。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \((1,0,1)^T,\ (2,1,1)^T,\ (0,3,1)^T \in \mathbb{R}^3\)
+        は線型独立となります。
+        </p>
+        </div>
+        <p>
+        \[ \begin{aligned}
+        a\begin{pmatrix} 1 \\ 0 \\ 1\end{pmatrix} + b\begin{pmatrix} 2 \\ 1 \\ 1\end{pmatrix} + c\begin{pmatrix} 0 \\ 3 \\ 1\end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 0\end{pmatrix}
+        &\Leftrightarrow 
+        \begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 3 \\ 1 & 1 & 1\end{pmatrix}\begin{pmatrix} a \\ b \\ c\end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 0\end{pmatrix} \qquad\cdots(1)\\
+        \end{aligned} \]
+        ですが
+        \[
+        \det\begin{pmatrix} 1 & 2 & 0 \\ 0 & 1 & 3 \\ 1 & 1 & 1\end{pmatrix} = 4 \neq 0
+        \]
+        なので(1)の解は唯一。つまり\(a=b=c=0\)しか存在しませんので線型独立です。
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        \((1,0,2,3)^T,\ (0,1,1,2)^T,\ (1,0,3,0)^T,\ (0,1,0,5)^T \in \mathbb{R}^4\)
+        が線型独立か否か調べて下さい。
+        </p>
+        </div>
+        <p class="fragment" style="font-size:70%">
+        【解答】<br>
+        \[
+        a\begin{pmatrix} 1 \\ 0 \\ 2 \\ 3\end{pmatrix} +
+        b\begin{pmatrix} 0 \\ 1 \\ 1 \\ 2\end{pmatrix} +
+        c\begin{pmatrix} 1 \\ 0 \\ 3 \\ 0\end{pmatrix} +
+        d\begin{pmatrix} 0 \\ 1 \\ 0 \\ 5\end{pmatrix} =
+        \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0\end{pmatrix}
+        \Leftrightarrow 
+        \begin{pmatrix}
+        1 & 0 & 1 & 0 \\ 0 & 1 & 0 & 1 \\ 2 & 1 & 3 & 0 \\ 3 & 2 & 0 & 5
+        \end{pmatrix}
+        \begin{pmatrix}
+        a \\ b \\ c \\ d
+        \end{pmatrix}
+        =
+        \begin{pmatrix}
+        0 \\ 0 \\ 0 \\ 0
+        \end{pmatrix}
+        \qquad \cdots(1)
+        \]
+        ですが,
+        \[
+        \det\begin{pmatrix}
+        1 & 0 & 1 & 0 \\ 0 & 1 & 0 & 1 \\ 2 & 1 & 3 & 0 \\ 3 & 2 & 0 & 5
+        \end{pmatrix} = 0
+        \]
+        なので(1)は非自明解(全てが0以外の解)を持ちます。(第8回資料35P,36P)<br>
+        実際に
+        \[\begin{pmatrix} 1 \\ 0 \\ 2 \\ 3\end{pmatrix} +
+        \begin{pmatrix} 0 \\ 1 \\ 1 \\ 2\end{pmatrix} +
+        \begin{pmatrix} 1 \\ 0 \\ 3 \\ 0\end{pmatrix} -
+        \begin{pmatrix} 0 \\ 1 \\ 0 \\ 5\end{pmatrix} =
+        \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0\end{pmatrix} 
+        \]
+        などが成り立ちますので線型従属です。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        \(\mathbb{R}\)線型空間
+        \[ \mathbb{C} = \{a+bi\ |\ a,b\in\mathbb{R}\} \]
+        において\(1,i\)は線型独立となります。
+        </div>
+        <p>
+        【証明】<br>
+        \[ s+ti = 0\ (s,t\in\mathbb{R}) \]
+        の時\(t\neq 0\)であるとすると
+        \[ i = -\frac{s}{t} \]
+        となりますが,右辺は実数であるから矛盾。
+        従って\(t = 0\)。従って\(s = 0\)。
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        実数から実数への連続関数全体の集合は線型空間となります。この時
+        \[ \sin x,\ \cos x\]
+        が線型独立である事を証明して下さい。
+        </div>
+        <p class="fragment">
+        【証明】<br>
+        \[ a\sin x + b\cos x = 0 \]
+        のとき\(a\neq 0\)または\(b\neq 0\)であるとすると\(a^2+b^2 \neq 0\)なので
+        \[ a\sin x + b\cos x = \sqrt{a^2+b^2}\sin(x+\phi) \]
+        となるが\(a^2+b^2\neq 0\)なのでこれは恒等的に\(0\)とはならない。<br>
+        従って\(a = b = 0\)である事が必要である。
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 基底 </h4>
+        線型空間\(V\)が線型独立な元\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)を用いて
+        \[ V = < \mathbf{a}_1, \cdots, \mathbf{a}_n > \]
+        と表される時,\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)を\(V\)の<strong>基底</strong>と言う。
+        </div>
+        <p style="font-size:80%">
+        注: 一般に,線型空間が有限個の基底で生成されるとは限りません(例: 実数係数多項式の集合\(\mathbb{R}[x]\))。<br>
+        今後は特に断らない限り基底が有限個(有限生成と言います)の線型空間について考えます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \(\mathbf{e}_1,\cdots,\mathbf{e}_n \in \mathbb{R}^n\)
+        は\(\mathbb{R}^n\)の基底となります。但し\(\mathbf{e}_i\)は第\(i\)成分が1,他は0のベクトルです。
+        </p>
+        </div>
+        <p>
+        任意の\((x_1,\cdots,x_n)^T \in \mathbb{R}^n\)について
+        \[\begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} =
+        x_1\begin{pmatrix} 1 \\  0 \\ \vdots \\ 0 \end{pmatrix}+
+        x_2\begin{pmatrix} 0 \\  1 \\ \vdots \\ 0 \end{pmatrix}+
+        \cdots +
+        x_n\begin{pmatrix} 0 \\  0 \\ \vdots \\ 1 \end{pmatrix}
+        \]
+        と表せるので\(\mathbb{R}^n\)は\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)で生成されます。これらが線型独立なのは明らかですから\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)は\(\mathbf{R}^n\)の基底となります。これを\(\mathbf{R}^n\)の<strong>標準基底</strong>と言います。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen">練習問題</h4>
+        線型空間
+        \[
+        V = \left\{\begin{pmatrix} x \\ y \\ z \end{pmatrix} \in \mathbb{R}^3\ \middle|\ x - y + z = 0 \right\}
+        \]
+        の基底を一組求めて下さい。
+        </div>
+        <p style="font-size:70%">
+        \(z\)を消去すれば
+        \[ V =
+        \left\{\begin{pmatrix} x \\ y \\ -x+y \end{pmatrix} \in \mathbb{R}^3\right\}
+        = \left\{x\begin{pmatrix} 1 \\ 0 \\ -1\end{pmatrix} + y \begin{pmatrix} 0 \\ 1 \\ 1\end{pmatrix}\ \middle|\ x,y\in\mathbb{R}\right\}
+        \]
+        なので
+        \[ V = \left< \begin{pmatrix} 1 \\ 0 \\ -1\end{pmatrix}, \begin{pmatrix} 0 \\ 1 \\ 1\end{pmatrix} \right> \]
+        です。\((1,0,-1)^T, (0,1,1)^T\)は線型独立なのでこれらは基底となっています。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 次元 </h4>
+        線型空間\(V\)の基底の数は定数である。これを\(V\)の<strong>次元</strong>と言い
+        \[ \dim V \]
+        と表す。<span style="font-size:60%">(但し,零ベクトルしか無い線型空間\(\{\mathbf{0}\}\)の次元は\(0\)と定めます。)</span>
+        </div>
+        <p style="font-size:70%">
+        【基底の数が定数である事の証明の概要】<br>
+        \(V\)の基底が２組\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)と\(\mathbf{b}_1,\cdots,\mathbf{b}_m\)存在したとし\(m > n\)とします。すると\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)は基底なのだから
+        \[ \begin{aligned}
+        \mathbf{b}_1 &= s_{11}\mathbf{a}_1+s_{12}\mathbf{a}_2+\cdots+s_{1n}\mathbf{a}_n \\
+        \mathbf{b}_2 &= s_{21}\mathbf{a}_1+s_{22}\mathbf{a}_2+\cdots+s_{2n}\mathbf{a}_n \\
+        &\vdots \\
+        \mathbf{b}_m &= s_{m1}\mathbf{a}_1+s_{m2}\mathbf{a}_2+\cdots+s_{mn}\mathbf{a}_n \\
+        \end{aligned} \]
+        と表す方法がありますが,右辺を足し引きして\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)を順番に消していくことが出来
+        \[ t_1\mathbf{b}_1+t_2\mathbf{b}_2+\cdots+t_m\mathbf{b}m = \mathbf{0} \qquad(t_1,\cdots,t_m\text{のどれかは0でない})\]
+        という等式を導く事が出来ます。これは\(\mathbf{b}_1,\cdots,\mathbf{b}_m\)が線型独立であることと矛盾します。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        例えば,既にみたように\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)が\(\mathbb{R}^n\)の基底なので
+        \[ \dim \mathbb{R}^n = n \]
+        となります。
+        </p>
+        <p>
+        また,\(\mathbb{C}\)を\(\mathbb{R}\)線型空間と見なせば\(1,i\)が基底だったので
+        \[ \dim \mathbb{C} = 2 \]
+        となります。誤解のないように体を明示して\(\dim_{\mathbb{R}}\mathbb{C} = 2\)と書く場合もあります。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 成分表示 </h4>
+        <p>
+        \(n\)次元\(K\)線型空間\(V\)の基底の一つを\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)とすると,任意の\(\mathbf{x} \in V\)は
+        \[ \mathbf{x} = x_1\mathbf{a}_1 + \cdots + x_n\mathbf{a}_n \]
+        と<strong>一意的に</strong>表される。
+        </p>
+        <p>
+        従って,基底\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)を固定すれば\(\mathbf{x}\)と\((x_1,\cdots,x_n)^T \in K^n\)が一対一に対応する。この\((x_1,\cdots,x_n)^T\)を基底\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)に関する<strong>成分表示</strong>という。
+        </p>
+        </div>
+        <div align="center"> <img width="400" src="fig/V_Kn_correspondence.png"> </div>
+        <p style="font-size:50%">
+        【一意性の証明】<br>
+        \(\mathbf{x}=x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n=x'_1\mathbf{a}_1+\cdots+x'_n\mathbf{a}_n\)と2通りに表されたとすれば
+        \[ (x_1-x'_1)\mathbf{a}_1+\cdots+(x_n-x'_n)\mathbf{a}_n=\mathbf{0}\]
+        なので,\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)が線型独立であることより
+        \[ x_1-x'_1=\cdots=x_n-x'_n=0\ \Leftrightarrow\ x_1=x'_1,\cdots,x_n=x'_n \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p> \(P_3 = \text{"3次以下の実数係数多項式の集合"}\)とすると,これは通常の加法・実数倍に関して線型空間となります。<br>
+        すると,
+        \[1, x, x^2, x^3\]
+        は\(P_3\)の基底の一つであり,この基底に関する
+        \[ a + bx + cx^2 + dx^3 \in P_3 \]
+        の成分表示は
+        \[ (a,b,c,d)^T\in \mathbb{R}^3 \]
+        となります。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        同じく\(P_3\)に関して,
+        \[ 1, x, 2x^2-1, 4x^3-3x \]
+        が\(P_3\)の基底の一つとなる事を示して下さい。
+        </p>
+        <p>
+        さらに,この基底に関する
+        \[ a + bx + cx^2 + dx^3 \in P_3 \]
+        の成分表示を求めて下さい。
+        </p>
+        </div>
+        <p>
+        \[ a+bx+cx^2+dx^3 = s\cdot 1 + tx+u(2x^2-1)+v(4x^3-3x)\]
+        の両辺を比較すれば
+        \[ a = s-u,\ b = t-3v,\ c = 2u,\ d = 4v
+        \Leftrightarrow s =  a + \frac{c}{2},\ t = b + \frac{3d}{4},\ u = \frac{c}{2},\ v = \frac{d}{4} \]
+        と\(s,t,u,v\)が定まるので,\(1,x,2x^2-1,4x^3-3x\)は\(P_3\)を生成し,線型独立である事は明らか(\(a=b=c=d=0\)とする)。<br>
+        また,成分表示は
+        \[ \left(a+\frac{c}{2}, b+\frac{3d}{4}, \frac{c}{2}, \frac{d}{4}\right) \in \mathbb{R}^4 \]
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        漸化式\(F_{n+2}=F_{n+1}+F_n\quad (n\geq 0)\)を満たす実数列の集合
+        \[ V = \{ (F_0,F_1,F_2,\cdots) |\ F_{n+2}=F_{n+1}+F_n \} \]
+        は演算
+        \[ \begin{aligned}
+        &(a_0,a_1,\cdots)+(b_0,b_1,\cdots) = (a_0+b_0,a_1+b_1,\cdots) \\
+        &k(a_0,a_1,\cdots) = (ka_0,ka_1,\cdots)
+        \end{aligned} \]
+        に関して線型空間となる事を示して下さい。また\(V\)の次元,適当な基底を一つ,それに対する成分表示を求めて下さい。
+        </p>
+        </div>
+        <p class="fragment">
+        線型空間である事の証明は省略します。<br>
+        任意の\(V\)の元は
+        \[ (F_0,F_1,F_2,\cdots) = F_0(1,0,1,1,2,3,5,8,\cdots)+F_1(0,1,1,2,3,5,8,13,\cdots) \]
+        という線型結合で表す事が出来,これが一意的であるのは明らかなので
+        \[ (1,0,1,1,\cdots)\text{と}(0,1,1,2,\cdots) \]
+        が基底の例となります。従って\(\dim V = 2\)で,この基底に関する成分表示は
+        \[ (F_0, F_1) \]
+        となります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        今の例は面白いので,もう少しみてみましょう。
+        </p>
+        <p class-"fragment">
+        \(V\)の元に等比数列\(F_n=r^n\ (r\neq 0)\)が存在するか考えてみると
+        \[ r^{n+2}=r^{n+1}=r^n\ \Leftrightarrow\ r^2=r+1\ \Leftrightarrow\ r = \frac{1\pm\sqrt{5}}{2} \]
+        であれば良いので,
+        \[ (1, \phi, \phi^2, \cdots)\text{と}(1,\psi,\psi^2,\cdots) \quad(\phi=\frac{1+\sqrt{5}}{2},\psi=\frac{1-\sqrt{5}}{2})\]
+        という2つの等比数列が\(V\)の元である事が解ります。さらにこの2つの数列は線型独立なので,任意の数列\((F_0,F_1,\cdots)\)が
+        \[ (F_0,F_1,\cdots) = a(1,\phi,\phi^2,\cdots)+b(1,\psi,\psi^2,\cdots) \]
+        と表される事になります。つまり,任意の\(V\)の元は
+        \[ \color{yellow}{F_n = a\phi^n + b\psi^n} \]
+        と表される数列です。<br>
+        この様に,<strong>基底を上手に選ぶ</strong>事が線型空間の正体を調べる上で大切である事が解ります。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 線型写像 </h2>
+        </section>
+
+        <section>
+        <p>
+        \(V\)と\(K^n\)の「元の」一対一対応という関係を確認しましたが,\(V\)に比べ\(K^n\)はだいぶ分り易い空間ですからこういう関係はありがたいと言えます。<br>
+        この様に<strong>線型空間と線型空間の関係</strong>を調べる事は大切です。
+        </p>
+        <p class="fragment">
+        ところで,上の関係は「\(V\)と\(K^n\)の要素の数が同じ」と言っているだけです。
+        線型空間としての構造まで含めて考える必要があります。
+        </p>
+        <p class="fragment" data-fragment-index="2">
+        そこで,<strong>線型写像</strong>と呼ばれる<strong>線型空間としての構造を保つ写像</strong>を考える事となります。
+        </p>
+        <div class="fragment" data-fragment-index="2" align="center"> <img width="400" src="fig/linear-map.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 線型写像 </h4>
+        <p>
+        \(K\)線型空間\(V\)から\(K\)線型空間\(W\)への写像
+        \[ f: V \rightarrow W \]
+        が任意のベクトル\(\mathbf{x},\mathbf{y}\in V\)と任意のスカラー\(a,b\in K\)に対して
+        \[ f(a\mathbf{x}+b\mathbf{y}) = af(\mathbf{x})+bf(\mathbf{y}) \]
+        を満たす時,\(f\)を<strong>線型写像</strong>と言う。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        \(a=b=1\)とすれば
+        \[ \color{yellow}{f(\mathbf{x}+\mathbf{y})=f(\mathbf{x})+f(\mathbf{y})} \]
+        \(b = 0\)とすれば
+        \[ \color{yellow}{f(a\mathbf{x}) = af(\mathbf{x})} \]
+        という等式が得られます。さらに\(a=0\)とすれば
+        \[ \color{yellow}{f(\mathbf{0}) = \mathbf{0}} \]
+        となるので,線型写像は必ず零ベクトルを零ベクトルに移すという事が解ります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        \(A\)を\((m,n)\)型の実数値行列として
+        \[ f(\mathbf{x}) = A\mathbf{x} \]
+        と定めれば,これは線型写像\(f: \mathbb{R}^n\rightarrow \mathbb{R}^m\)となります。今後,このように行列\(A\)によって定まる線型写像を\(f_A\)と書くことにします。
+        </div>
+        <p>
+        【証明】<br>
+        \[ f(a\mathbf{x}+b\mathbf{y})=A(a\mathbf{x}+b\mathbf{y}) = aA\mathbf{x}+bA\mathbf{y} =af(\mathbf{x})+bf(\mathbf{y})\]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        \(n \in \mathbb{N}\)について\(P_n = \text{"$n$次以下の実数係数多項式の集合"}\)とし,
+        \[ F(f(x)) = f'(x) \]
+        とすれば,これは線型写像\(F: P_n\rightarrow P_{n-1}\)となります。
+        </div>
+        <p>
+        【証明】<br>
+        \[(af(x)+bg(x))'=af'(x)+bg'(x) \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 同型写像 </h4>
+        <p>
+        線型空間\(V,W\)に対して,線型写像
+        \[ f:V\leftrightarrows W:g \]
+        が\[ f\circ g = 1_W,\ g\circ f=1_V \]
+        を満たす時\(f,g\)を<strong>同型写像</strong>という。但し\(1_V\)は\(V\)上の恒等写像である。
+        </p>
+        <p>
+        線型写像\(f: V\rightarrow W\)に対して上記を満たす\(g\)はもし存在するならば,それは一意であるので
+        \[ g=f^{-1} \]
+        と表し,\(f\)の<strong>逆写像</strong>という。
+        </p>
+        </div>
+        <p style="font-size:60%">
+        【一意性の証明】<br>
+        \(f\circ g = f\circ g'=1_W,\ g\circ f=g'\circ f=1_V\)ならば
+        \[ g = g\circ 1_W = g\circ (f\circ g')=(g\circ f)\circ g'=1_V\circ g'=g' \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \(n\)次正方行列\(A\)が正則ならば
+        \[ f(\mathbf{x}) = A\mathbf{x} \]
+        は同型写像となります。
+        </p>
+        </div>
+        <p>
+        【証明】<br>
+        正則なので\(A^{-1}\)が存在しますから
+        \[ g(\mathbf{x}) = A^{-1}\mathbf{x} \]
+        とおきます。すると任意の\(\mathbf{x}\in\mathbb{R}^n\)に対して
+        \[ \begin{aligned}
+        &f\circ g(\mathbf{x}) = AA^{-1}\mathbf{x} = E\mathbf{x} = \mathbf{x} \\
+        &g\circ f(\mathbf{x}) = A^{-1}A\mathbf{x} = E\mathbf{x} = \mathbf{x} 
+        \end{aligned}
+        \]
+        なので\(f\circ g = 1_{\mathbb{R}^n},\ g\circ f = 1_{\mathbb{R}^n}\)が成立します。 <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 同型写像 </h4>
+        <p>
+        線型空間\(V,W\)の間に同型写像
+        \[ f: V\leftrightarrows W: f^{-1}\]
+        が存在するならば,\(V\)と\(W\)は<strong>同型</strong>であると言い
+        \[ V\cong W \]
+        と表す。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        線型空間が同型であるとは「線型空間として全く同じ構造を持つ」という事です。<br>
+        また,省略は証明しますが関係\(\cong\)は同値関係であり
+        \[ \begin{aligned}
+        &V\cong V \\
+        &V\cong W\ \Rightarrow\ W\cong V\\
+        &V\cong W,\ W\cong U\ \Rightarrow\ V\cong U
+        \end{aligned} \]
+        が成立します。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 定理:成分表示への変換は同型写像 </h4>
+        <p>
+        \(K\)線型空間\(V\)の元を基底\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)に関する成分表示に変換する写像
+        \[ \varphi_V: V \ni x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n \mapsto (x_1,\cdots,x_n)^T \in K^n\]
+        は同型写像である。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        そもそも\(\varphi_V\)が写像であると言えるのは,任意の\(\mathbf{x}\in V\)に対して
+        \[ \mathbf{x} = x_1\mathbf{a}_1 + \cdots + x_n\mathbf{a}_n \]
+        という表示が一意的だからである事に注意して下さい。<br>
+        \(\varphi_V\)が線型写像である事は明らかで
+        \[ g: (x_1,\cdots,x_n)^T \in K^n\mapsto x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n \in V \]
+        が\(\varphi_V\)の逆写像である事も明らかです。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 系:有限次線型空間は数ベクトル空間と同型 </h4>
+        <p>
+        \(K\)線型空間\(V\)について\(\dim V = n\)であるならば
+        \[ V \cong K^n \]
+        </p>
+        </div>
+        <p style="font-size:70%"> 前頁の定理より明らかです。 </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 系:同型性は次元で定まる </h4>
+        <p>
+        \(K\)線型空間\(V,W\)について
+        \[ V\cong W\ \Leftrightarrow\ \dim V = \dim W \]
+        </p>
+        </div>
+        <p style="font-size:70%"> 上の系より明らかです。 </p>
+        </section>
+
+        <section>
+        <p>
+        任意の有限次元の線型空間は数ベクトル空間と同一視出来る事が分かりました。
+        </p>
+        <p>
+        すると,任意の線型写像も数ベクトル空間上の線型写像と同一視する事が出来そうです。
+        </p>
+        <div align="center"> <img width="600" src="fig/linear-map-correspondence.png"> </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        求める線型写像を\(\widetilde{f}: K^n\rightarrow K^m\)とおけば,下の図式より
+        \[ \color{yellow}{\widetilde{f} = \varphi_W\circ f \circ \varphi_V^{-1}} \]
+        で\(\widetilde{f}\)を求める事が出来ます。
+        </p>
+        <div align="center"> <img width="500" src="fig/linear-map-correspondence2.png"> </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        そこで,\(V\)の基底を\(\mathbf{v}_1,\cdots,\mathbf{v}_n\),\(W\)の基底を\(\mathbf{w}_1,\cdots,\mathbf{w}_m\)に固定しましょう。
+        </p>
+        <p class="fragment">
+        まず,任意の\((x_1,\cdots,x_n)^T\in K^n\)に対して
+        \[ \varphi_V^{-1}((x_1,\cdots,x_n)^T) = x_1\mathbf{v}_1+\cdots+x_n\mathbf{v}_n \]
+        です。従って
+        \[ \begin{aligned}
+        f\circ\varphi_V^{-1}((x_1,\cdots,x_n)^T) &= f(x_1\mathbf{v}_1+\cdots+x_n\mathbf{v}_n) \\
+        &=x_1f(\mathbf{v}_1)+\cdots+x_nf(\mathbf{v}_n)
+        \end{aligned} \]
+        となります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        ここで各\(f(\mathbf{v}_i)\in W\)の成分表示を
+        \[ f(\mathbf{v}_i) = a_{1i}\mathbf{w}_1+a_{2i}\mathbf{w}_2+\cdots+a_{mi}\mathbf{w}_m \]
+        と置けば,
+        \[ \begin{aligned}
+        f\circ\varphi_V^{-1}((x_1,\cdots,x_n)^T) &= x_1(a_{11}\mathbf{w}_1+\cdots+a_{m1}\mathbf{w}_m) \\
+        &+ x_2(a_{12}\mathbf{w}_1+\cdots+a_{m2}\mathbf{w}_m) \\
+        &+\cdots\\
+        &+x_n(a_{1n}\mathbf{w}_1+\cdots+a_{mn}\mathbf{w}_m)
+        \end{aligned} \]
+        </p>
+        <p class="fragment">
+        すなわち
+        \[ \begin{aligned}
+        f\circ\varphi_V^{-1}((x_1,\cdots,x_n)^T) &= (a_{11}x_1+\cdots+x_{1n}x_n)\mathbf{w}_1 \\
+        &+(a_{21}x_1+\cdots+x_{2n}x_n)\mathbf{w}_2 \\
+        &+\cdots\\
+        &+(a_{m1}x_1+\cdots+x_{mn}x_n)\mathbf{w}_m
+        \end{aligned} \]
+        ですから
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        成分表示に移せば
+        \[ \varphi_W\circ f\circ \varphi_V^{-1}\left(\begin{pmatrix} x_1\\ x_2 \\ \vdots \\ x_n\end{pmatrix}\right)
+        = \begin{pmatrix}
+        a_{11}x_1 + a_{12}x_2+\cdots + a_{1n}x_n \\
+        \vdots \\
+        a_{m1}x_1+a_{m2}x_2+\cdots + a_{mn}x_n
+        \end{pmatrix}
+        \]
+        となります。
+        </p>
+        <p class="fragment">
+        つまり
+        \[
+        \color{yellow}{\widetilde{f}\left(\begin{pmatrix} x_1 \\ \vdots \\ x_n\end{pmatrix}\right)=
+        \begin{pmatrix}
+        a_{11} & \cdots & a_{1n} \\
+        \vdots & \ddots & \vdots \\
+        a_{m1} & \cdots & a_{mn}
+        \end{pmatrix}
+        \begin{pmatrix}
+        x_1 \\ \vdots \\ x_n
+        \end{pmatrix} }\]
+        となります。つまり,<strong>任意の(有限次元空間についての)線型写像は行列の掛け算として表せる</strong>という事になります。出来上がった行列は第\(i\)列が\(f(\mathbf{v}_i)\)の成分表示になっています。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 定理:線型写像の行列表示 </h4>
+        <p>
+        有限次の\(K\)線型空間\(V,W\)の次元がそれぞれ\(n,m\)であるとし,それぞれの基底\(\mathbf{v}_1,\cdots,\mathbf{v}_n\),(\mathbf{w}_1,\cdots,\mathbf{w}_m\)を固定する。
+        </p>
+        この時,任意の線型写像\(f: V \rightarrow W\)により成分が
+        \[ y_1\mathbf{w}_1+\cdots+y_m\mathbf{w}_m = f(x_1\mathbf{v}_1+\cdots+x_n\mathbf{v}_n) \]
+        と移されるならば,\(f(v_i)\)の成分表示を\(\mathbf{a}_i\)として
+        \[ \color{yellow}{\mathbf{y} = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\mathbf{x}} \]
+        が成立する。これを線型写像の<strong>行列表示</strong>と言い,行列\(M_f = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\)を\(f\)の<strong>表現行列</strong>と言う。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        \(n \in\mathbb{N}\)について\(P_n = \text{"$n$次以下の実数係数多項式の集合"}\)とすると,
+        \[ F(f(x)) = f'(x) \]
+        は線型写像\(F:P_{n}\rightarrow P_{n-1}\)なのでした。これの行列表示を求めましょう。
+        </div>
+        <p>
+        具体例として\(n=3\)の場合を考えましょう。<br>
+        また,\(P_n\)の基底を 
+        \[ 1,x,x^2,\cdots,x^n \]
+        としましょう。すると例えば
+        \[ (1+2x+5x^2+x^3)' = 2+10x+3x^2 \]
+        という等式と
+        \[ \begin{pmatrix} 2 \\ 10 \\ 3 \end{pmatrix} =
+        \begin{pmatrix}
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 2 & 0 \\
+        0 & 0 & 0 & 3
+        \end{pmatrix}
+        \begin{pmatrix} 1 \\ 2 \\ 5 \\ 1\end{pmatrix}
+        \]
+        という等式が対応します。表現行列の各列は
+        \[ (1)'=0,\ (x)'=1,\ (x^2)'=2x,\ (x^3)'=3x^2 \]
+        という対応の成分表示になっています。
+        </p>
+        </section>
+        
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 像と核 </h4>
+        <p>
+        線型写像\(f:V\rightarrow W\)に対して
+        \[ \mathrm{Im}f = \{ f(\mathbf{x})\ |\ \mathbf{x}\in V \}\]
+        を\(f\)の<strong>像(image)</strong>と言う。
+        </p>
+        <p>
+        また,
+        \[ \mathrm{Ker}f = \{ \mathbf{x} \in V \ |\ f(\mathbf{x}) = \mathbf{0}\} \]
+        を\(f\)の<strong>核(kernel)</strong>と言う。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        像とは\(f\)によって\(V\)を移した空間であって,核とは\(f\)によって\(\mathbf{0}\)につぶれてしまう空間の事です。証明は省略しますが\(\mathrm{Im}f\),\(\mathrm{Ker}f\)も線型空間となっています。
+        </p>
+        <div align="center"> <img width="500" src="fig/image-kernel.png"> </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        \[ A =
+        \begin{pmatrix}
+        1 & 2 & -1 \\
+        0 & 1 & -1 \\
+        3 & 2 & 1
+        \end{pmatrix}
+        \]
+        によって定義される線形写像\(f_A\)の像・核を求めてみましょう。
+        </div>
+        <p>
+        \[ f_A(\mathbf{x}) = 
+        \begin{pmatrix}
+        1 & 2 & -1 \\
+        0 & 1 & -1 \\
+        3 & 2 & 1
+        \end{pmatrix}
+        \begin{pmatrix}
+        x \\ y \\ z
+        \end{pmatrix}
+        =
+        x\begin{pmatrix} 1 \\ 0 \\ 3 \end{pmatrix} +
+        y\begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix} +
+        z\begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix}
+        \]
+        より,
+        \[ \mathrm{Im}f_A = \left <
+        \begin{pmatrix} 1 \\ 0 \\ 3 \end{pmatrix},
+        \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix},
+        \begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix}
+        \right > = \left <
+        \begin{pmatrix} 2 \\ 1 \\ 2 \end{pmatrix},
+        \begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix}
+        \right > \]
+        です。また,核は
+        \[ \begin{pmatrix}
+        1 & 2 & -1 \\
+        0 & 1 & -1 \\
+        3 & 2 & 1
+        \end{pmatrix}
+        \begin{pmatrix} x \\ y \\ z \end{pmatrix}
+        =
+        \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}
+        \]
+        を解くと
+        \[ x+2y-z = 0,\ y-z=0,\ 3x+2y+z=0\ \Leftrightarrow\ x=-z, y=z \]
+        となるので
+        \[ \mathrm{Ker} f_A = \left\{\begin{pmatrix} -z \\ z \\ z \end{pmatrix}\ \middle|\ z\in \mathbb{R} \right\} = \left < \begin{pmatrix} -1 \\ 1 \\ 1 \end{pmatrix} \right > \]
+        です。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 次元定理 </h4>
+        <p>
+        線型写像\(f: V\rightarrow W\)に関して
+        \[ \dim V = \dim (\mathrm{Im} f) + \dim (\mathrm{Ker} f) \]
+        が成立する。
+        </p>
+        </div>
+        <p>
+        【証明の概要】<br>
+        \(\dim V = n, \dim(\mathrm{Ker} f) = m\)とすると,\(V\)の基底を
+        \[ \mathbf{v}_1,\cdots,\mathbf{v}_n \]
+        のうち\(\mathbf{v}_1,\cdots,\mathbf{v}_m\)が\(\mathrm{Ker} f\)の基底となるように取る事が出来ます。後は,残りの\(\mathbf{v}_{m+1},\cdots,\mathbf{v}_n\)に関して
+        \[ f(\mathbf{v}_{m+1}),\cdots,f(\mathbf{v}_n)\]
+        が\(\mathrm{Im} f\)の基底となる事を示せば良いです。
+        </p>
+        </section>
+
+        <section>
+        <p>
+        次元定理より,\(\dim(\mathrm{Im}f)\)と\(\dim(\mathrm{Ker}f)\)の一方が得られれば他方も得られます。そこで前者に名前を付けておきます。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 階数 </h4>
+        <p>
+        線型写像\(f: V\rightarrow W\)に関して
+        \[ \mathrm{rank} f = \dim(\mathrm{Im} f) \]
+        を\(f\)の<strong>階数</strong>と言う。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        証明は省略しますが,以下が成り立ちます。
+        \[ \begin{aligned}
+        & \mathrm{rank} f = \dim W\ \Leftrightarrow\ \text{$f$は全射} \\
+        & \mathrm{rank} f = \dim V\ \Leftrightarrow\ \text{$f$は単射}
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 定理: 階数と行列表示</h4>
+        <p>
+        線型写像\(f: V \rightarrow W\)に関して
+        \[ \dim V = n,\ \dim W = m,\ \mathrm{rank} f = r \]
+        であるとする。
+        </p>
+        <p>
+        この時,\(V,W\)の基底を上手く選べば\(f\)は
+        \[ \begin{pmatrix}
+        1 &        &  & & &\\
+          & \ddots &  & & &\\
+          &        & 1& & &\\
+          &        &  &0& & \\
+          &        &  & &\ddots & \\
+          \end{pmatrix} \qquad\text{(左上から\(r\)個だけ\(1\)で他は\(0\))}
+          \]
+          という\((m,n)\)型行列よって表示する事が出来る。
+        </p>
+        </div>
+        <p style="font-size:70%">
+        つまり,線型写像\(f:V\rightarrow W\)は本質的には<strong>2つの整数
+        \( \dim V\text{と}\mathrm{rank}f \)
+        によって定まってしまう</strong>という事になります。
+        </p>
+        <p style="font-size:70%">
+        \(\mathrm{Ker} f\)に含まれない\(V\)の基底を\(\mathbf{v}_1,\cdots,\mathbf{v}_r\)として,
+        \[ \mathbf{w}_1 = f(\mathbf{v}_1),\cdots,\mathbf{w}_r = f(\mathbf{v}_r) \]
+        となるように\(W\)の基底を定めれば,この表示を得ることが出来ます。
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 固有値・固有ベクトル </h2>
+        </section>
+
+        <section>
+        <p>
+        続いて<strong>固有値・固有ベクトル</strong>という非常に重要な概念を紹介しますが,抽象的な話題ばかりでつかれたと思うので本日は入門的な話題だけ紹介し,深い話は来週に回します。
+        </p>
+        <p class="fragment" style="margin-bottom:2em">
+        さて,導入として次の漸化式を解くという問題を考えましょう。
+        \[
+        \left\{\begin{array}{l}
+        x_{n+1} = x_n + 3y_n \\
+        y_{n+1} = 3x_n + y_n
+        \end{array}\right.
+        \]
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        これの上手い解き方は,二式を足し引きして
+        \[
+        \left\{\begin{array}{l}
+        x_{n+1} = x_n + 3y_n \\
+        y_{n+1} = 3x_n + y_n
+        \end{array}\right.
+        \ \Leftrightarrow\ 
+        \left\{\begin{array}{l}
+        x_{n+1} + y_{n+1} = 4(x_n + y_n) \\
+        x_{n+1} - y_{n+1} = -2(x_n - y_n)
+        \end{array}\right.
+        \]
+        と同値変形する事です。
+        </p>
+        <p>
+        すると,それぞれの漸化式を個別に解くことが可能となり
+        \[ x_n + y_n = 4^n(x_0 + y_0),\ x_n - y_n = (-2)^n(x_0 - y_0) \]
+        となります。
+        </p>
+        <p>
+        最後に,\(x_n,y_n\)に関して解けば一般解
+        \[ \begin{aligned}
+        x_n &= \frac{4^n(x_0 + y_0)+(-2)^n(x_0 - y_0)}{2}\\
+        y_n &= \frac{4^n(x_0 + y_0)+(-2)^n(x_0 - y_0)}{2} 
+        \end{aligned} \]
+        が得られます。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        今の同値変形を行列で書き表わせば,
+        \[
+        \begin{aligned}
+        & \begin{pmatrix} x_{n+1} \\ y_{n+1}\end{pmatrix} = \begin{pmatrix} 1 & 3 \\ 3 & 1\end{pmatrix}\begin{pmatrix} x_n \\ y_n\end{pmatrix} \\
+        \Leftrightarrow & \begin{pmatrix} x_{n+1}+y_{n+1} \\ x_{n+1}-y_{n+1}\end{pmatrix} = \begin{pmatrix} 4 & 0 \\ 0 & -2\end{pmatrix}\begin{pmatrix} x_n+y_n \\ x_n-y_n\end{pmatrix} \\
+        \Leftrightarrow& \begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}\begin{pmatrix} x_{n+1} \\ y_{n+1} \end{pmatrix} = \begin{pmatrix} 4 & 0 \\ 0 & -2\end{pmatrix}\begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}\begin{pmatrix} x_n \\ y_n\end{pmatrix} \\
+        \Leftrightarrow& \begin{pmatrix} x_{n+1} \\ y_{n+1} \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}^{-1}\begin{pmatrix} 4 & 0 \\ 0 & -2\end{pmatrix}\begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}\begin{pmatrix} x_n \\ y_n\end{pmatrix} 
+        \end{aligned}
+        \]
+        となります。つまり,係数行列が
+        \[ \color{yellow}{\begin{pmatrix} 1 & 3 \\ 3 & 1\end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}^{-1}\begin{pmatrix} 4 & 0 \\ 0 & -2\end{pmatrix}\begin{pmatrix} 1 & 1 \\ 1 & -1\end{pmatrix}} \]
+        と変形出来る事を利用した解法であったと言えます。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        一般化して,正方行列\(A\)に対して,ある正則行列\(P\)を見つけて
+        \[ \color{yellow}{A = P\Lambda P^{-1}}\qquad\text{但し}\Lambda =\begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n\end{pmatrix} \]
+        と変形する事を考えます。但し\(\Lambda\)は対角行列です。
+        </p>
+        <p>
+        ここで\(P\)を列ベクトルに分解して\(P = (\mathbf{p}_1,\cdots,\mathbf{p}_n)\)とすれば
+        \[ \begin{aligned}
+        A = P\Lambda P^{-1}\ &\Leftrightarrow\ AP=P\Lambda \\
+        &\Leftrightarrow\ A(\mathbf{p}_1,\cdots,\mathbf{p}_n)= (\mathbf{p}_1,\cdots,\mathbf{p}_n)\begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n\end{pmatrix}\\
+        &\Leftrightarrow\ (A\mathbf{p}_1,\cdots,A\mathbf{p}_n)= (\lambda_1\mathbf{p}_1,\cdots,\lambda_n\mathbf{p}_n)
+        \end{aligned} \]
+        となります。つまり固有値\(\lambda_i\)と\(P\)の第\(i\)列\(\mathbf{p}_i\)は
+        \[ \color{yellow}{A\mathbf{p}_i = \lambda_i\mathbf{p}_i} \]
+        の関係にあるということです。
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 固有値・固有ベクトル </h4>
+        <p>
+        正方行列\(A\)に対して
+        \[ A\mathbf{p} = \lambda\mathbf{p}\qquad\text{但し}\mathbf{p}\neq 0 \]
+        を満たす\(\lambda\)を\(A\)の<strong>固有値</strong>,\(\mathbf{p}\)を\(\lambda\)に対応する<strong>固有ベクトル</strong>という。
+        </p>
+        </div>
+        <p>
+        固有ベクトル\(\mathbf{p}\)には定数倍の不定性がありますが,自由に１つ選んで良いです。
+        </p>
+        <p style="font-size:70%">
+        先ほどの例においては
+        \[ \begin{pmatrix} 1 & 3 \\ 3 & 1\end{pmatrix}\begin{pmatrix} 1 \\ 1\end{pmatrix} = 4\begin{pmatrix} 1 \\ 1\end{pmatrix},\qquad \begin{pmatrix} 1 & 3 \\ 3 & 1\end{pmatrix}\begin{pmatrix} 1 \\ -1\end{pmatrix} = -2\begin{pmatrix} 1 \\ -1\end{pmatrix} \]
+        が成立しているので,\(4,-2\)が固有値で\((1,1)^T, (1,-1)^T\)が対応する固有ベクトルになっています。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <h2> 固有値の求め方 </h2>
+        <p>
+        \[ A\mathbf{p} = \lambda\mathbf{p}\ \Leftrightarrow\ (A-\lambda E)\mathbf{p} = 0\qquad (\because\mathbf{p}=E\mathbf{p})\]
+        なので,\(A-\lambda E\)が正則ならば
+        \[ \mathbf{p} = (A-\lambda E)^{-1}0 = 0 \]
+        となり\(\mathbf{p} \neq 0\)に反します。従って
+        \[ \color{yellow}{\lambda\text{が固有値}\ \Rightarrow\ \det(A-\lambda E) = 0} \]
+        が成り立ちます。
+        </p>
+        <p>
+        また,本資料35Pより
+        \[ \det(A-\lambda E) = 0\ \Rightarrow\ \text{$(A-\lambda E)\mathbf{p} = 0$を満たす$\mathbf{p}\neq 0$が存在} \]
+        なので,結局
+        \[ \color{yellow}{\lambda\text{が固有値}\ \Leftrightarrow\ \det(A-\lambda E) = 0} \]
+        となります。また\(A\)が\(n\)次正方の時,\(\det(A-\lambda E) = 0\)は\(\lambda\)の\(n\)次方程式となるので固有値は(重解を含めて)ちょうど\(n\)個存在するという事も解ります。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 固有値・固有ベクトル・行列の対角化 </h4>
+        <p>
+        \(n\)次正方行列\(A\)に対して<strong>固有方程式</strong>
+        \[ \det (A-\lambda E) = 0 \]
+        の\(n\)個の解\(\lambda_1, \cdots, \lambda_n\)が\(A\)の固有値である。
+        </p>
+        <p>
+        固有値が全て異なる時,\(\lambda_i\)に対する固有ベクトルを\(\mathbf{p}_i\)とすれば
+        \[ P=(\mathbf{p}_1, \cdots, \mathbf{p}_n) \]
+        は正則であり,
+        \[ A = P\Lambda P^{-1}\qquad\text{但し}\Lambda =\begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n\end{pmatrix} \]
+        が成立する。この変形を行列\(A\)の<strong>対角化</strong>という。
+        </p>
+        </div>
+        <p style="font-size:80%">
+        上の説明では「固有値が重複したらどうなるのか？」「固有値が全て異なる時\(P\)が正則である理由」が抜けています。次回改めて説明します。
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        対角化の応用の１つとして,行列の累乗計算があります。つまり
+        \[ \begin{aligned}
+        A^n &= P\Lambda P^{-1}\cdot P\Lambda P^{-1}\cdots P\Lambda P^{-1} \\
+        &= P\Lambda E \Lambda E \cdots E\Lambda P^{-1} \\
+        &= P\Lambda^n P^{-1}
+        \end{aligned} \]
+        となります。
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 行列の累乗 </h4>
+        <p>
+        行列\(A\)が
+        \[ A = P\Lambda P^{-1}\qquad\text{但し}\Lambda =\begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n\end{pmatrix} \]
+        と対角化されるならば
+        \[ A^m = P\Lambda^m P^{-1}\qquad\text{但し}\Lambda^m =\begin{pmatrix} \lambda_1^m & & \\ & \ddots & \\ & & \lambda_n^m\end{pmatrix} \]
+        である。
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p>
+        \[ A = \begin{pmatrix} 1 & 1 \\ 1 & 0\end{pmatrix} \]
+        について\(A^n\)を計算してみましょう。
+        </p>
+        </div>
+        <p>
+        \[ \det(A-\lambda E) = \begin{vmatrix} 1-\lambda & 1 \\ 1 & -\lambda\end{vmatrix} = (1-\lambda)(-\lambda) -1 = \lambda^2 -\lambda - 1 \]
+        なので固有値は
+        \[ \lambda^2-\lambda-1=0\ \Leftrightarrow\ \lambda = \frac{1 \pm \sqrt{5}}{2} \]
+        です。\(\phi = (1+\sqrt{5})/2,\ \psi=(1-\sqrt{5})/2\)と置きましょう。
+        </p>
+        <p>
+        \(\lambda = \phi\)に対応する固有ベクトルは
+        \[ \begin{pmatrix}1&1\\1&0\end{pmatrix}\begin{pmatrix}x\\y\end{pmatrix} = \phi\begin{pmatrix}x\\y\end{pmatrix}
+        \ \Leftrightarrow\ x=\phi y \]
+        を解いて\((x,y) = (\phi, 1)\)などとなります。同様に\(\lambda = \psi\)に対応する固有ベクトルは
+        \((x,y) = (\psi, 1)\)などとなります。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        よって\(P = \begin{pmatrix} \phi & \psi \\ 1 & 1 \end{pmatrix}\)と置けば\(\det P = \phi-\psi\neq 0\)より\(P\)は正則なので,
+        \[ A = P\begin{pmatrix} \phi & 0 \\ 0 & \psi\end{pmatrix}P^{-1} \]
+        となります。すなわち
+        \[ \begin{aligned}
+        A^n &= P\begin{pmatrix} \phi^n & 0 \\ 0 & \psi^n\end{pmatrix} P^{-1} \\
+        &= \begin{pmatrix} \phi & \psi \\ 1 & 1 \end{pmatrix} \begin{pmatrix} \phi^n & 0 \\ 0 & \psi^n\end{pmatrix} \frac{1}{\phi-\psi}\begin{pmatrix} 1 & -\psi \\ -1 & \phi \end{pmatrix} \\
+        &= \frac{1}{\phi-\psi}\begin{pmatrix} \phi^{n+1}-\psi^{n+1} & -\phi\psi(\phi^n-\psi^n) \\ \phi^n-\psi^n & -\phi\psi(\phi^{n-1}-\psi^{n-1})\end{pmatrix} \\
+        &= \color{yellow}{\frac{1}{\sqrt{5}}\begin{pmatrix} \phi^{n+1}-\psi^{n+1} & \phi^n-\psi^n \\ \phi^n-\psi^n & \phi^{n-1}-\psi^{n-1}\end{pmatrix}} \\
+        \end{aligned} \]
+        が得られます。
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例題続き </h4>
+        <p>
+        フィボナッチ数列
+        \[ F_{n+2} = F_{n+1} + F_{n},\ F_0=0,\ F_1 = 1\]
+        の一般項を求めましょう。
+        </p>
+        </div>
+        <p>
+        \[ \begin{pmatrix} F_{n+2} \\ F_{n+1} \end{pmatrix} = \begin{pmatrix} 1 & 1 \\ 1 & 0\end{pmatrix}\begin{pmatrix} F_{n+1} \\ F_n \end{pmatrix} \]
+        より
+        \[ \begin{pmatrix} F_{n+1} \\ F_n\end{pmatrix} = \begin{pmatrix} 1 & 1\\ 1 & 0\end{pmatrix}^n\begin{pmatrix} F_1 \\ F_0\end{pmatrix} \]
+        ですから,前頁の結果より
+        \[ F_n = \frac{1}{\sqrt{5}}(\phi^n-\psi^n) = \color{yellow}{\frac{1}{\sqrt{5}}\left\{\left(\frac{1+\sqrt{5}}{2}\right)^n-\left(\frac{1-\sqrt{5}}{2}\right)^n\right\}} \]
+        となります。
+        </p>
+        <p>
+        余談ですが,この式から有名な
+        \[ \lim_{n\rightarrow\infty}\frac{F_{n+1}}{F_n} = \phi\quad\text{(黄金比)} \]
+        という性質も示されます。
+        </p>
+        </section>
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        </p>
+        </section>
+      </div>
+    </div>
+
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</html>
