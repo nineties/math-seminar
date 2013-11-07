@@ -296,7 +296,7 @@
         \[ 0\mathbf{x} +0\mathbf{x}\overset{\text{公理6}}{=} (0+0)\mathbf{x} = 0\mathbf{x} \]
         であり,公理4から\(0\mathbf{x} + \mathbf{y} = \mathbf{0}\)を満たす\(\mathbf{y}\)が存在するのでこれを両辺に加えて
         \[(0\mathbf{x}+0\mathbf{x})+\mathbf{y} = 0\mathbf{x} + \mathbf{y}
-        \overset{\text{公理}2,3}{\Leftrightarrow} 0\mathbf{x} = \mathbf{0} 
+        \overset{\text{公理}1,2,3}{\Leftrightarrow} 0\mathbf{x} = \mathbf{0} 
         \]
         <span style="float:right">□</span>
         </p>
@@ -347,9 +347,9 @@
         <h4 style="color:lightgreen"> 例 </h4>
         <p>
         \[ V = \left\{\begin{pmatrix} x \\ y \end{pmatrix} \in\mathbb{R}^2\,\middle|\, x + 2y = 0\right\} \]
-        は\(\mathbb{R}^2\)の線型部分空間の例です。一方
+        は\(\mathbb{R}^2\)の部分線型空間の例です。一方
         \[ W = \left\{\begin{pmatrix} x \\ y \end{pmatrix} \in\mathbb{R}^2\,\middle|\, 2x + 3y = 1\right\} \]
-        は\(\mathbb{R}^2\)の線型部分空間ではありません。
+        は\(\mathbb{R}^2\)の部分線型空間ではありません。
         </p>
         </div>
         <p>
@@ -359,7 +359,7 @@
         & x+2y = 0\ \Rightarrow\ (kx) + 2(ky) = 0
         \end{aligned}
         \]
-        なので加法とスカラー倍について閉じています。公理1～8の成立は明らかです。<span style="font-size:60%">(実は加法とスカラー倍について閉じてさえいれば自動的に公理1～8が成り立ちます。証明してみて下さい。)</span>
+        なので加法とスカラー倍について閉じています。公理1～8の成立は明らかです。<span style="font-size:60%">(実は部分集合が加法とスカラー倍について閉じてさえいれば自動的に公理1～8が成り立ちます。証明してみて下さい。)</span>
         </p>
         <p>
         一方\(W\)はそもそも
@@ -419,7 +419,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         と書くことが出来ます。
         </p>
         <p class="fragment">
-        この様に線型空間を表現すると,その特徴がよく見えるようになります。
+        この様に,いくつかの定ベクトルを用いて線型空間を表現する事ができます。すると空間の構造がよく見えるようになります。
         </p>
         </section>
 
@@ -930,7 +930,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
 
         <section>
         <div class="block" style="border-color:pink;font-size:90%">
-        <h4 style="color:pink"> 同型写像 </h4>
+        <h4 style="color:pink"> 同型 </h4>
         <p>
         線型空間\(V,W\)の間に同型写像
         \[ f: V\leftrightarrows W: f^{-1}\]
