@@ -245,7 +245,7 @@
         <p>
         これは<strong>幾何ベクトル空間</strong>と呼ばれます。
         </p>
-        <div align="center"> <img width="800" src="fig/vector-space-example1.png"> </div>
+        <div align="center"> <img width="600" src="fig/vector-space-example1.png"> </div>
         </section>
 
         <section>
@@ -314,7 +314,7 @@
         <p style="font-size:80%">
         【唯一性の証明】<br>
         \(\mathbf{y},\mathbf{y}'\)が\(\mathbf{x}\)に対して性質4を満たすならば
-        \[ \mathbf{y} \overset{\text{公理}3}{=} \mathbf{0} + \mathbf{y} = (\mathbf{x}+\mathbf{y}')+\mathbf{y} \overset{\text{公理}2}{=} (\mathbf{x}+\mathbf{y})+\mathbf{y}'=\mathbf{0}+\mathbf{y}'\overset{\text{公理}3}{=}\mathbf{y}' \]
+        \[ \mathbf{y} \overset{\text{公理}3}{=} \mathbf{0} + \mathbf{y} = (\mathbf{x}+\mathbf{y}')+\mathbf{y} \overset{\text{公理}1,2}{=} (\mathbf{x}+\mathbf{y})+\mathbf{y}'=\mathbf{0}+\mathbf{y}'\overset{\text{公理}3}{=}\mathbf{y}' \]
         <span style="float:right">□</span>
         </p>
         <p style="font-size:70%">
@@ -486,7 +486,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         \[ (0,1,1) = \frac{1}{3}(1,1,2)+\frac{1}{3} (-1,2,1) \]
         つまり
         \[\color{yellow}{\mathbf{a}_3 = \frac{1}{3}\mathbf{a}_1 + \frac{1}{3}\mathbf{a}_2} \]
-        と表される事が原因です。\(\mathbf{a}_3\)は\(\mathbf{a}_1,\mathbf{a}_2\)で表す事が出来るから冗長だという訳です。
+        と表される事が原因です。\(\mathbf{a}_3\)はすでに\(< \mathbf{a}_1,\mathbf{a}_2> \)の中に入っているので,冗長であるという訳です。
         </p>
         </section>
 
@@ -495,7 +495,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <h4 style="color:pink"> 線型独立 </h4>
         \(K\)線型空間\(V\)の定ベクトル\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)について
         \[ s_1\mathbf{a}_1 + s_2\mathbf{a}_2 + \cdots + s_n\mathbf{a}_n = \mathbf{0} \qquad (s_i\in K)\]
-        となるのが\(s_1 = s_2 = \cdots = s_n = 0\)の時のみであるならば\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)は<strong>線型独立</strong>(一次独立)であると言う。また,成立しない場合は<strong>線型従属</strong>(一次従属)であると言う。
+        となるのが\(s_1 = s_2 = \cdots = s_n = 0\)の時のみであるならば\(\mathbf{a}_1,\cdots,\mathbf{a}_n\)は<strong>線型独立</strong>であると言う。そうでない場合は<strong>線型従属</strong>であると言う。
         </div>
         <p style="font-size:80%">
         例えば\( \mathbf{a},\mathbf{b} \)が線型従属ならば
@@ -644,7 +644,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         \cdots +
         x_n\begin{pmatrix} 0 \\  0 \\ \vdots \\ 1 \end{pmatrix}
         \]
-        と表せるので\(\mathbb{R}^n\)は\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)で生成されます。これらが線型独立なのは明らかですから\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)は\(\mathbf{R}^n\)の基底となります。これを\(\mathbf{R}^n\)の<strong>標準基底</strong>と言います。
+        と表せるので\(\mathbb{R}^n\)は\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)で生成されます。これらが線型独立なのは明らかですから\(\mathbf{e}_1,\cdots,\mathbf{e}_n\)は\(\mathbb{R}^n\)の基底となります。これを\(\mathbb{R}^n\)の<strong>標準基底</strong>と言います。
         </p>
         </section>
 
@@ -748,7 +748,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <p>
         同じく\(P_3\)に関して,
         \[ 1, x, 2x^2-1, 4x^3-3x \]
-        が\(P_3\)の基底の一つとなる事を示して下さい。
+        が基底の一つとなる事を示して下さい。
         </p>
         <p>
         さらに,この基底に関する
@@ -761,7 +761,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         の両辺を比較すれば
         \[ a = s-u,\ b = t-3v,\ c = 2u,\ d = 4v
         \Leftrightarrow s =  a + \frac{c}{2},\ t = b + \frac{3d}{4},\ u = \frac{c}{2},\ v = \frac{d}{4} \]
-        と\(s,t,u,v\)が定まるので,\(1,x,2x^2-1,4x^3-3x\)は\(P_3\)を生成し,線型独立である事は明らか(\(a=b=c=d=0\)とする)。<br>
+        と\(s,t,u,v\)が定まるので,\(1,x,2x^2-1,4x^3-3x\)は\(P_3\)を生成し,線型独立である事は明らか。<br>
         また,成分表示は
         \[ \left(a+\frac{c}{2}, b+\frac{3d}{4}, \frac{c}{2}, \frac{d}{4}\right) \in \mathbb{R}^4 \]
         </p>
@@ -799,7 +799,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         </p>
         <p class-"fragment">
         \(V\)の元に等比数列\(F_n=r^n\ (r\neq 0)\)が存在するか考えてみると
-        \[ r^{n+2}=r^{n+1}=r^n\ \Leftrightarrow\ r^2=r+1\ \Leftrightarrow\ r = \frac{1\pm\sqrt{5}}{2} \]
+        \[ r^{n+2}=r^{n+1}+r^n\ \Leftrightarrow\ r^2=r+1\ \Leftrightarrow\ r = \frac{1\pm\sqrt{5}}{2} \]
         であれば良いので,
         \[ (1, \phi, \phi^2, \cdots)\text{と}(1,\psi,\psi^2,\cdots) \quad(\phi=\frac{1+\sqrt{5}}{2},\psi=\frac{1-\sqrt{5}}{2})\]
         という2つの等比数列が\(V\)の元である事が解ります。さらにこの2つの数列は線型独立なので,任意の数列\((F_0,F_1,\cdots)\)が
@@ -807,7 +807,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         と表される事になります。つまり,任意の\(V\)の元は
         \[ \color{yellow}{F_n = a\phi^n + b\psi^n} \]
         と表される数列です。<br>
-        この様に,<strong>基底を上手に選ぶ</strong>事が線型空間の正体を調べる上で大切である事が解ります。
+        この様に,<strong>基底を上手に選ぶ</strong>事が線型空間の構造を調べる上で大切である事が解ります。
         </p>
         </section>
 
@@ -848,7 +848,9 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         \[ \color{yellow}{f(a\mathbf{x}) = af(\mathbf{x})} \]
         という等式が得られます。さらに\(a=0\)とすれば
         \[ \color{yellow}{f(\mathbf{0}) = \mathbf{0}} \]
-        となるので,線型写像は必ず零ベクトルを零ベクトルに移すという事が解ります。
+        であり,\(a=1,b=-1\)とすれば
+        \[ \color{yellow}{f(-\mathbf{x}) = -f(\mathbf{x})} \]
+        が得られます。この様に,上の定義を満たす\(f\)は線型空間の構造を保った写像になっています。
         </p>
         </section>
 
@@ -963,7 +965,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         \[ \mathbf{x} = x_1\mathbf{a}_1 + \cdots + x_n\mathbf{a}_n \]
         という表示が一意的だからである事に注意して下さい。<br>
         \(\varphi_V\)が線型写像である事は明らかで
-        \[ g: (x_1,\cdots,x_n)^T \in K^n\mapsto x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n \in V \]
+        \[ f: (x_1,\cdots,x_n)^T \in K^n\mapsto x_1\mathbf{a}_1+\cdots+x_n\mathbf{a}_n \in V \]
         が\(\varphi_V\)の逆写像である事も明らかです。
         </p>
         </section>
@@ -999,9 +1001,9 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
 
         <section style="font-size:80%">
         <p>
-        求める線型写像を\(\widetilde{f}: K^n\rightarrow K^m\)とおけば,下の図式より
+        求める線型写像を\(\widetilde{f}: K^n\rightarrow K^m\)とおくと,\(\widetilde{f}\)は線型写像\(f\)の定める対応を成分の対応に置き換えただけのものなのですから,
         \[ \color{yellow}{\widetilde{f} = \varphi_W\circ f \circ \varphi_V^{-1}} \]
-        で\(\widetilde{f}\)を求める事が出来ます。
+        を満たさなければなりません。
         </p>
         <div align="center"> <img width="500" src="fig/linear-map-correspondence2.png"> </div>
         </section>
@@ -1078,15 +1080,37 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 定理:線型写像の行列表示 </h4>
         <p>
-        有限次の\(K\)線型空間\(V,W\)の次元がそれぞれ\(n,m\)であるとし,それぞれの基底\(\mathbf{v}_1,\cdots,\mathbf{v}_n\),(\mathbf{w}_1,\cdots,\mathbf{w}_m\)を固定する。
+        有限次の\(K\)線型空間\(V,W\)の次元がそれぞれ\(n,m\)であるとし,それぞれの基底\(\mathbf{v}_1,\cdots,\mathbf{v}_n\),\(\mathbf{w}_1,\cdots,\mathbf{w}_m\)を固定する。
         </p>
-        この時,任意の線型写像\(f: V \rightarrow W\)により成分が
+        この時,線型写像\(f: V \rightarrow W\)を
         \[ y_1\mathbf{w}_1+\cdots+y_m\mathbf{w}_m = f(x_1\mathbf{v}_1+\cdots+x_n\mathbf{v}_n) \]
-        と移されるならば,\(f(v_i)\)の成分表示を\(\mathbf{a}_i\)として
+        と成分表示するならば,\(f(\mathbf{v}_i)\)の成分表示を\(\mathbf{a}_i\)として
         \[ \color{yellow}{\mathbf{y} = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\mathbf{x}} \]
         が成立する。これを線型写像の<strong>行列表示</strong>と言い,行列\(M_f = (\mathbf{a}_1,\cdots,\mathbf{a}_n)\)を\(f\)の<strong>表現行列</strong>と言う。
         </p>
         </div>
+        </section>
+
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        平面上の幾何ベクトル空間\(V\)において,
+        \[ f(\mathbf{x}) = \mathbf{x}\text{を反時計周りに$\theta$だけ回転したベクトル} \]
+        で定められる\(f:V\rightarrow V\)は線型写像となります。これの行列表示を求めましょう。
+        </div>
+        <p>
+        \(V\)の基底として,長さ1の\(\mathbf{a},\mathbf{b}\)を取りましょう。
+        </p>
+        <img align="right" width="300" src="fig/rotation.png">
+        <p>
+        すると,右図のように
+        \[ f(\mathbf{a}) = (\cos\theta)\mathbf{a}+(\sin\theta)\mathbf{b} \]
+        となります。同様に
+        \[ f(\mathbf{b})= (-\sin\theta)\mathbf{a}+(\cos\theta)\mathbf{b} \]
+        となるので,これらの成分を列に並べた
+        \[ \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix} \]
+        が基底\(\mathbf{a},\mathbf{b}\)に関する\(f\)の表現行列\(M_f\)となります。
+        </p>
         </section>
 
         <section style="font-size:70%">
@@ -1123,7 +1147,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <p>
         線型写像\(f:V\rightarrow W\)に対して
         \[ \mathrm{Im}f = \{ f(\mathbf{x})\ |\ \mathbf{x}\in V \}\]
-        を\(f\)の<strong>像(image)</strong>と言う。
+        を\(f\)の<strong>像</strong>と言う。
         </p>
         <p>
         また,
@@ -1149,7 +1173,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         \]
         によって定義される線形写像\(f_A\)の像・核を求めてみましょう。
         </div>
-        <p>
+        <p style="font-size:70%">
         \[ f_A(\mathbf{x}) = 
         \begin{pmatrix}
         1 & 2 & -1 \\
@@ -1200,7 +1224,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         が成立する。
         </p>
         </div>
-        <p>
+        <p style="font-size:70%">
         【証明の概要】<br>
         \(\dim V = n, \dim(\mathrm{Ker} f) = m\)とすると,\(V\)の基底を
         \[ \mathbf{v}_1,\cdots,\mathbf{v}_n \]
@@ -1253,14 +1277,15 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         </p>
         </div>
         <p style="font-size:70%">
-        つまり,線型写像\(f:V\rightarrow W\)は本質的には<strong>2つの整数
-        \( \dim V\text{と}\mathrm{rank}f \)
-        によって定まってしまう</strong>という事になります。
-        </p>
-        <p style="font-size:70%">
         \(\mathrm{Ker} f\)に含まれない\(V\)の基底を\(\mathbf{v}_1,\cdots,\mathbf{v}_r\)として,
         \[ \mathbf{w}_1 = f(\mathbf{v}_1),\cdots,\mathbf{w}_r = f(\mathbf{v}_r) \]
         となるように\(W\)の基底を定めれば,この表示を得ることが出来ます。
+        </p>
+        <p style="font-size:80%">
+        以上の話から,線型空間・線型写像というものは本質的には
+        <strong>
+        \( \dim V\text{と}\mathrm{rank}f \)
+        によって定まってしまう</strong>という事になります。
         </p>
         </section>
 
@@ -1273,7 +1298,8 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         続いて<strong>固有値・固有ベクトル</strong>という非常に重要な概念を紹介しますが,抽象的な話題ばかりでつかれたと思うので本日は入門的な話題だけ紹介し,深い話は来週に回します。
         </p>
         <p class="fragment" style="margin-bottom:2em">
-        さて,導入として次の漸化式を解くという問題を考えましょう。
+        固有値・固有ベクトルとは<strong>上手く基底を選ぶ</strong>という事と関係します。<br>
+        導入として次の漸化式を解くという問題を考えましょう。
         \[
         \left\{\begin{array}{l}
         x_{n+1} = x_n + 3y_n \\
@@ -1308,7 +1334,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         最後に,\(x_n,y_n\)に関して解けば一般解
         \[ \begin{aligned}
         x_n &= \frac{4^n(x_0 + y_0)+(-2)^n(x_0 - y_0)}{2}\\
-        y_n &= \frac{4^n(x_0 + y_0)+(-2)^n(x_0 - y_0)}{2} 
+        y_n &= \frac{4^n(x_0 + y_0)-(-2)^n(x_0 - y_0)}{2} 
         \end{aligned} \]
         が得られます。
         </p>
@@ -1380,11 +1406,11 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         が成り立ちます。
         </p>
         <p>
-        また,本資料35Pより
+        また,第8回資料35Pより
         \[ \det(A-\lambda E) = 0\ \Rightarrow\ \text{$(A-\lambda E)\mathbf{p} = 0$を満たす$\mathbf{p}\neq 0$が存在} \]
         なので,結局
         \[ \color{yellow}{\lambda\text{が固有値}\ \Leftrightarrow\ \det(A-\lambda E) = 0} \]
-        となります。また\(A\)が\(n\)次正方の時,\(\det(A-\lambda E) = 0\)は\(\lambda\)の\(n\)次方程式となるので固有値は(重解を含めて)ちょうど\(n\)個存在するという事も解ります。
+        となります。また,一般に\(\det(A-\lambda E) = 0\)は\(\lambda\)の\(n\)次方程式となります。
         </p>
         </section>
 
@@ -1394,18 +1420,24 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <p>
         \(n\)次正方行列\(A\)に対して<strong>固有方程式</strong>
         \[ \det (A-\lambda E) = 0 \]
-        の\(n\)個の解\(\lambda_1, \cdots, \lambda_n\)が\(A\)の固有値である。
+        の解が\(A\)の固有値である。
         </p>
         <p>
-        固有値が全て異なる時,\(\lambda_i\)に対する固有ベクトルを\(\mathbf{p}_i\)とすれば
+        \(A\)が\(n\)個の相異なる固有値\(\lambda_1,\cdots,\lambda_n\)を持つ時,\(\lambda_i\)に対する固有ベクトルを\(\mathbf{p}_i\)とすれば
         \[ P=(\mathbf{p}_1, \cdots, \mathbf{p}_n) \]
         は正則であり,
         \[ A = P\Lambda P^{-1}\qquad\text{但し}\Lambda =\begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n\end{pmatrix} \]
         が成立する。この変形を行列\(A\)の<strong>対角化</strong>という。
         </p>
         </div>
+        <p>
         <p style="font-size:80%">
-        上の説明では「固有値が重複したらどうなるのか？」「固有値が全て異なる時\(P\)が正則である理由」が抜けています。次回改めて説明します。
+        \[ \det (A-\lambda E) = 0 \]
+        が\(n\)次方程式だからといって,これが必ず\(n\)個の解を持つとは限らない事に注意して下さい。
+        </p>
+        <p style="font-size:80%">
+        また,上の説明では「固有値が重複したらどうなるのか？」「固有値が全て異なる時\(P\)が正則である理由」が抜けています。
+        次回改めて説明します。
         </p>
         </section>
 
@@ -1496,6 +1528,7 @@ z & 6.62 & 6.14 & 5.36 & 4.0  & 5.72 & 3.64 & 6.8  & 3.3  & 5.62 & 5.12 \\ \hlin
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
+        今回は,固有値・固有ベクトルについて初歩的な話題しか紹介しませんでしたのでその続きからやります。その後内積空間について紹介し,数値アルゴリズムに関して出来る所まで進めます。
         </p>
         </section>
       </div>
