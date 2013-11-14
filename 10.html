@@ -417,7 +417,7 @@ array([[ 2.,  1.,  1.],
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 線型変換の固有値と行列の固有値 </h4>
         <p>
-        線型変換\(f: V\rightarrow V\)が\(V\)の適当な基底による成分表示を用いて行列\(M_f\)で表現されるならば
+        線型変換\(f: V\rightarrow V\)が行列\(M_f\)で表示されるならば
         \[ \text{$\lambda$が$f$の固有値}\ \Leftrightarrow\ \text{$\lambda$が$M_f$の固有値} \]
         である。
         </p>
@@ -450,7 +450,7 @@ array([[ 2.,  1.,  1.],
         <p style="font-size:70%">
         前回説明した通り,
         \[ \det (A-\lambda E) = \begin{vmatrix} 2-\lambda & -1 \\ 0 & 3-\lambda\end{vmatrix} = (2-\lambda)(3-\lambda) \]
-        を計算して,固有値は\(\lambda = 2, 3\)を得ます。<br>
+        を計算して,固有値\(\lambda = 2, 3\)を得ます。<br>
         固有値\(2\)に対応する固有ベクトルは
         \[ \begin{pmatrix} 2 & -1 \\ 0 & 3 \end{pmatrix}\begin{pmatrix}x \\ y \end{pmatrix} = 2\begin{pmatrix} x \\ y \end{pmatrix}\ \Leftrightarrow\ y=0  \]
         より\(\mathbf{u}=(1,0)^T\)等となります。
@@ -485,7 +485,7 @@ array([[ 2.,  1.,  1.],
 
         <section style="font-size:80%">
         <p>
-        固有ベクトルに沿って描いた平行四辺形をは下図のように綺麗に変換されます。
+        固有ベクトルに沿って描いた平行四辺形は下図のように綺麗に変換されます。
         この様に同じ変換でも,軸の取り方(基底の取り方)によってその見え方が大きく変わります。
         </p>
         <div align="center"> <img width="600" src="fig/eigenvector-example2.png"> </div>
@@ -602,7 +602,7 @@ array([[ 2.,  1.,  1.],
         が成立します。(\(\lambda_i\)は\(i\)番目の固有ベクトルの固有値。)
         </p>
         <p>
-        これは<strong>\(n\)次元の線型変換を\(n\)個の\(1\)次元の線型変換に分解</strong>したのだと説明する事が出来ます。<strong>高次元の変換を低次元のより分り易い変換に帰着させる</strong>という事が対角化の重要な働きです。後で対角化出来ない場合を考察する際にもこの視点が重要になります。
+        これは<strong>\(n\)次元の線型変換を\(n\)個の\(1\)次元の線型変換に分解</strong>したのだと説明する事が出来ます。<strong>高次元の変換を低次元のより分り易い変換に帰着させる</strong>という事が対角化の重要な働きです。
         </p>
         </section>
 
@@ -724,7 +724,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <p>
         さて,固有値を求める為の固有方程式
         \[ \det (A-\lambda E) = 0\]
-        は\(\dim A=n\)ならば\(n\)次方程式となります。
+        は\(A\)が\(n\)次正方のとき,\(n\)次方程式となります。
         </p>
         <p>
         これまで\(\mathbb{R}\)線型空間ばかりを考えて来ましたが,<strong> 実数範囲では\(n\)次方程式が解を持たない場合がある </strong>ため取り扱いが面倒になります。
@@ -761,7 +761,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 複素線型空間 </h4>
         <p>
-        複素数体\(\mathbb{C}\)を係数体とする\(\mathbb{C}\))線型空間を<strong>複素線型空間</strong>と言う。<br>
+        複素数体\(\mathbb{C}\)を係数体とする\(\mathbb{C}\)線型空間を<strong>複素線型空間</strong>と言う。<br>
         複素線型空間\(V\)の線型変換は\(\dim V = n\)のとき必ず\(n\)個の固有値を持つ。
         </p>
         </div>
@@ -851,7 +851,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
 
         <section style="font-size:80%">
         <p>
-        ここから,一般の内積空間\(V\)にも長さと直交の概念を取り入れる事にします。
+        ここから,一般の内積空間\(V\)にも長さと直交の概念を取り入れる事が出来ます。
         </p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> ノルム・直交 </h4>
@@ -861,7 +861,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         を\(\mathbf{x}\)の<strong>ノルム</strong>と呼ぶ。<br>
         また
         \[ (\mathbf{x},\ \mathbf{y}) = 0\]
-        のとき\(\mathbf{x}\)と\(\mathbf{y}\)は<strong>直交</strong>すると言います。
+        のとき\(\mathbf{x}\)と\(\mathbf{y}\)は<strong>直交</strong>すると言う。
         </p>
         <p>
         また\(\mathbf{0}\)でないベクトル\(\mathbf{x},\mathbf{y}\)に対して
@@ -928,6 +928,9 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <p>
         直感的に説明すると,\(\mathbf{x}\)と\(\mathbf{y}\)の距離が近づき,\(\mathbf{y}\)と\(\mathbf{z}\)の距離が近づくならば,\(\mathbf{x}\)と\(\mathbf{z}\)の距離も近づくという事を言っています。
         </p>
+        <p>
+        内積空間は長さ・角度・距離といった概念を備えており,それらは私達が通常イメージするもの(幾何ベクトル空間のもの)と同じような性質を持つという事が言えます。
+        </p>
         </section>
 
         <section style="font-size:80%">
@@ -964,7 +967,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         \mathbf{y'} & -0.3 &  -1.0&  1.1 &  -0.5&  1.3& -0.3&  0.6& -0.5&  0.7& -1.1 \\ \hline
         \mathbf{z'} & -0.23&  3.17&  2.67&  2.57& -2.83& -3.83&  1.37& -1.03&  1.77& -3.63 \\ \hline
         \end{array}} \]
-        となります。各列を数ベクトルとみなして\(\mathbf{x}'\)と\(\mathbf{y'}\),\(\mathbf{x'}\)と\(\mathbf{z'}\)のなす角度の余弦を求めてみましょう。
+        となります。各列をユークリッド空間のベクトルとみなして\(\mathbf{x}'\)と\(\mathbf{y'}\),\(\mathbf{x'}\)と\(\mathbf{z'}\)のなす角度の余弦を求めてみましょう。
         </div>
         </section>
 
@@ -974,7 +977,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
 >>> x = np.array([-0.05,  1.05,  0.95,  0.85, -0.95, -1.35,  0.45, -0.35,  0.65, -1.25])
 >>> y = np.array([-0.3 ,  -1  ,  1.1 ,  -0.5,  1.3, -0.3,  0.6, -0.5,  0.7, -1.1])
 >>> z = np.array([-0.23,  3.17,  2.67,  2.57, -2.83, -3.83,  1.37, -1.03,  1.77, -3.63])
->>> x_norm = sqrt(x.dot(x)) # ノルムはsqrt((x, x))。もちろん標準で用意されてもいる。
+>>> x_norm = sqrt(x.dot(x)) # ノルムはsqrt((x, x))
 >>> y_norm = sqrt(y.dot(y))
 >>> z_norm = sqrt(z.dot(z))
 >>> x.dot(y)/(x_norm * y_norm)  # x,y のなす角の余弦
@@ -992,7 +995,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         </p>
         <p class="fragment">
         10次元なので「角度」という図形的なイメージは持てませんが,直感的に言えば\(\cos\theta\)をベクトルの向いている方向の近さの度合いだと考える事が出来ます。
-        これは「相関係数」と呼ばれる量です。
+        実はこれは統計学において「相関係数」と呼ばれる量です。
         </p>
         </section>
 
@@ -1098,6 +1101,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         &= x_1y_1(\mathbf{v}_1,\mathbf{v}_1) + x_1y_2(\mathbf{v}_1,\mathbf{v}_2)+\cdots + x_ny_n(\mathbf{v}_n,\mathbf{v}_n) \\
         &= x_1y_1 + \cdots + x_ny_n 
         \end{aligned} \]
+        <span style="float:right">□</span>
         </p>
         </section>
 
@@ -1129,7 +1133,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         まず\(\mathbf{v}_1 = \frac{\mathbf{u}_1}{||\mathbf{u}_1||}\)とおく。\(\mathbf{v}_1\)はそれ1つで正規直交系をなす。<br>
         ここで正規直交系\(\mathbf{v}_1,\cdots,\mathbf{v}_k\ (k < n)\)が作れたと仮定し
         \[ \color{yellow}{\mathbf{w}_{k+1} = \mathbf{u}_{k+1} - (\mathbf{u}_{k+1},\ \mathbf{v}_1)\mathbf{v}_1- (\mathbf{u}_{k+1},\ \mathbf{v}_2)\mathbf{v}_2\cdots- (\mathbf{u}_{k+1},\ \mathbf{v}_k)\mathbf{v}_k} \]
-        と置くと\(\mathbf{w}_{k+1}\)は\(\mathbf{u}_1,\cdots,\mathbf{u}_k\)の全てと直交する。また,\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)は線型独立なので\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
+        と置くと\(\mathbf{w}_{k+1}\)は\(\mathbf{v}_1,\cdots,\mathbf{v}_k\)の全てと直交する。また,\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)は線型独立なので\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
         そこで\(\mathbf{w}_{k+1}\)を正規化して
         \[ \mathbf{v}_{k+1} = \frac{\mathbf{w}_{k+1}}{||\mathbf{w}_{k+1}||} \]
         とすれば正規直交系\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)を作る事が出来る。これを\(n\)個そろうまで続ければ良い。
@@ -1212,11 +1216,11 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <section>
         <div class="block" style="border-color:lightgreen;font-size:90%">
         <h4 style="color:lightgreen"> 練習問題 </h4>
-        \[ V = \langle 1, \cos x, \cdots, \cos nx, \sin x, \cdots, \sin nx \rangle \]
+        \[ V = \left\langle \frac{1}{\sqrt{2}}, \cos x, \cdots, \cos nx, \sin x, \cdots, \sin nx \right\rangle \]
         という\(\mathbb{R}\)線型空間を考えましょう。この空間に
         \[ (f,\ g) = \frac{1}{\pi}\int_{-\pi}^{\pi}fg\mathrm{d} x \]
         で内積を入れると,
-        \[ \{1, \cos x, \cdots, \cos nx, \sin x, \cdots, \sin nx\} \]
+        \[ \left\{\frac{1}{\sqrt{2}}, \cos x, \cdots, \cos nx, \sin x, \cdots, \sin nx\right\} \]
         が正規直交基底である事を示して下さい。
         </div>
         </section>
@@ -1226,9 +1230,10 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         今の練習問題の\(V\)について,任意の
         \[ f(x) \in V \]
         の正規直交基底に関する表現
-        \[ f(x) = a_0 + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
-        は
+        \[ f(x) = c + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
+        は各基底との内積を取って
         \[ \begin{aligned}
+        &c   = \left(f(x),\ \frac{1}{\sqrt{2}}\right) = \frac{1}{\pi\sqrt{2}}\int_{-\pi}^{\pi}f(x)\mathrm{d} x \\
         &a_i = (f(x),\ \cos ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos ix\mathrm{d} x \\
         &b_i = (f(x),\ \sin ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin ix\mathrm{d} x \\
         \end{aligned} \]
@@ -1240,18 +1245,19 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <p>
         ここで,強引ですが<strong>\(f(x)\in V\)という仮定を外して</strong>,
         \[ \begin{aligned}
+        &c   = \left(f(x),\ \frac{1}{\sqrt{2}}\right) = \frac{1}{\pi\sqrt{2}}\int_{-\pi}^{\pi}f(x)\mathrm{d} x \\
         &a_i = (f(x),\ \cos ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos ix\mathrm{d} x \\
         &b_i = (f(x),\ \sin ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin ix\mathrm{d} x \\
         \end{aligned} \]
-        によって得られる
-        \[ \widetilde{f}_n(x) = a_0 + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
-        という関数を計算してみましょう。
+        によって定まる
+        \[ \widetilde{f}_n(x) = c + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
+        という関数を考えてみましょう。
         </p>
         </section>
 
         <section style="font-size:80%">
         <p>
-        例えば\(f(x)=x\)という関数に対して,\(\widetilde{f}(x)\)を求めてみると
+        例えば\(f(x)=x\)という関数に対して,\(\widetilde{f}_n(x)\)を求めてみると
         \[ \widetilde{f}(x)=2\sin x - \frac{2}{2}\sin 2x + \frac{2}{3}\sin 3x + \cdots + (-1)^{n-1}\frac{2}{n}\sin nx \]
         となります。これをグラフにしてみれば以下のようになります。
         </p>
@@ -1260,7 +1266,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
 
         <section style="font-size:80%">
         <p>
-        \(f(x)\)と\(\widetilde{f}_n(x)\)は\(-\pi < x < \pi\)の範囲では良く一致しているように見えます。
+        \(f(x)\)と\(\widetilde{f}_n(x)\)は\(-\pi < x < \pi\)の範囲では良く一致しているように見えます。\(n\)が大きい方がより一致しているような気もします。
         </p>
         <p>
         すると<strong>「\(n\rightarrow \infty\)としたらどうなるのか？」</strong>という興味が湧くと思います。こういった問題を取り扱うのが<strong>フーリエ解析</strong>という理論になります。無限次元の内積空間,無限級数の積分など「無限」が絡むので非常に難しい数学理論となります。興味のある方は勉強してみてください。
@@ -1295,7 +1301,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
-        線型代数の入門的な題材は一通り解説しました。一次方程式の反復解法が残っていますが,来週にまわします。
+        線型代数の入門的な題材は一通り解説しました。一次方程式の反復解法が残っていますが来週にまわします。
         </p>
         <p>
         来週は反復法に加え,微積分範囲でやり残している多変数関数の極値,重積分,線型微分方程式の解法をやる予定です。
