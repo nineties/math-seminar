@@ -1168,13 +1168,13 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
                                  1           1
 (%o5)                        [-------, 0, -------]
                               sqrt(2)     sqrt(2)
-(%i6) w2: u2 - (u2.v1)*v1;        /* u2からv1方向の成分を除く。するとw2, v1は垂直。 */
+(%i6) w2: u2 - (u2.v1)*v1;        /* u2からv1方向を抜いて */
 (%o6)                             [1, 1, - 1]
 (%i7) v2: w2/norm(w2);            /* 長さを1にする。 */
                              1        1          1
 (%o7)                    [-------, -------, - -------]
                           sqrt(3)  sqrt(3)    sqrt(3)
-(%i8) w3: u3 - (u3.v1)*v1 - (u3.v2)*v2;   /* u3からv1方向,v2方向の成分を除く。w3はv1,v2に垂直。 */
+(%i8) w3: u3 - (u3.v1)*v1 - (u3.v2)*v2;   /* u3からv1,v2方向を抜いて */
                                      1     1
 (%o8)                             [- -, 1, -]
                                      2     2
@@ -1185,7 +1185,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
 </code></pre>
         </section>
 
-        <section style="font-size:80%">
+        <section style="font-size:70%">
         <div class="block" style="border-color:lightgreen;font-size:90%">
         <h4 style="color:lightgreen"> 例 </h4>
         <p> 3次以下の実数係数多項式のなす線型空間\(\mathbf{P}_3\)に
@@ -1332,7 +1332,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         今の練習問題の結果から,任意の
         \[ f(x) \in V \]
         の
-        \[ f(x) = c + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
+        \[ f(x) = \frac{c}{\sqrt{2}} + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
         という表現は,各基底との内積を取って
         \[ \begin{aligned}
         &c   = \left(f(x),\ \frac{1}{\sqrt{2}}\right) = \frac{1}{\pi\sqrt{2}}\int_{-\pi}^{\pi}f(x)\mathrm{d} x \\
@@ -1352,7 +1352,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         &b_i = (f(x),\ \sin ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin ix\mathrm{d} x \\
         \end{aligned} \]
         によって定まる
-        \[ \widetilde{f}_n(x) = c + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
+        \[ \widetilde{f}_n(x) = \frac{c}{\sqrt{2}} + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
         という関数を考えてみましょう。
         </p>
         </section>
