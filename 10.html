@@ -171,7 +171,7 @@
             </a>に置いてあります。 </li>
             <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
             <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
-            <li> サンプルプログラムはPythonで記述しています。 </li>
+            <li> サンプルプログラムはPython及びMaximaで記述しています。 </li>
         </ul>
         </p>
         </section>
@@ -210,10 +210,10 @@
         <section style="font-size:80%">
         <p>
         特に基底\(\{\mathbf{v'}_i\}\)の各ベクトルの基底\(\{\mathbf{v}_i\}\)での成分
-        \[ \mathbf{v'}_i = p_{1i}\mathbf{v}_1 + \cdots + p_{ni}\mathbf{v}_n \qquad (1)\]
+        \[ \mathbf{v'}_i = p_{1i}\mathbf{v}_1 + \cdots + p_{ni}\mathbf{v}_n \qquad \cdots (1)\]
         は，基底変換行列\(P\)を用いて
         \[ \begin{pmatrix} p_{1i} \\ \vdots \\ p_{ni} \end{pmatrix} = P \mathbf{e}_i \]
-        と表せます(左辺の成分が\(\mathbf{e}_i\)である事に注意)ので，
+        と表せます((1)の左辺の成分が\(\mathbf{e}_i\)である事に注意)ので，
         \[ P = P(\mathbf{e}_1,\cdots,\mathbf{e}_n) = (P\mathbf{e}_1,\cdots,P\mathbf{e}_n) = 
         \begin{pmatrix}
         p_{11} & \cdots & p_{1n} \\
@@ -1141,6 +1141,50 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         </p>
         </section>
 
+        <section style="font-size:70%">
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \(\mathbb{R}^3\)の基底
+        \[\{(1,0,1)^T,\ (2,1,0)^T,\ (0,1,1)^T\} \]
+        にシュミットの直交化法を行って,正規直交基底を作りましょう。
+        </p>
+        </div>
+        <p>
+        答えは
+        \[ \small{\left\{ \left(\frac{1}{\sqrt{2}},0,\frac{1}{\sqrt{2}}\right)^T,\ \left(\frac{1}{\sqrt{3}},\frac{1}{\sqrt{3}},-\frac{1}{\sqrt{3}}\right)^T,\ \left(-\frac{1}{\sqrt{6}},\sqrt{\frac{2}{3}},\frac{1}{\sqrt{6}}\right)^T \right\}} \]
+        となります。それぞれ長さが1で,直交している事を確認してください。<br>
+        手計算は面倒なので数式処理システムであるMaximaで計算しました。
+        </p>
+<pre><code class="maxima" style="max-height:250px;font-size:80%">(%i1) u1: [1,0,1];   /* 元とする基底 */
+(%o1)                              [1, 0, 1]
+(%i2) u2: [2,1,0];
+(%o2)                              [2, 1, 0]
+(%i3) u3: [0,1,1];
+(%o3)                              [0, 1, 1]
+(%i4) norm(v) := sqrt(v.v);       /* vのノルム。 '.'は内積 */
+(%o4)                       norm(v) := sqrt(v . v)
+(%i5) v1: u1/norm(u1);            /* 基底1つめ。長さを1にするだけ。 */
+                                 1           1
+(%o5)                        [-------, 0, -------]
+                              sqrt(2)     sqrt(2)
+(%i6) w2: u2 - (u2.v1)*v1;        /* u2からv1方向の成分を除く。するとw2, v1は垂直。 */
+(%o6)                             [1, 1, - 1]
+(%i7) v2: w2/norm(w2);            /* 長さを1にする。 */
+                             1        1          1
+(%o7)                    [-------, -------, - -------]
+                          sqrt(3)  sqrt(3)    sqrt(3)
+(%i8) w3: u3 - (u3.v1)*v1 - (u3.v2)*v2;   /* u3からv1方向,v2方向の成分を除く。w3はv1,v2に垂直。 */
+                                     1     1
+(%o8)                             [- -, 1, -]
+                                     2     2
+(%i9) v3: w3/norm(w3);            /* 長さを1にする。 */
+                           1         sqrt(2)         1
+(%o9)            [- ---------------, -------, ---------------]
+                    sqrt(2) sqrt(3)  sqrt(3)  sqrt(2) sqrt(3)
+</code></pre>
+        </section>
+
         <section style="font-size:80%">
         <div class="block" style="border-color:lightgreen;font-size:90%">
         <h4 style="color:lightgreen"> 例 </h4>
@@ -1151,8 +1195,64 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         にシュミットの直交化法を行って,正規直交基底を作りましょう。
         </p>
         </div>
+<pre><code class="maxima" style="max-height:350px;font-size:80%">(%i1) dot(f, g) := integrate(f*g, x, -1, 1);  /* 内積を定義 */
+(%o1)               dot(f, g) := integrate(f g, x, - 1, 1)
+(%i2) norm(f) := sqrt(dot(f, f));   /* ノルムを定義 */
+(%o2)                     norm(f) := sqrt(dot(f, f))
+(%i3) u1: 1;            /* 元にする基底達 */
+(%o3)                                  1
+(%i4) u2: x;
+(%o4)                                  x
+(%i5) u3: x^2;
+                                       2
+(%o5)                                 x
+(%i6) u4: x^3;
+                                       3
+(%o6)                                 x
+(%i7) v1: u1/norm(u1);          /* 1つ目は長さを1にするだけ */
+                                       1
+(%o7)                               -------
+                                    sqrt(2)
+(%i8) w2: u2 - dot(u2,v1)*v1;   /* 2つ目からv1方向を抜いて, */
+(%o8)                                  x
+(%i9) v2: w2/norm(w2);          /* 長さを1にする */
+                                   sqrt(3) x
+(%o9)                              ---------
+                                    sqrt(2)
+(%i10) w3: u3 - dot(u3,v1)*v1 - dot(u3,v2)*v2;  /* 3つ目からv1,v2方向を抜いて, */
+                                     2   1
+(%o10)                              x  - -
+                                         3
+
+(%i11) v3: w3/norm(w3);         /* 長さを1にする */
+                                          2   1
+                              3 sqrt(5) (x  - -)
+                                              3
+(%o11)                        ------------------
+                                      3/2
+                                     2
+(%i12) w4: u4 - dot(u4,v1)*v1 - dot(u4,v2)*v2 - dot(u4,v3)*v3;  /* 4つ目からv1,v2,v3方向を抜いて, */
+                                    3   3 x
+(%o12)                             x  - ---
+                                         5
+(%i13) v4: w4/norm(w4);         /* 長さを1にする */
+                                         3   3 x
+                             5 sqrt(7) (x  - ---)
+                                              5
+(%o13)                       --------------------
+                                      3/2
+                                     2
+(%i14) [v1, v2, v3, v4];    /* 以下が求められた正規直交基底 */
+                                         2   1               3   3 x
+                             3 sqrt(5) (x  - -)  5 sqrt(7) (x  - ---)
+            1     sqrt(3) x                  3                    5
+(%o14)  [-------, ---------, ------------------, --------------------]
+         sqrt(2)   sqrt(2)           3/2                  3/2
+                                    2                    2
+</code></pre>
         </section>
 
+        <!--
         <section style="font-size:80%">
         <p>
         まず
@@ -1189,6 +1289,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         となります。
         </p>
         </section>
+        -->
 
         <section style="font-size:80%">
         <p>
@@ -1216,6 +1317,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         <section>
         <div class="block" style="border-color:lightgreen;font-size:90%">
         <h4 style="color:lightgreen"> 練習問題 </h4>
+        \(n\)を適当な自然数として
         \[ V = \left\langle \frac{1}{\sqrt{2}}, \cos x, \cdots, \cos nx, \sin x, \cdots, \sin nx \right\rangle \]
         という\(\mathbb{R}\)線型空間を考えましょう。この空間に
         \[ (f,\ g) = \frac{1}{\pi}\int_{-\pi}^{\pi}fg\mathrm{d} x \]
@@ -1227,17 +1329,17 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
 
         <section style="font-size:80%">
         <p>
-        今の練習問題の\(V\)について,任意の
+        今の練習問題の結果から,任意の
         \[ f(x) \in V \]
-        の正規直交基底に関する表現
+        の
         \[ f(x) = c + a_1\cos x + \cdots + a_n\cos nx + b_1\sin x + \cdots + b_n\sin nx \] 
-        は各基底との内積を取って
+        という表現は,各基底との内積を取って
         \[ \begin{aligned}
         &c   = \left(f(x),\ \frac{1}{\sqrt{2}}\right) = \frac{1}{\pi\sqrt{2}}\int_{-\pi}^{\pi}f(x)\mathrm{d} x \\
         &a_i = (f(x),\ \cos ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\cos ix\mathrm{d} x \\
         &b_i = (f(x),\ \sin ix) = \frac{1}{\pi}\int_{-\pi}^{\pi} f(x)\sin ix\mathrm{d} x \\
         \end{aligned} \]
-        によって得られる事となります。
+        によって得られる事がわかります。
         </p>
         </section>
 
@@ -1269,13 +1371,13 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         \(f(x)\)と\(\widetilde{f}_n(x)\)は\(-\pi < x < \pi\)の範囲では良く一致しているように見えます。\(n\)が大きい方がより一致しているような気もします。
         </p>
         <p>
-        すると<strong>「\(n\rightarrow \infty\)としたらどうなるのか？」</strong>という興味が湧くと思います。こういった問題を取り扱うのが<strong>フーリエ解析</strong>という理論になります。無限次元の内積空間,無限級数の積分など「無限」が絡むので非常に難しい数学理論となります。興味のある方は勉強してみてください。
+        すると<strong>「\(n\rightarrow \infty\)としたらどうなるのか？」</strong>という興味が湧くと思います。こういった問題を取り扱うのが<strong>フーリエ解析</strong>という理論になります。無限次元の内積空間,無限級数の積分など「無限」が絡むので非常に難しい数学となりますが,興味のある方は勉強してみてください。
         </p>
         <div align="center"> <img width="500" src="fig/fourier-example.png"> </div>
         </section>
 
         <section>
-        <p> 正規直交基底に関する定理を１つだけ紹介します。</p>
+        <p> 最後に正規直交基底に関する定理を１つだけ紹介します。</p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 直交行列 </h4>
         <p>
@@ -1294,7 +1396,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         </div>
         <p style="font-size:80%">
         【証明の概要】<br>
-        \(A^TA\)の第\((i,j)\)成分は\(A^T\)の第\(i\)行,つまり\(A\)の第\(i\)列と\(A\)の第\(j\)列の標準内積である事からわかります。
+        \(A^TA\)の第\((i,j)\)成分は\(A^T\)の第\(i\)行,つまり\(A\)の第\(i\)列と\(A\)の第\(j\)列の標準内積である事から明らかです。
         </p>
         </section>
 
