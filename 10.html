@@ -1135,7 +1135,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         \[ \color{yellow}{\mathbf{w}_{k+1} = \mathbf{u}_{k+1} - (\mathbf{u}_{k+1},\ \mathbf{v}_1)\mathbf{v}_1- (\mathbf{u}_{k+1},\ \mathbf{v}_2)\mathbf{v}_2\cdots- (\mathbf{u}_{k+1},\ \mathbf{v}_k)\mathbf{v}_k} \]
         と置くと\(\mathbf{w}_{k+1}\)は\(\mathbf{v}_1,\cdots,\mathbf{v}_k\)の全てと直交する。
         
-        また\(\mathbf{w}_{k+1}\)ならば\(\mathbf{u}_1,\cdots,\mathbf{u}_{k},\mathbf{u}_{k+1}\)が線型独立である事と矛盾するので,\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
+        また\(\mathbf{w}_{k+1}=\mathbf{0}\)ならば\(\mathbf{u}_1,\cdots,\mathbf{u}_{k},\mathbf{u}_{k+1}\)が線型独立である事と矛盾するので,\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
         そこで\(\mathbf{w}_{k+1}\)を正規化して
         \[ \mathbf{v}_{k+1} = \frac{\mathbf{w}_{k+1}}{||\mathbf{w}_{k+1}||} \]
         とすれば正規直交系\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)を作る事が出来る。これを\(n\)個そろうまで続ければ良い。
@@ -1303,7 +1303,7 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         これは第6回にやりました<strong>ルジャンドル多項式</strong>を正規化した物となっています。第6回の内容を読み返すと新しい発見があると思います。
         </p>
         <p class="fragment">
-        正規直交基底であると言う事は,任意の3次以下多項式\(f(x)\)をルジャンドル多項式\(\ell_0(x),\cdots,\ell_n(x)\)の線型和
+        正規直交基底であると言う事は,任意の\(n\)次以下多項式\(f(x)\)をルジャンドル多項式\(\ell_0(x),\cdots,\ell_n(x)\)の線型和
         \[ f(x)=a_0\ell_0(x) + a_1\ell_1(x) + \cdots + a_n\ell_n(x) \]
         に変換する為には単純に内積をとって
         \[ a_i = (f,\ \ell_i)=\int_{-1}^1f(x)\ell_i(x)\mathrm{d}x \]
