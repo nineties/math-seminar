@@ -1133,7 +1133,9 @@ array([ 0.375,  0.25 ,  0.25 ,  0.125])
         まず\(\mathbf{v}_1 = \frac{\mathbf{u}_1}{||\mathbf{u}_1||}\)とおく。\(\mathbf{v}_1\)はそれ1つで正規直交系をなす。<br>
         ここで正規直交系\(\mathbf{v}_1,\cdots,\mathbf{v}_k\ (k < n)\)が作れたと仮定し
         \[ \color{yellow}{\mathbf{w}_{k+1} = \mathbf{u}_{k+1} - (\mathbf{u}_{k+1},\ \mathbf{v}_1)\mathbf{v}_1- (\mathbf{u}_{k+1},\ \mathbf{v}_2)\mathbf{v}_2\cdots- (\mathbf{u}_{k+1},\ \mathbf{v}_k)\mathbf{v}_k} \]
-        と置くと\(\mathbf{w}_{k+1}\)は\(\mathbf{v}_1,\cdots,\mathbf{v}_k\)の全てと直交する。また,\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)は線型独立なので\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
+        と置くと\(\mathbf{w}_{k+1}\)は\(\mathbf{v}_1,\cdots,\mathbf{v}_k\)の全てと直交する。
+        
+        また\(\mathbf{w}_{k+1}\)ならば\(\mathbf{u}_1,\cdots,\mathbf{u}_{k},\mathbf{u}_{k+1}\)が線型独立である事と矛盾するので,\(\mathbf{w}_{k+1}\neq\mathbf{0}\)。
         そこで\(\mathbf{w}_{k+1}\)を正規化して
         \[ \mathbf{v}_{k+1} = \frac{\mathbf{w}_{k+1}}{||\mathbf{w}_{k+1}||} \]
         とすれば正規直交系\(\mathbf{v}_1,\cdots,\mathbf{v}_{k+1}\)を作る事が出来る。これを\(n\)個そろうまで続ければ良い。
