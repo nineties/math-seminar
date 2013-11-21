@@ -1,0 +1,28 @@
+legendre_polynomials(n) := block([u, v, dot, norm],
+    /* 材料にする基底を作る */
+    u: makelist(x^i, i, 0, n),
+
+    /* 内積とノルムを定義 */
+    dot(f, g) := integrate(f*g, x, -1, 1),
+    norm(f)   := sqrt(dot(f, f)),
+
+    /* シュミットの直交化法 */
+    v: [ u[1]/norm(u[1]) ],     /* １つ目の基底は長さを1にする(正規化する)だけ */
+    for i:2 thru n+1 do block([w],
+
+        /* i番目の基底から,既に作ったv[1],...,v[i-1]方向の成分を除去 */
+        w: u[i] - sum( dot(u[i], v[j])*v[j], j, 1, i-1 ),
+
+        /* 正規化してvに追加 */
+        v: endcons( w/norm(w), v )
+    ),
+
+    /* 式は全て展開して返す事にする */
+    return(expand(v))
+);
+
+change_of_basis_matrix(ls) := block([n,a],
+    n: length(ls)-1,
+    a[i, j] := coeff(ls[j+1], x, i),
+    genmatrix(a, n, n, 0, 0)
+);
