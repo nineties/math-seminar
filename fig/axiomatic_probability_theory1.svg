@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="axiomatic_probability_theory1.svg"
+   inkscape:export-filename="\\EULER\nineties\projects\math_seminar\fig\axiomatic_probability_theory1.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="696.54237"
+     inkscape:cy="766.91749"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path3938"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path3944"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lende"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lende"
+       style="overflow:visible;">
+      <path
+         id="path4568"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1LendP"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1LendP"
+       style="overflow:visible;">
+      <path
+         id="path4571"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend7"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend7"
+       style="overflow:visible;">
+      <path
+         id="path4574"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1LendL"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1LendL"
+       style="overflow:visible;">
+      <path
+         id="path4856"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3850"
+       transform="translate(40.406102,-9.0913526)">
+      <path
+         d="m 642.45702,296.76807 c 0,39.05243 -65.12554,70.71067 -145.46196,70.71067 -80.33643,0 -145.46196,-31.65824 -145.46196,-70.71067 0,-39.05243 65.12553,-70.71068 145.46196,-70.71068 80.33642,0 145.46196,31.65825 145.46196,70.71068 z"
+         sodipodi:ry="70.710678"
+         sodipodi:rx="145.46196"
+         sodipodi:cy="296.76807"
+         sodipodi:cx="496.99506"
+         id="path3848"
+         style="fill:#add8e6;fill-opacity:1;stroke:#add8e6;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text2997"
+         y="312.93051"
+         x="377.79706"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+         xml:space="preserve"><tspan
+           y="312.93051"
+           x="377.79706"
+           id="tspan2999"
+           sodipodi:role="line">確率論の公理</tspan></text>
+    </g>
+    <g
+       id="g3871"
+       transform="translate(18.182746,-36.365492)">
+      <path
+         d="m 1276.8329,324.04221 c 0,111.02047 -103.5677,201.02035 -231.325,201.02035 -127.7572,0 -231.3249,-89.99988 -231.3249,-201.02035 0,-111.02048 103.5677,-201.02036 231.3249,-201.02036 127.7573,0 231.325,89.99988 231.325,201.02036 z"
+         sodipodi:ry="201.02036"
+         sodipodi:rx="231.32494"
+         sodipodi:cy="324.04221"
+         sodipodi:cx="1045.5079"
+         id="path3869"
+         style="fill:#90ee90;fill-opacity:1;stroke:#90ee90;stroke-opacity:0.9372549"
+         sodipodi:type="arc" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3001"
+         y="344.3027"
+         x="905.21771"
+         style="font-size:56.07229233px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+         xml:space="preserve"><tspan
+           id="tspan3005"
+           y="344.3027"
+           x="905.21771"
+           sodipodi:role="line">様々な定理</tspan></text>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3009"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Sans;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px"><flowRegion
+         id="flowRegion3011"><rect
+           id="rect3013"
+           width="595.98999"
+           height="593.96973"
+           x="-24.243662"
+           y="108.87971" /></flowRegion><flowPara
+         id="flowPara3015" /></flowRoot>    <g
+       id="g3876"
+       transform="translate(0,0.50508335)">
+      <g
+         id="g3855">
+        <g
+           id="g3789"
+           transform="translate(-23.979015,-36.365492)">
+          <path
+             style="opacity:0.99022797;fill:#ffc0cb;fill-opacity:1;stroke:#ffc0cb;stroke-opacity:1"
+             transform="translate(111.59764,268.70058)"
+             d="m 143.44166,-82.039124 c 0,27.336701 -70.10041,49.497475 -156.573643,49.497475 -86.473233,0 -156.573637,-22.160774 -156.573637,-49.497475 0,-27.336696 70.100404,-49.497476 156.573637,-49.497476 86.473233,0 156.573643,22.16078 156.573643,49.497476 z"
+             sodipodi:ry="49.497475"
+             sodipodi:rx="156.57364"
+             sodipodi:cy="-82.039124"
+             sodipodi:cx="-13.131983"
+             id="path3017"
+             sodipodi:type="arc" />
+          <text
+             sodipodi:linespacing="125%"
+             id="text2985"
+             y="201.11458"
+             x="-9.3468437"
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+               y="201.11458"
+               x="-9.3468437"
+               id="tspan2987"
+               sodipodi:role="line">確率の定義1</tspan></text>
+        </g>
+        <g
+           transform="translate(-23.979015,237.38584)"
+           id="g3789-1">
+          <path
+             style="opacity:0.99022797;fill:#ffc0cb;fill-opacity:1;stroke:#ffc0cb;stroke-opacity:1"
+             transform="translate(111.59764,268.70058)"
+             d="m 143.44166,-82.039124 c 0,27.336701 -70.10041,49.497475 -156.573643,49.497475 -86.473233,0 -156.573637,-22.160774 -156.573637,-49.497475 0,-27.336696 70.100404,-49.497476 156.573637,-49.497476 86.473233,0 156.573643,22.16078 156.573643,49.497476 z"
+             sodipodi:ry="49.497475"
+             sodipodi:rx="156.57364"
+             sodipodi:cy="-82.039124"
+             sodipodi:cx="-13.131983"
+             id="path3017-7"
+             sodipodi:type="arc" />
+          <text
+             sodipodi:linespacing="125%"
+             id="text2985-4"
+             y="201.11458"
+             x="-9.3468437"
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+               y="201.11458"
+               x="-9.3468437"
+               id="tspan2987-0"
+               sodipodi:role="line">確率の定義3</tspan></text>
+        </g>
+        <g
+           transform="translate(-23.979015,100.51019)"
+           id="g3789-1-9">
+          <path
+             style="opacity:0.99022797;fill:#ffc0cb;fill-opacity:1;stroke:#ffc0cb;stroke-opacity:1"
+             transform="translate(111.59764,268.70058)"
+             d="m 143.44166,-82.039124 c 0,27.336701 -70.10041,49.497475 -156.573643,49.497475 -86.473233,0 -156.573637,-22.160774 -156.573637,-49.497475 0,-27.336696 70.100404,-49.497476 156.573637,-49.497476 86.473233,0 156.573643,22.16078 156.573643,49.497476 z"
+             sodipodi:ry="49.497475"
+             sodipodi:rx="156.57364"
+             sodipodi:cy="-82.039124"
+             sodipodi:cx="-13.131983"
+             id="path3017-7-4"
+             sodipodi:type="arc" />
+          <text
+             sodipodi:linespacing="125%"
+             id="text2985-4-8"
+             y="201.11458"
+             x="-7.3468437"
+             style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+             xml:space="preserve"><tspan
+               style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:HGSGothicM;-inkscape-font-specification:HGSGothicM"
+               y="201.11458"
+               x="-7.3468437"
+               id="tspan2987-0-8"
+               sodipodi:role="line">確率の定義2</tspan></text>
+        </g>
+      </g>
+    </g>
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1LendP);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2;fill:none"
+       d="m 254.55844,161.40764 129.29953,90.91373"
+       id="path3891"
+       inkscape:connector-curvature="0" />
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1Lende);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2;fill:none"
+       d="M 258.59905,435.15897 387.89858,344.24524"
+       id="path3891-2-4"
+       inkscape:connector-curvature="0" />
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1Lend7);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2;fill:none"
+       d="m 258.59905,294.74777 119.198,0"
+       id="path3929"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path4650"
+       d="m 701.04587,284.64625 115.15739,0"
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1LendL);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-width:2;fill:none" />
+  </g>
+</svg>

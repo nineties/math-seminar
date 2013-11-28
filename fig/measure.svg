@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="新規ドキュメント 1">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="435.9679"
+     inkscape:cy="696.04272"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffc0cb;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2985"
+       sodipodi:cx="100.51018"
+       sodipodi:cy="400.81378"
+       sodipodi:rx="66.164993"
+       sodipodi:ry="39.39595"
+       d="m 166.67517,400.81378 a 66.164993,39.39595 0 1 1 -132.329986,0 66.164993,39.39595 0 1 1 132.329986,0 z" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#add8e6;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2987"
+       sodipodi:cx="179.80716"
+       sodipodi:cy="486.17169"
+       sodipodi:rx="60.609154"
+       sodipodi:ry="33.840111"
+       d="m 240.41631,486.17169 a 60.609154,33.840111 0 1 1 -121.2183,0 60.609154,33.840111 0 1 1 121.2183,0 z" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#90ee90;fill-opacity:1;stroke:none;stroke-width:2;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2989"
+       sodipodi:cx="351.02802"
+       sodipodi:cy="427.58282"
+       sodipodi:rx="45.961941"
+       sodipodi:ry="30.809652"
+       d="m 396.98996,427.58282 a 45.961941,30.809652 0 1 1 -91.92389,0 45.961941,30.809652 0 1 1 91.92389,0 z"
+       transform="translate(-71.720831,-14.142136)" />
+    <g
+       id="equation_00"
+       style="fill:#ffffff"
+       title="$A$"
+       transform="matrix(3.9307133,0,0,3.9307133,-276.18815,115.15107)">
+      <defs
+         id="defs3768">
+        <path
+           d="M 1.79,-1.15 C 1.39,-0.48 1,-0.34 0.56,-0.31 0.44,-0.3 0.35,-0.3 0.35,-0.11 0.35,-0.05 0.4,0 0.48,0 0.75,0 1.06,-0.03 1.34,-0.03 1.67,-0.03 2.02,0 2.34,0 2.4,0 2.53,0 2.53,-0.19 2.53,-0.3 2.44,-0.31 2.37,-0.31 2.14,-0.33 1.9,-0.41 1.9,-0.66 1.9,-0.78 1.96,-0.89 2.04,-1.03 L 2.8,-2.31 h 2.51 c 0.02,0.21 0.16,1.57 0.16,1.67 0,0.3 -0.52,0.33 -0.72,0.33 -0.14,0 -0.24,0 -0.24,0.2 C 4.51,0 4.63,0 4.65,0 5.06,0 5.49,-0.03 5.9,-0.03 6.15,-0.03 6.78,0 7.03,0 c 0.06,0 0.18,0 0.18,-0.2 0,-0.11 -0.1,-0.11 -0.23,-0.11 -0.62,0 -0.62,-0.07 -0.65,-0.36 L 5.72,-6.92 C 5.7,-7.12 5.7,-7.16 5.53,-7.16 c -0.16,0 -0.2,0.07 -0.26,0.17 l -3.48,5.84 z m 1.2,-1.47 1.97,-3.3 0.32,3.3 H 2.99 z"
+           id="equation_00_00"
+           inkscape:connector-curvature="0" />
+      </defs>
+      <g
+         id="equation_00_g"
+         style="fill:#ffffff">
+        <use
+           x="77"
+           xlink:href="#equation_00_00"
+           y="63"
+           id="use3772"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <g
+       title="$B$"
+       style="fill:#ffffff"
+       id="equation_01"
+       transform="matrix(3.9307133,0,0,3.9307133,-87.28962,144.44549)">
+      <defs
+         id="defs3799">
+        <path
+           id="equation_01_00"
+           d="m 1.6,-0.78 c -0.1,0.39 -0.12,0.47 -0.91,0.47 -0.17,0 -0.27,0 -0.27,0.2 C 0.42,0 0.51,0 0.69,0 H 4.26 C 5.84,0 7.02,-1.18 7.02,-2.16 7.02,-2.88 6.44,-3.46 5.47,-3.57 6.51,-3.76 7.56,-4.5 7.56,-5.45 7.56,-6.19 6.9,-6.83 5.7,-6.83 H 2.34 c -0.19,0 -0.29,0 -0.29,0.2 0,0.11 0.09,0.11 0.28,0.11 0.02,0 0.21,0 0.38,0.02 0.18,0.02 0.27,0.03 0.27,0.16 0,0.04 -0.01,0.07 -0.04,0.19 L 1.6,-0.78 z m 1.51,-2.88 0.62,-2.48 c 0.09,-0.35 0.11,-0.38 0.54,-0.38 h 1.29 c 0.88,0 1.09,0.59 1.09,1.03 0,0.88 -0.86,1.83 -2.08,1.83 H 3.11 z m -0.45,3.35 c -0.14,0 -0.16,0 -0.22,-0.01 -0.1,-0.01 -0.13,-0.02 -0.13,-0.1 0,-0.03 0,-0.05 0.05,-0.23 l 0.69,-2.79 h 1.89 c 0.96,0 1.15,0.74 1.15,1.17 0,0.99 -0.89,1.96 -2.07,1.96 H 2.66 z"
+           inkscape:connector-curvature="0" />
+      </defs>
+      <g
+         id="equation_01_g"
+         style="fill:#ffffff">
+        <use
+           id="use3803"
+           y="63"
+           xlink:href="#equation_01_00"
+           x="77"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <g
+       id="equation_02"
+       style="fill:#ffffff"
+       title="$C$"
+       transform="matrix(3.9307133,0,0,3.9307133,-81.228705,300.00898)">
+      <defs
+         id="defs3840">
+        <path
+           d="m 7.6,-6.95 c 0,-0.03 -0.02,-0.1 -0.11,-0.1 -0.03,0 -0.04,0.01 -0.15,0.12 l -0.7,0.77 C 6.55,-6.3 6.09,-7.05 4.98,-7.05 c -2.23,0 -4.48,2.21 -4.48,4.53 0,1.65 1.18,2.74 2.71,2.74 0.87,0 1.63,-0.4 2.16,-0.86 0.93,-0.82 1.1,-1.73 1.1,-1.76 0,-0.1 -0.1,-0.1 -0.12,-0.1 -0.06,0 -0.11,0.02 -0.13,0.1 -0.09,0.29 -0.32,1 -1.01,1.58 -0.69,0.56 -1.32,0.73 -1.84,0.73 -0.9,0 -1.96,-0.52 -1.96,-2.08 0,-0.57 0.21,-2.19 1.21,-3.36 0.61,-0.71 1.55,-1.21 2.44,-1.21 1.02,0 1.61,0.77 1.61,1.93 0,0.4 -0.03,0.41 -0.03,0.51 0,0.1 0.11,0.1 0.15,0.1 0.13,0 0.13,-0.02 0.18,-0.2 L 7.6,-6.95 z"
+           id="equation_02_00"
+           inkscape:connector-curvature="0" />
+      </defs>
+      <g
+         id="equation_02_g"
+         style="fill:#ffffff">
+        <use
+           x="77"
+           xlink:href="#equation_02_00"
+           y="63"
+           id="use3844"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <g
+       title="$A\cup B\cup C$"
+       style="fill:#ffffff"
+       id="equation_03"
+       transform="matrix(3.9307133,0,0,3.9307133,144.03531,183.84144)">
+      <defs
+         id="defs3891">
+        <path
+           id="equation_03_00"
+           d="M 1.79,-1.15 C 1.39,-0.48 1,-0.34 0.56,-0.31 0.44,-0.3 0.35,-0.3 0.35,-0.11 0.35,-0.05 0.4,0 0.48,0 0.75,0 1.06,-0.03 1.34,-0.03 1.67,-0.03 2.02,0 2.34,0 2.4,0 2.53,0 2.53,-0.19 2.53,-0.3 2.44,-0.31 2.37,-0.31 2.14,-0.33 1.9,-0.41 1.9,-0.66 1.9,-0.78 1.96,-0.89 2.04,-1.03 L 2.8,-2.31 h 2.51 c 0.02,0.21 0.16,1.57 0.16,1.67 0,0.3 -0.52,0.33 -0.72,0.33 -0.14,0 -0.24,0 -0.24,0.2 C 4.51,0 4.63,0 4.65,0 5.06,0 5.49,-0.03 5.9,-0.03 6.15,-0.03 6.78,0 7.03,0 c 0.06,0 0.18,0 0.18,-0.2 0,-0.11 -0.1,-0.11 -0.23,-0.11 -0.62,0 -0.62,-0.07 -0.65,-0.36 L 5.72,-6.92 C 5.7,-7.12 5.7,-7.16 5.53,-7.16 c -0.16,0 -0.2,0.07 -0.26,0.17 l -3.48,5.84 z m 1.2,-1.47 1.97,-3.3 0.32,3.3 H 2.99 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_03_01"
+           d="m 1.6,-0.78 c -0.1,0.39 -0.12,0.47 -0.91,0.47 -0.17,0 -0.27,0 -0.27,0.2 C 0.42,0 0.51,0 0.69,0 H 4.26 C 5.84,0 7.02,-1.18 7.02,-2.16 7.02,-2.88 6.44,-3.46 5.47,-3.57 6.51,-3.76 7.56,-4.5 7.56,-5.45 7.56,-6.19 6.9,-6.83 5.7,-6.83 H 2.34 c -0.19,0 -0.29,0 -0.29,0.2 0,0.11 0.09,0.11 0.28,0.11 0.02,0 0.21,0 0.38,0.02 0.18,0.02 0.27,0.03 0.27,0.16 0,0.04 -0.01,0.07 -0.04,0.19 L 1.6,-0.78 z m 1.51,-2.88 0.62,-2.48 c 0.09,-0.35 0.11,-0.38 0.54,-0.38 h 1.29 c 0.88,0 1.09,0.59 1.09,1.03 0,0.88 -0.86,1.83 -2.08,1.83 H 3.11 z m -0.45,3.35 c -0.14,0 -0.16,0 -0.22,-0.01 -0.1,-0.01 -0.13,-0.02 -0.13,-0.1 0,-0.03 0,-0.05 0.05,-0.23 l 0.69,-2.79 h 1.89 c 0.96,0 1.15,0.74 1.15,1.17 0,0.99 -0.89,1.96 -2.07,1.96 H 2.66 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_03_02"
+           d="m 7.6,-6.95 c 0,-0.03 -0.02,-0.1 -0.11,-0.1 -0.03,0 -0.04,0.01 -0.15,0.12 l -0.7,0.77 C 6.55,-6.3 6.09,-7.05 4.98,-7.05 c -2.23,0 -4.48,2.21 -4.48,4.53 0,1.65 1.18,2.74 2.71,2.74 0.87,0 1.63,-0.4 2.16,-0.86 0.93,-0.82 1.1,-1.73 1.1,-1.76 0,-0.1 -0.1,-0.1 -0.12,-0.1 -0.06,0 -0.11,0.02 -0.13,0.1 -0.09,0.29 -0.32,1 -1.01,1.58 -0.69,0.56 -1.32,0.73 -1.84,0.73 -0.9,0 -1.96,-0.52 -1.96,-2.08 0,-0.57 0.21,-2.19 1.21,-3.36 0.61,-0.71 1.55,-1.21 2.44,-1.21 1.02,0 1.61,0.77 1.61,1.93 0,0.4 -0.03,0.41 -0.03,0.51 0,0.1 0.11,0.1 0.15,0.1 0.13,0 0.13,-0.02 0.18,-0.2 L 7.6,-6.95 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_03_03"
+           d="m 6.11,-5.62 c 0,-0.18 0,-0.36 -0.2,-0.36 -0.2,0 -0.2,0.18 -0.2,0.36 V -2 c 0,1.5 -1.63,1.82 -2.38,1.82 -0.45,0 -1.08,-0.09 -1.61,-0.43 C 0.95,-1.1 0.95,-1.74 0.95,-2.01 v -3.61 c 0,-0.18 0,-0.36 -0.2,-0.36 -0.2,0 -0.2,0.18 -0.2,0.36 v 3.66 c 0,1.52 1.53,2.18 2.78,2.18 1.3,0 2.78,-0.7 2.78,-2.17 v -3.67 z"
+           inkscape:connector-curvature="0" />
+      </defs>
+      <g
+         id="equation_03_g"
+         style="fill:#ffffff">
+        <use
+           id="use3898"
+           y="63"
+           xlink:href="#equation_03_00"
+           x="77"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+        <use
+           id="use3900"
+           y="63"
+           xlink:href="#equation_03_03"
+           x="86.722198"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+        <use
+           id="use3902"
+           y="63"
+           xlink:href="#equation_03_01"
+           x="95.611"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+        <use
+           id="use3904"
+           y="63"
+           xlink:href="#equation_03_03"
+           x="105.92"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+        <use
+           id="use3906"
+           y="63"
+           xlink:href="#equation_03_02"
+           x="114.809"
+           style="fill:#ffffff"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGGothicM;-inkscape-font-specification:HGGothicM"
+       x="634.37573"
+       y="432.12851"
+       id="text3941"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3943"
+         x="634.37573"
+         y="432.12851"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:HGGothicM;-inkscape-font-specification:HGGothicM">の大きさ</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:HGGothicM;-inkscape-font-specification:HGGothicM"
+       x="572.04755"
+       y="490.6463"
+       id="text3941-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3943-7"
+         x="572.04755"
+         y="490.6463"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:HGGothicM;-inkscape-font-specification:HGGothicM">の大きさの和</tspan></text>
+    <g
+       transform="matrix(4.1899554,0,0,4.1899554,81.89679,228.9431)"
+       id="equation_04"
+       style="fill:#ffffff"
+       title="$=$">
+      <defs
+         id="defs4006">
+        <path
+           inkscape:connector-curvature="0"
+           d="m 6.87,-3.27 c 0.15,0 0.34,0 0.34,-0.2 0,-0.2 -0.19,-0.2 -0.33,-0.2 H 0.89 c -0.14,0 -0.33,0 -0.33,0.2 0,0.2 0.19,0.2 0.34,0.2 h 5.97 z m 0.01,1.94 c 0.14,0 0.33,0 0.33,-0.2 0,-0.2 -0.19,-0.2 -0.34,-0.2 H 0.9 c -0.15,0 -0.34,0 -0.34,0.2 0,0.2 0.19,0.2 0.33,0.2 h 5.99 z"
+           id="equation_04_00" />
+      </defs>
+      <g
+         style="fill:#ffffff"
+         id="equation_04_g">
+        <use
+           height="1052.3622"
+           width="744.09448"
+           style="fill:#ffffff"
+           x="77"
+           xlink:href="#equation_04_00"
+           y="63"
+           id="use4010" />
+      </g>
+    </g>
+    <g
+       title="$A,B,C$"
+       style="fill:#ffffff"
+       id="equation_05"
+       transform="matrix(3.8830695,0,0,3.8830695,144.69009,244.08056)">
+      <defs
+         id="defs4099">
+        <path
+           id="equation_05_00"
+           d="m 2.03,-0.01 c 0,-0.66 -0.25,-1.05 -0.64,-1.05 -0.33,0 -0.53,0.25 -0.53,0.53 0,0.27 0.2,0.53 0.53,0.53 0.12,0 0.25,-0.04 0.35,-0.13 0.03,-0.02 0.04,-0.03 0.05,-0.03 0.01,0 0.02,0.01 0.02,0.15 0,0.74 -0.35,1.34 -0.68,1.67 -0.11,0.11 -0.11,0.13 -0.11,0.16 0,0.07 0.05,0.11 0.1,0.11 0.11,0 0.91,-0.77 0.91,-1.94 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_05_01"
+           d="M 1.79,-1.15 C 1.39,-0.48 1,-0.34 0.56,-0.31 0.44,-0.3 0.35,-0.3 0.35,-0.11 0.35,-0.05 0.4,0 0.48,0 0.75,0 1.06,-0.03 1.34,-0.03 1.67,-0.03 2.02,0 2.34,0 2.4,0 2.53,0 2.53,-0.19 2.53,-0.3 2.44,-0.31 2.37,-0.31 2.14,-0.33 1.9,-0.41 1.9,-0.66 1.9,-0.78 1.96,-0.89 2.04,-1.03 L 2.8,-2.31 h 2.51 c 0.02,0.21 0.16,1.57 0.16,1.67 0,0.3 -0.52,0.33 -0.72,0.33 -0.14,0 -0.24,0 -0.24,0.2 C 4.51,0 4.63,0 4.65,0 5.06,0 5.49,-0.03 5.9,-0.03 6.15,-0.03 6.78,0 7.03,0 c 0.06,0 0.18,0 0.18,-0.2 0,-0.11 -0.1,-0.11 -0.23,-0.11 -0.62,0 -0.62,-0.07 -0.65,-0.36 L 5.72,-6.92 C 5.7,-7.12 5.7,-7.16 5.53,-7.16 c -0.16,0 -0.2,0.07 -0.26,0.17 l -3.48,5.84 z m 1.2,-1.47 1.97,-3.3 0.32,3.3 H 2.99 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_05_02"
+           d="m 1.6,-0.78 c -0.1,0.39 -0.12,0.47 -0.91,0.47 -0.17,0 -0.27,0 -0.27,0.2 C 0.42,0 0.51,0 0.69,0 H 4.26 C 5.84,0 7.02,-1.18 7.02,-2.16 7.02,-2.88 6.44,-3.46 5.47,-3.57 6.51,-3.76 7.56,-4.5 7.56,-5.45 7.56,-6.19 6.9,-6.83 5.7,-6.83 H 2.34 c -0.19,0 -0.29,0 -0.29,0.2 0,0.11 0.09,0.11 0.28,0.11 0.02,0 0.21,0 0.38,0.02 0.18,0.02 0.27,0.03 0.27,0.16 0,0.04 -0.01,0.07 -0.04,0.19 L 1.6,-0.78 z m 1.51,-2.88 0.62,-2.48 c 0.09,-0.35 0.11,-0.38 0.54,-0.38 h 1.29 c 0.88,0 1.09,0.59 1.09,1.03 0,0.88 -0.86,1.83 -2.08,1.83 H 3.11 z m -0.45,3.35 c -0.14,0 -0.16,0 -0.22,-0.01 -0.1,-0.01 -0.13,-0.02 -0.13,-0.1 0,-0.03 0,-0.05 0.05,-0.23 l 0.69,-2.79 h 1.89 c 0.96,0 1.15,0.74 1.15,1.17 0,0.99 -0.89,1.96 -2.07,1.96 H 2.66 z"
+           inkscape:connector-curvature="0" />
+        <path
+           id="equation_05_03"
+           d="m 7.6,-6.95 c 0,-0.03 -0.02,-0.1 -0.11,-0.1 -0.03,0 -0.04,0.01 -0.15,0.12 l -0.7,0.77 C 6.55,-6.3 6.09,-7.05 4.98,-7.05 c -2.23,0 -4.48,2.21 -4.48,4.53 0,1.65 1.18,2.74 2.71,2.74 0.87,0 1.63,-0.4 2.16,-0.86 0.93,-0.82 1.1,-1.73 1.1,-1.76 0,-0.1 -0.1,-0.1 -0.12,-0.1 -0.06,0 -0.11,0.02 -0.13,0.1 -0.09,0.29 -0.32,1 -1.01,1.58 -0.69,0.56 -1.32,0.73 -1.84,0.73 -0.9,0 -1.96,-0.52 -1.96,-2.08 0,-0.57 0.21,-2.19 1.21,-3.36 0.61,-0.71 1.55,-1.21 2.44,-1.21 1.02,0 1.61,0.77 1.61,1.93 0,0.4 -0.03,0.41 -0.03,0.51 0,0.1 0.11,0.1 0.15,0.1 0.13,0 0.13,-0.02 0.18,-0.2 L 7.6,-6.95 z"
+           inkscape:connector-curvature="0" />
+      </defs>
+      <g
+         id="equation_05_g"
+         style="fill:#ffffff">
+        <use
+           id="use4106"
+           y="63"
+           xlink:href="#equation_05_01"
+           x="77"
+           width="744.09448"
+           height="1052.3622"
+           style="fill:#ffffff" />
+        <use
+           id="use4108"
+           y="63"
+           xlink:href="#equation_05_00"
+           x="84.5"
+           width="744.09448"
+           height="1052.3622"
+           style="fill:#ffffff" />
+        <use
+           id="use4110"
+           y="63"
+           xlink:href="#equation_05_02"
+           x="88.944397"
+           width="744.09448"
+           height="1052.3622"
+           style="fill:#ffffff" />
+        <use
+           id="use4112"
+           y="63"
+           xlink:href="#equation_05_00"
+           x="97.031303"
+           width="744.09448"
+           height="1052.3622"
+           style="fill:#ffffff" />
+        <use
+           id="use4114"
+           y="63"
+           xlink:href="#equation_05_03"
+           x="101.476"
+           width="744.09448"
+           height="1052.3622"
+           style="fill:#ffffff" />
+      </g>
+    </g>
+  </g>
+</svg>

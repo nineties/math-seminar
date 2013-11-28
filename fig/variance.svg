@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="新規ドキュメント 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="361.64155"
+     inkscape:cy="449.08328"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 112.12693,650.32147 585.88848,0"
+       id="path2985"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#add8e6;stroke-width:1.9;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 112.12694,647.29102 c 91.72567,-10.02148 176.20027,-51.06016 255.72645,-95.56243 86.81786,-15.3512 177.75734,14.0718 245.26257,69.24894 27.42552,15.18545 58.8377,21.9076 89.95021,23.28303"
+       id="path2987"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#ffc0cb;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 217.1828,648.30117 c 57.12126,7.48658 121.08672,-35.59839 137.27753,-89.88713 13.98326,-32.08081 21.70087,-67.63767 43.8473,-95.57178 16.48124,-13.41143 43.5735,-0.86306 47.62535,18.98618 20.02734,44.92875 26.75418,97.43116 61.69597,134.44943 22.14353,22.39037 49.69563,31.43583 80.27983,32.02333"
+       id="path3126"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:34.43190765px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffc0cb;fill-opacity:1;stroke:none;font-family:Sans"
+       x="460.84512"
+       y="474.89197"
+       id="text3159"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3161"
+         x="460.84512"
+         y="474.89197"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffc0cb;fill-opacity:1;font-family:HGPGothicM;-inkscape-font-specification:HGPGothicM">分散小</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:34.43190765px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#add8e6;fill-opacity:1;stroke:none;font-family:Sans"
+       x="587.20313"
+       y="590.2561"
+       id="text3163"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3165"
+         x="587.20313"
+         y="590.2561"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#add8e6;fill-opacity:1;font-family:HGPGothicM;-inkscape-font-specification:HGPGothicM">分散大</tspan></text>
+  </g>
+</svg>
