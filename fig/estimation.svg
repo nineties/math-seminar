@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="estimation.svg">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#000000"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="342.7857"
+     inkscape:cy="554.83503"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path4240"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path4234"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1LendB"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1LendB"
+       style="overflow:visible;">
+      <path
+         id="path5048"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1LendC"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1LendC"
+       style="overflow:visible;">
+      <path
+         id="path5051"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lendu"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lendu"
+       style="overflow:visible;">
+      <path
+         id="path5054"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#ffffff;stroke-width:1.0pt;fill:#ffffff;fill-rule:evenodd"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend0"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend0"
+       style="overflow:visible;">
+      <path
+         id="path5682"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="stroke:#90ee90;stroke-width:1.0pt;fill:#90ee90;fill-rule:evenodd"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="レイヤー 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffc0cb;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2985"
+       sodipodi:cx="196.93042"
+       sodipodi:cy="507.71933"
+       sodipodi:rx="121.93042"
+       sodipodi:ry="75.35714"
+       d="m 318.86084,507.71933 a 121.93042,75.35714 0 1 1 -243.86084,0 121.93042,75.35714 0 1 1 243.86084,0 z"
+       transform="translate(-7.8571429,-45)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#add8e6;fill-opacity:1;stroke:#ffffff;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2987"
+       sodipodi:cx="461.07144"
+       sodipodi:cy="492.00504"
+       sodipodi:rx="60.357143"
+       sodipodi:ry="37.5"
+       d="m 521.42859,492.00504 a 60.357143,37.5 0 1 1 -120.71429,0 60.357143,37.5 0 1 1 120.71429,0 z"
+       transform="translate(20.714286,21.428572)" />
+    <text
+       xml:space="preserve"
+       style="font-size:28.04696083px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="226.32127"
+       y="378.36459"
+       id="text3757"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3759"
+         x="226.32127"
+         y="378.36459"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:HGGothicM;-inkscape-font-specification:HGGothicM">母集団</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:28.04696083px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="455.71448"
+       y="467.92249"
+       id="text3761"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3763"
+         x="455.71448"
+         y="467.92249"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:HGGothicM;-inkscape-font-specification:HGGothicM">標本</tspan></text>
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1LendC);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-width:1px;fill:none"
+       d="m 137.85714,428.79076 c 77.38616,-14.25201 156.56647,1.5058 230.50027,24.9825 37.3795,11.10343 75.64937,23.7405 105.9283,49.30321"
+       id="path3777"
+       inkscape:connector-curvature="0" />
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1LendB);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-width:1px;fill:none"
+       d="m 195,450.93361 c 85.97216,-3.52656 175.69659,12.17545 247.85714,61.42857"
+       id="path4141"
+       inkscape:connector-curvature="0" />
+    <path
+       style="stroke-linejoin:miter;marker-end:url(#Arrow1Lendu);stroke-opacity:1;stroke:#ffffff;stroke-linecap:butt;stroke-width:1px;fill:none"
+       d="m 234.28571,489.50504 c 57.33576,-7.3612 114.30217,7.74311 168.95744,23.48194 25.90664,8.53362 51.28202,18.65541 76.04256,30.08949"
+       id="path4143"
+       inkscape:connector-curvature="0" />
+    <path
+       sodipodi:nodetypes="ccc"
+       inkscape:connector-curvature="0"
+       id="path5092"
+       d="m 421.42857,538.07647 c -43.13439,15.97518 -90.12721,15.15695 -123.49773,-9.10565 -1.03751,-0.95147 -5.59138,-8.39225 -6.50229,-9.4658"
+       style="fill:none;stroke:#90ee90;stroke-width:3.0999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend0)" />
+    <text
+       xml:space="preserve"
+       style="font-size:33.15711212000000100px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#90ee90;fill-opacity:1;stroke:none;font-family:Sans"
+       x="324.68668"
+       y="580.20007"
+       id="text5721"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5723"
+         x="324.68668"
+         y="580.20007"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#90ee90;font-family:HGGothicM;-inkscape-font-specification:HGGothicM;fill-opacity:1">推定</tspan></text>
+  </g>
+</svg>

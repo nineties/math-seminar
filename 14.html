@@ -1,0 +1,1173 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/ir_black.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: yellow;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal table {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        border: 2px solid lightblue;
+      }
+
+      .reveal pre {
+        font-size: 0.7em;
+      }
+
+      .reveal pre code {
+        max-height: 600px;
+      }
+
+      .reveal .note {
+        font-size: 50%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .answer {
+        color: #111111;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: false,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+    <script>
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第14回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年12月12日
+        </span>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+            <li> サンプルプログラムはPython及びMaximaで記述しています。 </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 擬似乱数の生成法 </h2>
+        </section>
+
+        <section>
+        <p>
+        与えられた確率分布に従う擬似乱数を生成する方法を説明します. 有名な確率分布に従う乱数生成器は標準で用意されていると思いますが, 自前での実装が必要な場面もよくあります.
+        </p>
+        <p>
+        後の回に説明するモンテカルロ法の基礎となりますので大切です.
+        </p>
+        </section>
+
+        <section>
+        <h2> 前提条件 </h2>
+        <p>
+        区間 \([0,1)\) の一様分布(標準一様分布)に従う乱数(標準一様乱数)を生成する, 良質な生成器が存在する事を仮定します.
+        \[
+        \rho(x) = \left\{\begin{array}{cl}
+        1 & (0 \leq x &lt; 1) \\
+        0 & (\text{上記以外})
+        \end{array}\right.
+        \]
+        </p>
+        <div align="center"> <img width="500px" src="fig/uniform-distribution2.png"> </div>
+        <p class="fragment">
+        <a href="http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/mt.html">メルセンヌ・ツイスター法</a>であれば間違いありません.
+        言語処理系の標準乱数生成器のアルゴリズムは必ず調べるようにしてください.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        標準一様分布に従う変数 \(U\) で直接表すことの出来る変数は簡単です.
+        </p>
+        <p class="fragment">
+        区間 \([a,b)\) の一様分布に従う変数 \(X\) は
+        \[ X = a + (b-a)U \]
+        と表す事が出来ます. よって,以下の関数で生成する事が出来ます.
+        </p>
+<pre><code class="fragment python" data-fragment-index="1" style="font-size:120%;max-height:400px">from random import random
+def uniform(a, b):
+    return a + random()*(b-a)
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        成功確率 \(p\) のベルヌーイ分布に従う変数 \(X\) は
+        \[ X = \left\{\begin{array}{cl}
+        1 & (U \leq p) \\
+        0 & (\text{上記以外})
+        \end{array}\right. \]
+        と表す事が出来ます. 
+        </p>
+<pre><code class="fragment python" style="font-size:120%;max-height:400px" data-fragment-index="1">from random import random
+def bernoulli(p):
+    if random() <= p:
+        return 1
+    else:
+        return 0
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        \( X_1,X_2,\ldots,X_n \) が成功確率 \(p\) のベルヌーイ分布に従うならば, 確率変数
+        \[ X = X_1 + X_2 + \cdots X_n \]
+        は二項分布 \(B(n,p)\) に従うのでした.
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        よって正規分布に従う乱数を既与とすれば, 以下の関数で \(B(n,p)\)に従う乱数を生成出来ます.
+        </p>
+<pre><code class="fragment python" style="font-size:120%;max-height:400px" data-fragment-index="1">from random import random
+def binomial(n,p):
+    x = 0
+    for i in range(n):
+        x += bernoulli(p)
+    return x
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        この方法は \(n\) が大きい場合の計算量が問題となります. その場合は, 中心極限定理によって正規分布で近似する事が出来ます.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 中心極限定理 </h4>
+        <p>
+        確率変数 \(X_1,X_2,\ldots,X_n\) が期待値 \(\mu\), 標準偏差 \(\sigma\) の同一の確率分布に従い, 独立であるとする. このとき \(X_i\) の平均
+        \[ \overline{X} = \frac{1}{n}(X_1+X_2+\cdots +X_n) \]
+        の従う確率分布は \(n\) が大きくなると正規分布 \(N\left(\mu, \frac{\sigma^2}{n}\right)\) に収束(弱収束)する.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p>
+        また,正規表現に従う変数は以下の定理で変形されます.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 正規分布の変換 </h4>
+        <p>
+        \[ X \sim N(\mu,\sigma^2)\text{ならば} aX+b \sim N(a\mu + b, a^2\sigma^2) \]
+        </p>
+        </div>
+        <p style="font-size:70%">
+        【証明】<br>
+        \(y=ax+b\) と変数変換を行うと,
+        \[ \begin{aligned}
+        \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(x-\mu)^2}{2\sigma^2}\right\} \mathrm{d} x &= \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(y-a\mu-b)^2}{2a^2\sigma^2}\right\} \frac{1}{a}\mathrm{d} y \\
+        &=\frac{1}{\sqrt{2\pi a^2\sigma^2}}\exp\left\{-\frac{(y-a\mu-b)^2}{2a^2\sigma^2}\right\}\mathrm{d} y
+        \end{aligned} \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <p>
+        ベルヌーイ分布は
+        \[ \text{平均}:p,\quad\text{分散}: p(1-p) \]
+        なので, \(X_1,X_2,\ldots,X_n\) がこの分布に従う場合,
+        \[ \overline{X} = \frac{X_1+X_2+\cdots + X_n}{n} \]
+        は \(n\) が大きいとき正規分布 \( N\left(p, \frac{p(1-p)}{n}\right) \) に従います.
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        つまり, \(X = X_1 + X_2 + \cdots + X_n\) は正規分布 \( N\left(np, np(1-p)\right) \) に従いますので, 以下の関数で二項分布に従う乱数を生成する事が出来ます.
+        </p>
+<pre><code class="fragment python" style="font-size:120%;max-height:400px" data-fragment-index="1">from random import gauss
+from math import sqrt
+def binomial(n, p):
+    return round(gauss(n*p, sqrt(n*p*(1-p))))
+</code></pre>
+        </section>
+
+        <section>
+        <h2> 逆変換法 </h2>
+        <p>
+        続いて, 逆変換法という方法を紹介します.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 累積分布関数 </h4>
+        <p>
+        確率測度 \(P\) に対して
+        \[ F(x) = P(X\leq x) \]
+        で定まる \(F(x)\) を \(P\) の <strong>累積分布関数</strong> という.
+        </p>
+        <p>
+        つまり, 確率密度で表される分布に対しては
+        \[ F(x) = \int_{-\infty}^x \rho(x)\mathrm{d} x \]
+        であり, 離散的な分布に対しては
+        \[ F(x) = \sum_{\stackrel{i=0,1,\ldots,\infty}{x_i\leq x}}x_ip_i \]
+        である.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        指数分布の累積分布関数を求めてみましょう.
+        </p>
+        </div>
+        <p>
+        パラーメータ \(\lambda\) の指数分布の確率密度関数は
+        \[ \rho(x) = \left\{\begin{array}{cl}
+        \lambda e^{-\lambda x} & (x \geq 0) \\
+        0 & (x &lt; 0)
+        \end{array}\right. \]
+        なので, この累積分布関数は \(x \geq 0\) のとき
+        \[ \begin{aligned}
+        F(x)&= \int_{-\infty}^x\rho(x)\mathrm{d}x = \int_0^x \lambda e^{-\lambda x}\mathrm{d}x \\
+            &= [-e^{-\lambda x}]_0^x = \color{yellow}{ 1 - e^{-\lambda x} }
+        \end{aligned} \]
+        となります. \(x &lt; 0\) のときは0です.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以下が \(\lambda = 5\) の指数分布の密度関数のグラフ,
+        </p>
+        <div align="center"> <img width="700px" src="fig/exponential-distribution2.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        以下がその累積分布関数のグラフです.
+        </p>
+        <div align="center"> <img width="700px" src="fig/cumulative-exponential-distribution.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        サイコロの出目の分布(一様だと仮定)の累積分布関数を求めて下さい.
+        </p>
+        </div>
+        <p class="fragment" style="font-size:70%">
+        <img align="right" width="400px" src="fig/cumulative-distribution.png">
+        \[ F(x) = \left\{\begin{array}{cl}
+        0   & (x &lt; 1) \\
+        1/6 & (1 \leq x &lt; 2) \\
+        2/6 & (2 \leq x &lt; 3) \\
+        3/6 & (3 \leq x &lt; 5) \\
+        4/6 & (4 \leq x &lt; 5) \\
+        5/6 & (5 \leq x &lt; 6) \\
+        6/6 & (6 \leq x) \\
+        \end{array}\right. \]
+        </p>
+        </section>
+  
+        <section>
+        <p>
+        連続的な確率分布に対しては以下が成立します.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        任意の連続的な確率測度 \(P\) に対して, その累積分布関数 \(F(x)\) は, 
+        \[ 0 \leq F(x) \leq 1 \]
+        の範囲の値を取る, 単調増加関数である.
+        </p>
+        </div>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        連続的な確率測度 \(P\) の, 累積分布関数を \(F(x)\) とする.
+        この分布に従う確率変数 \(X\) に対して, 確率変数 \(F(X)\) は, 標準一様分布に従う.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p>
+        【証明】<br>
+        前半の命題は明らかなので省略. <br>
+        後半に関して. \(F\) は単調増加関数であるから
+        \[ X \leq x\Leftrightarrow F(X)\leq F(x) \]
+        である. すなわち
+        \[ P(F(X)\leq F(x)) = P(X\leq x) = F(x) \]
+        が成立するので, \(F(x) = x'\quad (0\leq x'\leq 1)\) とおき直せば
+        \[ P(F(X) \leq x') = x'\quad (0 \leq x'\leq 1) \]
+        となる. これは \(F(X)\) が標準一様分布に従う事を示す.
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <h2> 逆変換法(連続的分布) </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        ある連続的確率分布 \(P\) の累積分布関数を \(F(x)\) とする. 確率変数 \(U\) が標準一様分布に従うならば, 確率変数
+        \( X = F^{-1} (U) \) は \(P\) に従う.
+        </p>
+        </div>
+        <div align="center"> <img width="600px" src="fig/inverse-function-method.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        指数分布に従う乱数生成器を作りましょう.
+        </div>
+        <p>
+        既に計算したように, パラーメータ\(\lambda\)の指数分布の累積分布関数は
+        \[ F(x) = 1-e^{-\lambda x}\quad (x \geq 0) \]
+        なので, 
+        \[ y = 1-e^{-\lambda x} \Leftrightarrow e^{-\lambda x} = 1-y \Leftrightarrow x = -\frac{1}{\lambda}\ln(1-y) \]
+        より
+        \[ \color{yellow}{ F^{-1}(x) = -\frac{1}{\lambda}\ln (1-x) } \]
+        によって標準一様乱数を変換すればよいです.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        \(X\) が標準一様分布に従うならば, \(1-X\) も標準一様分布に従うので, もっと単純に
+        \[ x = -\frac{1}{\lambda}\ln u\quad (u \sim U(0,1)) \]
+        によって生成すれば十分です.
+        </p>
+        <p>
+        以下がPythonでの実装例です.
+        </p>
+<pre><code class="python" style="font-size:120%;max-height:400px">from math import log
+from random import random
+def exponential(lam):
+    return -log(random())/lam
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        \(\lambda = 5\) として前頁の関数で生成した乱数サンプルを 1000 個作ってヒストグラム化したもの. (幅0.1の区間毎に頻度を計算.)
+        </p>
+        <div align="center"> <img width="700px" src="fig/exp-dist-experiment.png"> </div>
+        </section>
+
+        <section>
+        <h2> 応用:ポアソン分布 </h2>
+        <p>
+        指数分布に従う乱数を生成する事が出来たので, ポアソン分布に従う乱数も生成する事が出来ます.
+        </p>
+        <p>
+        復習すると, ある事象の単位時間あたりの発生回数がポアソン分布, その発生間隔が指数分布に従うのでした.
+        </p>
+        <div align="center"> <img width="700px" src="fig/poisson-gen.png"> </div>
+        </section>
+      
+        <section>
+        <p>
+        従って, 一様乱数 \(u_1,u_2,\ldots,u_n\) を次々に生成して
+        \[ \begin{aligned}
+        &-\frac{1}{\lambda}\ln u_1 -\frac{1}{\lambda}\ln u_2 -\cdots -\frac{1}{\lambda}\ln u_n \leq 1  \\
+        \Leftrightarrow & \color{yellow}{ e^\lambda u_1u_2\cdots u_n \geq 1 }
+        \end{aligned} \]
+        を満たす, 最大の \(n\) を返せば良いです.
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        以下が実装例です.
+        </p>
+<pre><code class="fragment python" data-fragment-index="1" style="font-size:120%;max-height:400px">from random import random
+from math import exp
+def poisson(lam):
+    v = exp(lam) * random()
+    k = 0
+    while v >= 1:
+        v *= random()
+        k += 1
+    return k
+</code></pre>
+        </section>
+
+        <section>
+        <h2> 逆変換法(離散的分布) </h2>
+        <p>
+        離散的な分布についても同様の事が出来ます.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        ある離散的確率分布 \(P\) の累積分布関数を \(F(x)\) とする. この分布の標本を \(x_1 &lt; x_2 &lt; \cdots &lt; x_n\) とする. <br>
+
+        確率変数 \(U\) が標準一様分布に従うならば,
+        \[ U &lt F(x_i) \]
+        を満たす最小の \(x_i\) を確率変数 \(X\) の値とすると, \(X\) は \(P\) に従う.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        サイコロの出目を生成する乱数生成器を作成しましょう.
+        </div>
+        <p>
+        \(U\) が標準一様分布に従うとして, 求める確率変数 \(X\) を
+        \[ X = \left\{\begin{array}{cl}
+        1 & (0\leq U &lt 1/6) \\
+        2 & (1/6\leq U &lt 2/6) \\
+        3 & (2/6\leq U &lt 3/6) \\
+        4 & (3/6\leq U &lt 4/6) \\
+        5 & (4/6\leq U &lt 5/6) \\
+        6 & (5/6\leq U &lt 1)
+        \end{array}\right. \]
+        と定めれば良いです.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以下がPythonでのコーディング例です.
+        </p>
+<pre><code class="python" style="font-size:120%;max-height:400px">from random import random
+
+def dice():
+    r = random()
+    for i in range(1,7):
+        if r < i/6.0: return i
+</code></pre>
+        <p class="fragment" data-fragment-index="1" style="font-size:80%">
+        【注】<br>
+        実際には擬似乱数は離散的な値しか取らない為, この方法では均等に\(1/6\)の確率で出現するサイコロにはなりません. 完全に均等にしたい場合には, 以下の様な手段を取ります.
+        <ul class="fragment" data-fragment-index="1" style="font-size:80%">
+          <li> 整数値の乱数を振る.(仮に32bitとすると0以上4294967295以下の値を取る.) </li>
+          <li> 値域が6の倍数個となるように, 4294967293以上の値は捨てる. </li>
+          <li> (6で割った余り)+1 を返す. </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2> 棄却法 </h2>
+        <p>
+        逆関数の計算が困難な場合には, 以下の方法があります.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 棄却法(単純版) </h4>
+        <p>
+        \([a,b]\)の範囲で密度 \(\rho (x)\) を持つ確率測度を \(P\) とする.
+        \([a,b]\) 上の一様乱数 \(u_1\) と, \([0, c]\quad (c \geq\max \rho(x)\) 上の一様乱数 \(u_2\) を生成し,
+        \[ u_2 \leq \rho(u_1) \]
+        であるならば \(u_1\) を採用し, そうでなければ棄却する.
+        </p>
+        <p>
+        \(u_1\) が採用されるまで以上を繰り返せば, 得られた \(u_1\) は \(P\) の定める確率分布に従う.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p>
+        乱数の組 \((u_1,u_2)\) は下図の長方形内の１点に対応します. 棄却法では, \(y=\rho(x)\) で囲まれた領域に点が入った場合だけ採用するという方法を取ります.
+        </p>
+        <div align="center"> <img width="700px" src="fig/rejection-sampling.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        \([0,1]\)で確率密度関数
+        \[ \rho(x) = 30x(1-x)^4 \]
+        で表される分布に従う乱数を生成してみましょう. (これはベータ分布と呼ばれる分布の1つ.)
+        </p>
+        </div>
+        <p style="font-size:70%">
+        \[ \rho'(x) = 30(1-x)^4 - 120x(1-x)^3 = 30(1-5x)(1-x)^3 \]
+        なので, \(\rho(x)\) は \(x = \frac{1}{5}\) で最大値約\(2.5\) を取ります. よって \(c = 2.6\) と置けば十分です.
+        <p>
+<pre><code class="python" style="max-height:400px">from random import random
+def beta25():
+    while True:
+        u1 = random()
+        u2 = random() * 2.6
+        if u2 <= 30*u1*(1-u1)**4:
+            return u1
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        1000サンプルの乱数を生成して頻度をプロットしたのが以下の図です.
+        </p>
+        <div align="center"> <img width="700px" src="fig/beta-experiment.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        先ほどの単純な棄却法では, \(y=\rho(x)\)の外の部分(棄却域)の面積が大きいときに反復回数が増えてしまいます.
+        </p>
+        <div align="center"> <img width="500px" src="fig/rejection-sampling.png"> </div>
+        <p>
+        これは, 既知の確率密度関数\(y=\varphi(x)\)を上手く選んで, それを適当に縦の伸ばしたものを矩形の代わりに利用する事で改善できます.
+        </p>
+        <div align="center"> <img width="500px" src="fig/rejection-sampling2.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 棄却法 </h4>
+        <p>
+        \([a,b]\)の範囲で密度 \(\rho (x)\) を持つ確率測度を \(P\) とする.
+
+        同じ範囲の密度関数 \(\varphi(x)\) で, \(c\)を上手く選べば\(\rho(x)\leq c\varphi(x)\) と出来るものを取る.
+        \([a,b]\) 上の\(\varphi(x)\)に従う乱数 \(u_1\) と, \([0, c\varphi(x)]\) 上の一様乱数 \(u_2\) を生成し,
+        \[ u_2 \leq \rho(u_1) \]
+        であるならば \(u_1\) を採用し, そうでなければ棄却する.
+        </p>
+        <p>
+        \(u_1\) が採用されるまで以上を繰り返せば, 得られた \(u_1\) は \(P\) の定める確率分布に従う.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:70%">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        先ほどの例題の分布 \(\rho(x) = 30x(1-x)^4\) は,
+        \[ f(x) = \left\{\begin{array}{cl}
+        30x & (0\leq x \leq 1/10) \\
+        \frac{10}{3}(1-x) & (1/10\leq x \leq 1)
+        \end{array}\right. \]
+        によって囲む事が出来ます. これを利用してより良い乱数生成器を書いて下さい.
+        </p>
+        </div>
+        <div align="center"> <img width="500px" src="fig/rejection-sampling3.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        正規分布の乱数生成法ですが, これは必要な知識をまだ説明していないので方法だけ紹介します. 
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> ボックス=ミュラー法 </h4>
+        <p>
+        確率変数 \(X,Y\) が標準一様分布に従う時,
+        \[ \begin{aligned}
+        Z_1 = \sqrt{-2\ln X}\cos 2\pi Y \\
+        Z_2 = \sqrt{-2\ln X}\sin 2\pi Y
+        \end{aligned} \]
+        で定義される\(Z_1,Z_2\)は正規分布\(N(0,1)\)に従う独立な確率変数である.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 推定 </h2>
+        </section>
+
+        <section>
+        <p>
+        本節では, 調べたい集団についてそのサンプルに基いて<strong>推定</strong>を行う方法について解説します.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        調べる対象の集団(確率分布)を<strong>母集団</strong>, 母集団からランダムに取り出したデータの集合を<strong>標本</strong>と呼びます.
+        </p>
+        <div align="center"> <img width="600px" src="fig/estimation.png"> </div>
+        <p>
+        母集団の特徴量は <strong>母平均,母分散,母標準偏差</strong> などの様に呼びます. 一般に,これらは<strong>母数</strong>とも呼ばれます. また, 標本の特徴量は <strong>標本平均,標本分散,標本標準偏差</strong> などの様に呼びます.
+        </p>
+        </section>
+
+        <section>
+        <h2> 点推定 </h2>
+        <p>
+        「母平均は \(\mu\) である」といった形で, その値をピンポイントで推定する事を <strong> 点推定 </strong> と言います.
+        </p>
+        <p>
+        点推定には以下の方法があります.
+        </p>
+        <ul>
+          <li> <strong>不偏推定量</strong>による推定 </li>
+          <li> <strong>最尤推定量</strong>による推定 </li>
+        </ul>
+        </section>
+
+        <section>
+        <h2> 不偏推定量による推定 </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 不偏推定量 </h4>
+        <p>
+        母数 \(\theta\) に対する点推定量 \(\hat{\theta}\) が
+        \[ E[\hat{\theta}] = \theta \]
+        を満たす時, \(\hat{\theta}\) を \(\theta\) の <strong>不偏推定量</strong> という.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) に対して標本平均
+        \[ \overline{X} = \frac{1}{n}\sum_{i=1}^n X_i \]
+        は母平均の不偏推定量である.
+        </p>
+        </div>
+        <p style="font-size:70%">
+        【証明】<br>
+        母平均を \(\mu\) とすると 各標本について \(E[X_i] = \mu\) であるから
+        \[ \begin{aligned}
+        &E\left[\frac{X_1+X_2+\cdots +X_n}{n}\right] = \frac{1}{n}(E[X_1]+E[X_2]+\cdots + E[X_n]) \\
+        &= \frac{\mu+\mu+\cdots+\mu}{n} = \mu 
+        \end{aligned} \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) に対して
+        \[ \frac{1}{n-1}\sum_{i=1}^n(X_i-\overline{X})^2 \]
+        は母分散の不偏推定量である.
+        </p>
+        </div>
+        <p>
+        \( (\text{標本数})-1 \) で割り算をしている事に注意してください.
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        【証明】<br>
+        母平均を \(mu\), 母分散を \(\sigma^2\) とおくと, \(E[X_i]=\mu, V[X_i]=\sigma^2\) である. また
+        \[ s^2 = \frac{1}{n-1}\sum_{i=1}^n(X_i-\overline{X})^2 \]
+        とおく. ここで
+        \[ \begin{aligned}
+        (X_i - \overline{X})^2 &= \{(X_i-\mu)-(\overline{X}-\mu)\}^2 \\
+        &(X_i-\mu)^2 + (\overline{X}-\mu)^2 -2(X_i-\mu)(\overline{X}-\mu)
+        \end{aligned} \]
+        より
+        \[ \begin{aligned}
+        \sum_{i=1}^n(X_i-\overline{X})^2 &= \sum_{i=1}^n (X_i-\mu)^2 + n(\overline{X}-\mu)^2 - 2n(\overline{X}-\mu)^2 \\
+        &= \sum_{i=1}^n (X_i-\mu)^2 - n(\overline{X}-\mu)^2
+        \end{aligned} \]
+        である.
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        ここで, \(E[\overline{X}]=\mu\) である事に注意すれば
+        \[ \begin{aligned}
+        E[(\overline{X}-\mu)^2] &= V[\overline{X}] = V\left[\frac{1}{n}(X_1+X_2+\cdots+X_n)\right] \\
+        &= \frac{1}{n^2}(V[X_1]+V[X_2]+\cdots+V[X_n]) = \frac{1}{n}\sigma^2
+        \end{aligned} \]
+        となるから,
+        \[ \begin{aligned}
+        E[s^2] &= \frac{1}{n-1}\left\{ \sum_{i=1}^n E[(X_i-\mu)^2] - n\cdot \frac{\sigma^2}{n} \right\} \\
+        &= \frac{1}{n-1}(n\sigma^2 - \sigma^2) \\
+        &= \sigma^2
+        \end{aligned} \]
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <p>
+        実験をしてみましょう. パラメータ \(\lambda\) のポアソン分布(母平均も母分散も\(\lambda\))に従う乱数を100個生成して母平均・母分散を推定してみます.
+        </p>
+<pre><code class="python" style="max-height:400px">>>> import numpy as np
+>>> N = 1000
+>>> data = np.random.poisson(5, N)
+>>> np.average(data)
+4.9359999999999999
+>>> np.var(data, ddof=1)  # 不偏分散
+4.7466506506506221
+>>> np.var(data)          # 標本分散
+4.7419039999999715
+</code></pre>
+        </section>
+
+        <section>
+        <h2> 最尤推定量による推定 </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 最尤推定量 </h4>
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) が母数 \(\theta\) の確率分布に従うとし, その同時確率密度関数を
+        \[ f(X_1,X_2,\ldots,X_n\,\mid\,\theta) \]
+        とする(母集団が離散的な場合は同時確率関数とする.). 得られた標本 \((X_1,X_2,\ldots,X_n)=(x_1,x_2,\ldots,x_n)\) に対して
+        \[ L(\theta\,\mid\,x_1,x_2,\ldots,x_n) = f(x_1,x_2,\ldots,x_n\,\mid\,\theta) \]
+        を<strong>尤度関数</strong>と呼び, \(L\) が最大となる\(\theta\)を <strong>最尤推定量</strong>という.
+        </p>
+        </div>
+        <p>
+        最尤推定量とは, 標本の得られる確率が最大となる推定量です.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        サイコロを100回投げて, 18回1の目が出たとします. 1の目が出る確率 \(p\) の最尤推定量を求めましょう.
+        </p>
+        </div>
+        <p style="font-size:70%">
+        18回1の目が出る確率は
+        \[ P = \binom{100}{18}p^{18}(1-p)^{82} \]
+        です. これを \(p\) で微分すれば
+        \[ \begin{aligned}
+        \frac{\mathrm{d}P}{\mathrm{d} p} &= \binom{100}{18}\left\{18p^17(1-p)^{82}-82p^{18}(1-p)^{81}\right\} \\
+        &= \binom{100}{18}p^{17}(1-p)^{81}(18-100p) 
+        \end{aligned} \]
+        となるので, \(p = \frac{18}{100} = 0.18\)が最尤推定量となります.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        同時確率関数・同時密度関数は積の形になる事が多いので, 対数を取って利用する事が多いです. 対数関数は単調増加するので, 対数尤度が最大となる \(\theta\) は最尤推定量と同じです.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 対数尤度 </h4>
+        <p>
+        尤度関数
+        \[ L(\theta\,\mid\,x_1,x_2,\ldots,x_n) = f(x_1,x_2,\ldots,x_n\,\mid\,\theta) \]
+        に対して,
+        \[ \ln L(\theta\,\mid\, x_1,x_2,\ldots,x_n) \]
+        を <strong>対数尤度関数</strong> という.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 正規分布の最尤推定量 </h4>
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) が同一の正規分布に従う独立な確率変数であるならば, 標本平均・標本分散が母平均・母分散の最尤推定量となる.
+        </p>
+        </div>
+        <p>
+        この例の様に, 不偏推定量と最尤推定量は一般に一致しないので注意が必要です.
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        【証明】<br>
+        母平均を\(\mu\),母分散を\(\sigma^2\) とすると, 同時確率密度関数は
+        \[ \rho(x_1,x_2,\ldots,x_n) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(x_i-\mu)}{2\sigma^2}\right\} \] 
+        であるから, 対数尤度関数は
+        \[ \begin{aligned}
+        \ln L(\mu,\sigma^2) &= \sum_{i=1}^n \ln\left[\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(x_i-\mu)}{2\sigma^2}\right\} \right] \\
+        &= n\ln\frac{1}{\sqrt{2\pi\sigma^2}} - \frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2
+        \end{aligned} \]
+        となる. これを \(\mu,\sigma^2\) で偏微分すれば
+        \[ \begin{aligned}
+        \frac{\partial }{\partial \mu} \ln L(\mu,\sigma^2) &= \frac{1}{\sigma^2}\sum_{i=1}^n (x_i-\mu) \\
+        \frac{\partial}{\partial(\sigma^2)}\ln L(\mu,\sigma^2) &= -\frac{n}{2\sigma^2}+\frac{1}{2\sigma^4}\sum_{i=1}^n(x_i-\mu)^2
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        従って, 対数尤度が最大となるのは
+        \[ \begin{aligned}
+        \mu &= \frac{1}{n}\sum_{i=1}^n x_i \\
+        \sigma^2 &= \frac{1}{n}\sum_{i=1}^n(x_i-\mu)^2 
+        \end{aligned} \]
+        のときである.
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <h2> 区間推定 </h2>
+        <p>
+        「母平均は95%の確率で～から～の範囲にある」といった形で, 特徴量の値の取る範囲とその確率を推定する事を <strong> 区間推定 </strong> と言います.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 区間推定 </h4>
+        <p>
+        母数 \(\theta\) について
+        \[ P(a \leq \theta \leq b) = 1-\alpha \]
+        となる時,\(1-\alpha\)を<strong>信頼水準</strong>と言い, 区間 \([a,b]\) をこの信頼水準における母数\(\theta\)の<strong>信頼区間</strong>という.
+        </p>
+        </div>
+        <p>
+        \(\alpha\)の値としては例えば \(\alpha=0.05\) などがよく利用されます. この場合, 母数 \(\theta\) の95%信頼区間とは
+        \[ P(a\leq \theta \leq b) = 0.95 \]
+        となる \([a,b]\) という事になります.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> \(\alpha\)点 </h4>
+        <p>
+        標準正規分布 \(N(0,1)\) と, \(0\leq \alpha \leq 1\)に対して
+        \[ P(X \geq z_\alpha) = \alpha \]
+        となる \(z_\alpha\) を<strong>上側 \(\alpha\) 点 </strong>,
+        \[ P(|X| \geq z_\alpha) = \alpha \]
+        となる \(z_\alpha\) を<strong>両側 \(\alpha\) 点 </strong>という.
+        </p>
+        </div>
+        <div align="center"> <img width="500px" src="fig/alpha-point.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        標準正規分布は左右対象なので, 上側 \(\alpha\) 点の値が計算出来れば十分です. 
+        よく使いそうな値だけ下に書いておきます.
+        \[ \begin{array}{|c|c|} \hline
+        \alpha & \text{上側$\alpha$点} \\ \hline
+        0.1   & 1.281552 \\
+        0.05  & 1.644854 \\
+        0.025 & 1.959964 \\ \hline
+        \end{array} \]
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        母集団が平均\(\mu\), 分散\(\sigma^2\)の分布に従っていると仮定し<strong>\(\sigma^2\)が既知</strong>であるとします. 中心極限定理より \(n\) が十分大きければ 標本平均について
+        \[ \overline{X}=\frac{X_1+X_2+\cdots+X_n}{n} \sim N(\mu,\sigma^2/n) \]
+        となります. 従って,
+        \[ Y = \frac{\sqrt{n}}{\sigma}(\overline{X}-\mu) \]
+        は標準正規分布 \(N(0,1)\) に従いますので, 両側\(\alpha\)点を\(z_\alpha\)とすれば
+        \[ P(|Y|\leq z_\alpha)=1-\alpha\Leftrightarrow P\left(|\overline{X}-\mu|\leq \frac{\sigma}{\sqrt{n}}z_\alpha\right)=1-\alpha \]
+        となります.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 分散が既知の場合の母平均の区間推定 </h4>
+        <p>
+        母分散が \(\sigma^2\) である時の, 信頼水準が \(1-\alpha\) の母平均の信頼区間は, 両側\(\alpha\)点を\(z_\alpha\)として,
+        \[ \color{yellow}{ \overline{X}-\frac{\sigma}{\sqrt{n}}z_\alpha \leq \mu \leq \overline{X} + \frac{\sigma}{\sqrt{n}}z_\alpha } \]
+        となる. 但し, \(\overline{X}\)は標本平均.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        母分散が 10 である正規分布において, 100点の標本の平均が3であった場合の, 母平均の 95% 信頼区間を求めましょう.
+        </p>
+        </div>
+        <p>
+        \(\alpha=0.05\)の両側\(\alpha\)点の値は \(z_\alpha \approx 1.959964\) であるので 95% 信頼区間は
+        \[ 3 - \frac{\sqrt{10}}{\sqrt{100}}1.959964 \leq \mu \leq  3 + \frac{\sqrt{10}}{\sqrt{100}}1.959964 \]
+        つまり, 有効数字を3桁とすると\(3-0.62 \leq \mu \leq 3+0.62\)となります.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        続いて,母分散が未知の場合を説明します. \(t\)分布という分布が必要になります.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> \(t\)分布 </h4>
+        <p>
+        確率変数\(X_1,X_2,\ldots,X_n\)が同一の正規分布 \(N(\mu,\sigma^2)\) に従うとする. \(\overline{X}\)を標本分散, \(S^2\)を不偏分散とした時,
+        \[ T_n = \frac{\sqrt{n}}{S}(\overline{X}-\mu) \]
+        で定まる確率変数の従う分布を自由度n-1の<strong>\(t\)分布</strong>という.
+        </p>
+        </div>
+        <p>
+        \(t\) 分布の確率密度関数の具体的な表式の導出にはガンマ関数などの知識が必要となるため,省略します. 興味のある方は勉強してください.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        \(t\)分布に対しても上側\(\alpha\)点,両側\(\alpha\)点が定められます.
+        \(t\)分布も左右対称の密度関数を持つので, 上側\(\alpha\)点が計算出来れば十分です.
+        </p>
+        <p>
+        以下は 上側 \(\alpha\) 点の表です.
+        </p>
+        \[ \small{\begin{array}{|c|c|} \hline
+        \text{自由度} & \alpha=0.1 & \alpha=0.05 & \alpha=0.025 \\ \hline
+        1       &3.07768353721  &6.3137515148   &12.7062047364\\
+        2       &1.88561808316  &2.91998558036  &4.30265272991\\
+        3       &1.63774435722  &2.3533634348   &3.18244630528\\
+        4       &1.53320627371  &2.13184678134  &2.7764451052\\
+        5       &1.47588404878  &2.01504837267  &2.57058183661\\
+        6       &1.43975574726  &1.94318028039  &2.44691184879\\
+        7       &1.41492392765  &1.89457860506  &2.36462425101\\
+        8       &1.39681530974  &1.85954803752  &2.30600413503\\
+        9       &1.3830287384   &1.83311293265  &2.26215716274\\
+        10      &1.37218364111  &1.81246112281  &2.22813885196\\ \hline
+        \end{array}} \]
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 母分散が未知の場合の母平均の区間推定 </h4>
+        <p>
+        母分散が未知の場合の, 信頼水準が \(1-\alpha\) の母平均の信頼区間は,\(t\)分布の両側\(\alpha\)点を\(t_\alpha\)として,
+        \[ \color{yellow}{ \overline{X}-\frac{S}{\sqrt{n}}t_\alpha \leq \mu \leq \overline{X} + \frac{S}{\sqrt{n}}t_\alpha } \]
+        となる. 但し\(\overline{X},S\)は標本平均と不偏分散.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        母分散が未知の正規分布において, 100点の標本の平均が3であった場合の, 母平均の 95% 信頼区間を求めて下さい.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        次回は推定の続き, 検定, サンプルサイズの決定について説明します. 時間があれば多変量分布についても解説します.
+        </p>
+        </section>
+
+      </div>
+
+    </div>
+
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        console.log(Reveal.getIndices().h);
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</htl>
