@@ -5,6 +5,9 @@ from math import sqrt, exp, log, cos, pi
 def uniform(a, b):
     return a + random()*(b-a)
 
+def exponential(lam):
+    return -log(random())/lam
+
 def bernoulli(p):
     if random() <= p:
         return 1

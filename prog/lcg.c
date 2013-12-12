@@ -10,7 +10,7 @@ int main()
     initstate_r(0, state, sizeof(state), &rnd);
     for (i = 0; i < N; i++) {
         random_r(&rnd, &v);
-        printf("%d\n", v);
+        printf("%d\n", v%8);
     }
     return 0;
 }
