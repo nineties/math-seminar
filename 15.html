@@ -273,9 +273,10 @@
         に従います.
         </p>
         <p>
-        \(H_0\)が棄却されるのは\(p=1/2\) よりも上側に外れる場合ですから, 棄却域は\(N(0,1)\) の上側\(\alpha\) 点を\(z_\alpha\) として
-        \[ \overline{X} \geq \frac{1}{2} + \sqrt{\frac{1}{400}}z_\alpha = 0.58\cdots \]
-        となります. 先ほどの実験結果では \(\overline{X}=0.63\) なので, この実験結果に基づけば \(H_0\) は棄却され, 例題のコインは表が出やすいものだ結論する事が出来ます.
+        \(H_0\)が棄却されるのは\(p=1/2\) よりも上側に大きく外れる場合ですから, 棄却域は\(N(0,1)\) の上側\(\alpha\) 点を\(z_\alpha\) として
+        \[ \overline{X} \geq \frac{1}{2} + \sqrt{\frac{1}{400}}z_\alpha = 0.58 \]
+        となります.
+        先ほどの実験結果では \(\overline{X}=0.63\) なので, この実験結果に基づけば \(H_0\) は棄却され, 例題のコインは表が出やすいものだ結論する事が出来ます.
         </p>
         </section>
 
@@ -290,7 +291,7 @@
         <section>
         <p>
         一方,対立仮説が
-        \[ \theta = \theta_0 \]
+        \[ \theta \neq \theta_0 \]
         のような場合には<strong>両側検定</strong>と言います.
         <div align="center"> <img width="600px" src="fig/both-side-test.png"> </div>
         </p>
@@ -302,13 +303,13 @@
         帰無仮説\(H_0\)が棄却できなかった場合, \(H_0\) が正しいという結論にはならないので注意してください. 「\(H_0\)が誤っているとは言えない」という事と, 「\(H_0\) が正しい」という事は異なります.
         </p>
         <p>
-        意味のある結論を導く為には, 帰無仮説は常に棄却される必要があります.
+        意味のある結論を導く為には, 帰無仮説は基本的に棄却される必要があります.
         </p>
         </section>
 
         <section>
         <p>
-        仮説検定の要領はわかったと思うので, 定理をいくつか紹介します.
+        仮説検定の雰囲気はわかったと思うので, 定理をいくつか紹介します.
         </p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 母分散が既知の正規分布(両側検定) </h4>
@@ -355,7 +356,7 @@
         \end{aligned} \]
         を標本平均 \(\overline{X}\) で検定するときの棄却域は
         \[ \overline{X} \leq \mu_0 - \frac{S}{\sqrt{n}}t_\alpha, \mu_0 + \frac{S}{\sqrt{n}}t_\alpha \leq \overline{X} \]
-        である. 但し \(t_\alpha\) は自由度\(n-1\)の\(t\)分布の両側\(\alpha\)点.
+        である. 但し \(t_\alpha\) は自由度\(n-1\)の\(t\)分布の両側\(\alpha\)点, \(S^2\)は不偏分散.
         </p>
         </div>
         <p>
@@ -367,22 +368,22 @@
         <div class="block" style="border-color:lightgreen;font-size:90%">
         <h4 style="color:lightgreen"> 例 </h4>
         <p>
-        あるWebサービスには1分あたり平均\(970\)人ログインするとします. このWebサービスを改良したことの効果を検証しましょう.<br>
-        そこで,ランダムに100回(各一分間)ユーザーのログイン回数を測定した所, 標本平均が\(980\)人でした. 改良によって平均ログイン回数は有意に増えたと言えるでしょうか？
+        あるWebサービスには1分あたり平均\(970\)回アクセスがあるとします. このWebサービスを改良したことの効果を検証しましょう.<br>
+        そこで,ランダムに100回(各一分間)アクセス回数を測定した所, 標本平均が\(980\)回でした. 改良によって平均アクセス回数は有意に増えたと言えるでしょうか？
         </p>
         </div>
         </section>
 
         <section style="font-size:80%">
         <p>
-        有意水準を \(\alpha=0.05\) とします. 一分あたりのユーザーのログイン回数はポアソン分布\(Po(\lambda)\) に従うと仮定します. 帰無仮説・対立仮説は
+        有意水準を \(\alpha=0.05\) とします. 一分あたりのユーザーのアクセス回数はポアソン分布\(Po(\lambda)\) に従うと仮定します. 帰無仮説・対立仮説は
         \[ \begin{aligned}
         H_0&: \lambda = 970 \\
         H_1&: \lambda &gt; 970
         \end{aligned} \]
-        となります. 検定は標本平均 \(\overline{X}\) で行うことにします. 中心極限定理より \(H_0\) のもとでは, \(\overline{X} \sim N\left(970, \frac{970}{100}\right) = N(970, 9.7)\) となります. 母分散が既知なので, 棄却域は\(N(0,1)\)の上側\(\alpha\)点\(z_\alpha\approx1.64\)を用いて
+        となります. 検定は標本平均 \(\overline{X}\) で行うことにします. \(Po(\lambda)\)の平均・分散は共に\(\lambda\)なので, 中心極限定理より \(H_0\) のもとでは, \(\overline{X} \sim N\left(970, \frac{970}{100}\right) = N(970, 9.7)\) となります. 母分散が既知なので, 棄却域は\(N(0,1)\)の上側\(\alpha\)点\(z_\alpha\approx1.64\)を用いて
         \[ \lambda \geq 970 + \sqrt{9.7}\cdot z_\alpha \approx 975 \]
-        となります. よって, \(980 \geq 975\) なので \(H_0\) を棄却する事が出来ます. ユーザーのログイン回数は有意に増加したと言えそうです.
+        となります. よって, \(980 \geq 975\) なので \(H_0\) を棄却する事が出来ます. ユーザーのアクセス回数は有意に増加したと言えそうです.
         </p>
         </section>
 
@@ -407,7 +408,7 @@
         以下の定理が必要となります.
         </p>
         <div class="block" style="border-color:pink;font-size:80%">
-          <p> \(X_1,X_2\)が独立であるとする.  \( X_1\sim N(\mu_1,\sigma_1^2),X_2\sim N(\mu_2,\sigma_2^2) \)
+          <p> \(X_1,X_2\)が独立であるとする.  \( X_1\sim N(\mu_1,\sigma_1^2),X_2\sim N(\mu_2,\sigma_2^2) \)ならば
          \[ X_1-X_2 \sim N(\mu_1-\mu_2, \sigma_1^2 + \sigma_2^2) \]
           である. </p>
         </div>
@@ -437,7 +438,9 @@
         H_0&: \mu_A = \mu_B \\
         H_1&: \mu_A &gt; \mu_B
         \end{aligned} \]
-        とします. A,B高校それぞれの標本平均を\(\overline{X}_A,\overline{X}_B\)とし, \(\overline{X}_A-\overline{X}_B\) で検定を行います. 仮説\(H_0\)のもとでは
+        とします. A,B高校それぞれの標本平均を\(\overline{X}_A,\overline{X}_B\)とし, \(\overline{X}_A-\overline{X}_B\) で検定を行います. 
+        \( \overline{X}_A \sim N(\mu_A,\sigma_A^2/7),\overline{X}_B\sim N(\mu_B,\sigma_B^2/9)\)なので,
+        仮説\(H_0\)のもとでは
         \[ \overline{X}_A-\overline{X}_B \sim N(\mu_A-\mu_B,\frac{\sigma_A^2}{7}+\frac{\sigma_B^2}{9}) = N(0, 18.9) \]
         となるので, 棄却域は\(N(0,1)\)の上側\(\alpha\)点\(z_\alpha\approx1.64\)を用いて
 
@@ -453,7 +456,7 @@
         <div class="block" style="border-color:pink;font-size:90%">
         <p>
         \(X_1,X_2,\ldots,X_m\sim N(\mu_1,\sigma^2)\), \(Y_1,Y_2,\ldots,Y_n\sim N(\mu_2,\sigma^2)\) が全て独立な確率変数であるならば,
-        \[ S^2 = \frac{\sum_{i=1}^m(X_i-\overline{X})^2 + \sum_{i=1}^n(Y_i-\overline{Y})^2}{m+n-1} \]
+        \[ S^2 = \frac{\sum_{i=1}^m(X_i-\overline{X})^2 + \sum_{i=1}^n(Y_i-\overline{Y})^2}{m+n-2} \]
         として,
         \[
         T = \frac{\overline{X}-\overline{Y}-(\mu_1-\mu_2)}{\sqrt{S^2/m+S^2/n}} \]
@@ -486,15 +489,10 @@
         とします. A,B高校それぞれの標本平均を\(\overline{X}_A,\overline{X}_B\)とし, \(\overline{X}_A-\overline{X}_B\) で検定を行います.
         仮説\(H_0\)のもとでは\(\mu_A-\mu_B=0\)なので,
         \[ T = \frac{\overline{X}_A-\overline{X}_B}{\sqrt{S^2/7+S^2/9}} \]
-        が 自由度 \(7+9-2=14\) の\(t\)分布に従います. よって,よって \(t\) 分布の上側 \(\alpha\) 点 \(t_\alpha = 1.76\) を利用して, 棄却域は
-        \[ T \geq 1.76 \]
-        となります.
-        </p>
-        <p>
-        実際に計算してみると,
-        \[ S^2 = \frac{\sum_{i=1}^m(X_i-\overline{X})^2 + \sum_{i=1}^n(Y_i-\overline{Y})^2}{m+n-1} \approx 115.7 \]
+        が 自由度 \(7+9-2=14\) の\(t\)分布に従います. よって \(t\) 分布の上側 \(\alpha\) 点が \(t_\alpha = 1.76\) なので棄却域は \( T \geq 1.76 \) となります. 実際に計算してみると,
+        \[ S^2 = \frac{\sum_{i=1}^m(X_i-\overline{X})^2 + \sum_{i=1}^n(Y_i-\overline{Y})^2}{m+n-2} = 116 \]
         なので,
-        \[ T = \frac{76.6-68.3}{\sqrt{115.7/7+115.7/9}} = 1.53 \]
+        \[ T = \frac{76.6-68.3}{\sqrt{116/7+116/9}} = 1.53 \]
         となり, この場合は\(H_0\)を棄却する事が出来ません.
         </p>
         </section>
@@ -504,7 +502,7 @@
         <h4 style="color:pink"> 母分散の検定 </h4>
         <p>
         独立な標本 \(X_1,X_2,\ldots,X_n\) が \(N(\mu,\sigma^2)\) に従うとする.
-        \(\\sigma^2\) に関する仮説
+        \(\sigma^2\) に関する仮説
         \[ \begin{aligned}
         H_0&: \sigma = \sigma_0  \\
         H_1&: \sigma \neq \sigma _0
@@ -583,10 +581,10 @@
         とします. A,B高校それぞれの不偏分散を\(S_A^2,S_B^2\) とすると \(H_0\) のもとで
         \[ F=\frac{\sigma_B^2}{\sigma_A^2}\frac{S_A^2}{S_B^2} = \frac{S_A^2}{S_B^2} \]
         が自由度\((7-1,9-1)=(6,8)\) のF分布に従います. この分布の上側\(\alpha\)点を\(F_{6,8}(\alpha)\)と書くと
-        \[ \mathrm{F}_{6,8)(\alpha/2) = 4.65,\mathrm{F}_{6,8}(1-\alpha/2) = 0.18 \]
+        \[ \mathrm{F}_{6,8}(\alpha/2) = 4.65,\mathrm{F}_{6,8}(1-\alpha/2) = 0.18 \]
         であるので, 棄却域は
-        \[ 0.18 \leq F=\frac{S_A^2}{S_B^2} \leq 4.65 \]
-        となります. ここで, 実際の値は\(F=70.3/184.7=0.21\) であるので\(H_0\)を棄却する事は出来ません.
+        \[ F\leq 0.18,  4.65\leq F \]
+        となります. ここで, 実際の値は\(F=70.3/184.7=0.21\) であるので\(H_0\)を棄却する事は出来ません. 
         </p>
         </section>
 
