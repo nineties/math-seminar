@@ -873,9 +873,6 @@ def beta25():
         標本 \(X_1,X_2,\ldots,X_n\) が同一の正規分布に従う独立な確率変数であるならば, 標本平均・標本分散が母平均・母分散の最尤推定量となる.
         </p>
         </div>
-        <p>
-        この例の様に, 不偏推定量と最尤推定量は一般に一致しないので注意が必要です.
-        </p>
         </section>
 
         <section style="font-size:70%">
@@ -909,6 +906,68 @@ def beta25():
         </section>
 
         <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> 指数分布の最尤推定量 </h4>
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) がパラメータが\(\lambda\)の同一の指数分布に従う独立な確率変数であるならば, 
+        \[ \frac{1}{\text{標本平均}} \]
+        が\(\lambda\)の最尤推定量である.
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        【証明】<br>
+        対数尤度関数は
+        \[ \ln L(\lambda) = \ln\prod_{i=1}^n \lambda e^{-\lambda x_i} = \ln\left(\lambda^n e^{-\lambda \sum_{i=1}^n x_i}\right) = n\ln\lambda-\lambda\sum_{i=1}^nx_i \]
+        であるので,
+        \[ \frac{\mathrm{d}}{\mathrm{d}\lambda}\ln L(\lambda) = \frac{n}{\lambda} - \sum_{i=1}^n x_i \]
+        となる. よって, \(L(\lambda)\) が最大となるのは,
+        \[ \frac{n}{\lambda}-\sum_{i=1}^n x_i=0\Leftrightarrow \lambda=\frac{n}{\sum_{i=1}^nx_i} \]
+        のときである.
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:90%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        あるWebサービスへのアクセスの間隔を10サンプル測定しました(単位:ミリ秒).
+        \[ 0.5, 34.7, 5.0, 13.5, 11.7, 7.0, 0.7, 8.1, 26.7, 9.0 \]
+        アクセスの間隔が指数分布に従うと仮定した場合, このWebサービスの1秒あたりの平均アクセス数を最尤推定によって推定しましょう.
+        </div>
+        <p style="font-size:80%">
+        標本平均は\( \frac{0.5+34.7+5.0+13.5+11.7+7.0+0.7+8.1+26.7+9.0}{10}=11.69\)なので, \(\lambda\) の最尤推定量は\(1/11.69\approx 0.086\) となります. 指数分布では, 1単位時間あたり平均して\(\lambda\)回イベントが発生するのですから, 1秒あたりの平均アクセス数は<strong>約86回</strong>と推定する事が出来ます.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+        <h4 style="color:pink"> ポアソン分布の最尤推定量 </h4>
+        <p>
+        標本 \(X_1,X_2,\ldots,X_n\) がパラメータが\(\lambda\)の同一のポアソン分布に従う独立な確率変数であるならば, 標本平均が\(\lambda\)の最尤推定量である.  </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        【証明】<br>
+        対数尤度関数は
+        \[ \begin{aligned}
+        \ln L(\lambda) &= \ln\left(\frac{\lambda^{x_1}e^{-\lambda}}{x_1!} \frac{\lambda^{x_2}e^{-\lambda}}{x_2!} \cdots \frac{\lambda^{x_n}e^{-\lambda}}{x_n!}\right)\\
+        &= -\ln(x_1!x_2!\cdots x_n!)+(\sum_{i=1}^nx_i)\ln\lambda-n\lambda
+        \end{aligned} \]
+        であるので,
+        \[ \frac{\mathrm{d}}{\mathrm{d}\lambda}\ln L(\lambda) = \frac{\sum_{i=1}^n x_i}{\lambda} - n \]
+        となる. よって, \( L(\lambda) \) が最大となるのは,
+        \[ \frac{\sum_{i=1}^n x_i}{\lambda} - n =0\Leftrightarrow \lambda=\frac{\sum_{i=1}^n x_i}{n} \]
+        の時である.
+        <span style="float:right">□</span>
+        </p>
+        </section>
+
+        <section>
         <h2> 区間推定 </h2>
         <p>
         「母平均は95%の確率で～から～の範囲にある」といった形で, 特徴量の値の取る範囲とその確率を推定する事を <strong> 区間推定 </strong> と言います.
@@ -921,7 +980,7 @@ def beta25():
         <p>
         母数 \(\theta\) について
         \[ P(a \leq \theta \leq b) = 1-\alpha \]
-        となる時,\(1-\alpha\)を<strong>信頼水準</strong>と言い, 区間 \([a,b]\) をこの信頼水準における母数\(\theta\)の<strong>信頼区間</strong>という.
+        となる時,\(1-\alpha\)を<strong>信頼水準</strong>と言い, 区間 \([a,b]\) をこの信頼水準における母数\(\theta\)の<strong>信頼区間</strong>もしくは, \((1-\alpha)\times 100\) 100%信頼区間という.
         </p>
         </div>
         <p>
@@ -935,7 +994,7 @@ def beta25():
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> \(\alpha\)点 </h4>
         <p>
-        標準正規分布 \(N(0,1)\) と, \(0\leq \alpha \leq 1\)に対して
+        \(0\leq \alpha \leq 1\)に対して
         \[ P(X \geq z_\alpha) = \alpha \]
         となる \(z_\alpha\) を<strong>上側 \(\alpha\) 点 </strong>,
         \[ P(|X| \geq z_\alpha) = \alpha \]
@@ -945,9 +1004,9 @@ def beta25():
         <div align="center"> <img width="500px" src="fig/alpha-point.png"> </div>
         </section>
 
-        <section>
+        <section style="font-size:90%">
         <p>
-        標準正規分布は左右対象なので, 上側 \(\alpha\) 点の値が計算出来れば十分です. 
+        標準正規分布は左右対称なので, 上側 \(\alpha\) 点の値が計算出来れば両側 \(\alpha\) 点も計算出来ます.
         よく使いそうな値だけ下に書いておきます.
         \[ \begin{array}{|c|c|} \hline
         \alpha & \text{上側$\alpha$点} \\ \hline
@@ -970,9 +1029,9 @@ def beta25():
 
         <section style="font-size:80%">
         <p>
-        母集団が平均\(\mu\), 分散\(\sigma^2\)の分布に従っていると仮定し<strong>\(\sigma^2\)が既知</strong>であるとします. 中心極限定理より \(n\) が十分大きければ 標本平均について
-        \[ \overline{X}=\frac{X_1+X_2+\cdots+X_n}{n} \sim N(\mu,\sigma^2/n) \]
-        となります. 従って,
+        母集団が\(N(\mu,\sigma^2\)\)に従っているならば, 標本平均
+        \[ \overline{X}=\frac{X_1+X_2+\cdots+X_n}{n} \]
+        は\( \sim N(\mu,\sigma^2/n) \)に従います. よって
         \[ Y = \frac{\sqrt{n}}{\sigma}(\overline{X}-\mu) \]
         は標準正規分布 \(N(0,1)\) に従いますので, 両側\(\alpha\)点を\(z_\alpha\)とすれば
         \[ P(|Y|\leq z_\alpha)=1-\alpha\Leftrightarrow P\left(|\overline{X}-\mu|\leq \frac{\sigma}{\sqrt{n}}z_\alpha\right)=1-\alpha \]
@@ -984,7 +1043,7 @@ def beta25():
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 分散が既知の場合の母平均の区間推定 </h4>
         <p>
-        母分散が \(\sigma^2\) である時の, 信頼水準が \(1-\alpha\) の母平均の信頼区間は, 両側\(\alpha\)点を\(z_\alpha\)として,
+        独立な確率変数\(X_1,X_2,\ldots,X_n\)が分散が \(\sigma^2\) の正規分布に従う場合, 信頼水準が \(1-\alpha\) の母平均の信頼区間は, 両側\(\alpha\)点を\(z_\alpha\)として,
         \[ \color{yellow}{ \overline{X}-\frac{\sigma}{\sqrt{n}}z_\alpha \leq \mu \leq \overline{X} + \frac{\sigma}{\sqrt{n}}z_\alpha } \]
         となる. 但し, \(\overline{X}\)は標本平均.
         </p>
@@ -1006,20 +1065,24 @@ def beta25():
         </section>
 
         <section>
-        <p>
+        <p style="font-size:80%">
         続いて,母分散が未知の場合を説明します. \(t\)分布という分布が必要になります.
         </p>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> \(t\)分布 </h4>
         <p>
-        確率変数\(X_1,X_2,\ldots,X_n\)が同一の正規分布 \(N(\mu,\sigma^2)\) に従うとする. \(\overline{X}\)を標本分散, \(S^2\)を不偏分散とした時,
+        確率変数\(X_1,X_2,\ldots,X_n\)が同一の正規分布 \(N(\mu,\sigma^2)\) に従うとする. \(\overline{X}\)を標本平均, \(S^2\)を不偏分散とした時,
         \[ T_n = \frac{\sqrt{n}}{S}(\overline{X}-\mu) \]
         で定まる確率変数の従う分布を自由度n-1の<strong>\(t\)分布</strong>という.
         </p>
         </div>
-        <p>
-        \(t\) 分布の確率密度関数の具体的な表式の導出にはガンマ関数などの知識が必要となるため,省略します. 興味のある方は勉強してください.
+        </section>
+
+        <section>
+        <p style="font-size:80%">
+        \(t\) 分布の確率密度関数の具体的な表式の導出にはガンマ関数などの知識が必要となるため省略します. 以下が自由度\(1,2,3\) の\(t\)分布の密度関数のグラフとなります.
         </p>
+        <div align="center"> <img width="700px" src="fig/t.png"> </div>
         </section>
 
         <section style="font-size:80%">
@@ -1049,7 +1112,7 @@ def beta25():
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 母分散が未知の場合の母平均の区間推定 </h4>
         <p>
-        母分散が未知の場合の, 信頼水準が \(1-\alpha\) の母平均の信頼区間は,\(t\)分布の両側\(\alpha\)点を\(t_\alpha\)として,
+        独立な確率変数 \(X_1,X_2,\ldots,X_n\) が同一の正規分布に従い, 分散が未知であるとする. この場合,信頼水準が \(1-\alpha\) の母平均の信頼区間は,\(t\)分布の両側\(\alpha\)点を\(t_\alpha\)として,
         \[ \color{yellow}{ \overline{X}-\frac{S}{\sqrt{n}}t_\alpha \leq \mu \leq \overline{X} + \frac{S}{\sqrt{n}}t_\alpha } \]
         となる. 但し\(\overline{X},S\)は標本平均と不偏分散.
         </p>
@@ -1066,9 +1129,148 @@ def beta25():
         </section>
 
         <section>
+        <p>
+        既に述べましたが, 中心極限定理によって正規分布以外の分布に対しても信頼区間の計算を行う事が出来ます. 
+        </p>
+        <p>
+        例えば, 以下のような問題を考えてみましょう.
+        </p>
+        <div class="block" style="border-color:lightgreen;font-size:70%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p>
+        サイコロを600回振った所, 各目の出た回数が
+        \[ \begin{array}{|c|c|c|c|c|c|} \hline
+        1            & 2           & 3            & 4           & 5            & 6 \\ \hline
+        120\text{回} & 97\text{回} & 106\text{回} & 90\text{回} & 92\text{回} & 95\text{回} \\ \hline
+        \end{array} \]
+        であったとします. 1の目が出る確率の95%信頼区間を求めて下さい.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p style="font-size:80%">
+        母集団がベルヌーイ分布である場合の信頼水準\(1-\alpha\)の信頼区間を計算すれば良いです.<br>
+        ベルヌーイ分布のパラメータを\(p\)とすれば, 母平均は\(p\),母分散は\(p(1-p)\)ですから, 母分散が既知の場合の結果を使う事が出来ます. \(n\) が十分大きいとき, 標本平均を\(\overline{X}\), 正規分布の両側\(\alpha\)点を\(z_\alpha\) とすると 信頼水準\(1-\alpha\)の信頼区間は
+        \[ \overline{X} - \sqrt{\frac{p(1-p)}{n}}z_\alpha \leq p \leq \overline{X} + \sqrt{\frac{p(1-p)}{n}}z_\alpha \]
+        となります. この両辺には未知数\(p\)が含まれてしまっているので, \(p\)について解き直します.
+        </p>
+        <p style="font-size:80%">
+        \[ \left| p-\overline{X} \right| ^2 \leq \frac{p(1-p)}{n}z_\alpha^2 \]
+        と同値変形して, 両辺を \(p\) について整理すれば
+        \[ \left(1+\frac{z_\alpha^2}{n}\right)p^2 - 2\left(\overline{X}+\frac{z_\alpha^2}{2n}\right)p + \overline{X}^2 \leq 0\]
+        となります.
+        </p>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        これを解いて
+        \[ \frac{\overline{X}+\frac{z_\alpha^2}{2n}-z_\alpha\sqrt{\frac{\overline{X}(1-\overline{X})}{n}+\frac{z_\alpha^2}{4n^2}}}{1+\frac{z_\alpha^2}{n}} \leq p \leq \frac{\overline{X}+\frac{z_\alpha^2}{2n}+z_\alpha\sqrt{\frac{\overline{X}(1-\overline{X})}{n}+\frac{z_\alpha^2}{4n^2}}}{1+\frac{z_\alpha^2}{n}} \]
+        が求める信頼区間となります. \(n\)が十分大きい場合には \(\frac{z_\alpha^2}{n}\) を無視する事ができるので,
+        \[ \color{yellow}{ \overline{X} - \sqrt{\frac{\overline{X}(1-\overline{X})}{n}}z_\alpha \leq p \leq \overline{X} \sqrt{\frac{\overline{X}(1-\overline{X})}{n}}z_\alpha} \]
+        となります.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> ベルヌーイ分布のパラメータの区間推定 </h4>
+        <p>
+        \(X_1,X_2,\ldots,X_n\) がパラメータ\(p\)のベルヌーイ分布に従う独立な確率変数であるならば, \(p\) の信頼水準 \(1-\alpha\) 信頼区間は\(n\)が十分大きい時
+        \[ \overline{X} - \sqrt{\frac{\overline{X}(1-\overline{X})}{n}}z_\alpha \leq p \leq \overline{X} + \sqrt{\frac{\overline{X}(1-\overline{X})}{n}}z_\alpha \]
+        である. 但し, \(\overline{X}\) は標本平均, \(z_\alpha\) は標準正規分布の両側\(\alpha\)点.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p style="font-size:70%">
+        先ほどの問題に適用してみましょう.
+        </p>
+        <div class="block" style="border-color:lightgreen;font-size:70%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        サイコロを600回振った所, 各目の出た回数が
+        \[ \begin{array}{|c|c|c|c|c|c|} \hline
+        1            & 2           & 3            & 4           & 5            & 6 \\ \hline
+        120\text{回} & 97\text{回} & 106\text{回} & 90\text{回} & 92\text{回} & 95\text{回} \\ \hline
+        \end{array} \]
+        であったとします. 1の目が出る確率の95%信頼区間を求めて下さい.
+        </p>
+        </div>
+        <p style="font-size:70%">
+        以下の計算より, 求める95%信頼区間は
+        \[ 0.2 - 0.03 \leq  p \leq 0.2 + 0.03 \]
+        つまり \(\color{yellow}{0.17\leq p \leq 0.23}\) となります.
+        </p>
+<pre><code class="python" style="font-size:70%;max-height:400px">>>> from scipy import stats
+>>> from math import sqrt
+>>> x_bar = 120.0 / 600
+>>> z_alpha = stats.norm.ppf(0.975)
+>>> sqrt(x_bar*(1-x_bar)/600)*z_alpha
+0.032006077842368738
+>>> x_bar
+0.2
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        母分散の区間推定の為には以下の分布が必要になります.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> \(\chi^2\)分布 </h4>
+        <p>
+        \(X_1,X_2,\ldots,X_n\)が標準正規分布 \(N(0,1)\)に従う独立な確率変数であるとき,
+        \[ Z = X_1^2 + X_2^2 + \cdots + X_n^2 \]
+        で定まる確率変数の従う分布を自由度nの<strong>\(\chi^2\)分布</strong>といい, \(\chi^2_n\) と書く.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <p style="font-size:70%">
+        \(\chi^2\)分布の具体的な立式は省略します. 自由度 \(1,2,3\) についての密度関数のグラフは以下のようになっています. 正規分布・\(t\)分布と違って左右対称ではないので注意してください.
+        </p>
+        <div align="center"> <img width="700px" src="fig/chi2.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 母分散の区間推定 </h4>
+        <p>
+        独立な確率変数 \(X_1,X_2,\ldots,X_n\) が同一の正規分布に従うならば, 母分散\(\sigma^2\) の信頼水準\(1-\alpha\)の信頼区間は
+        \[ \color{yellow}{ \frac{ns^2}{\chi^2_{n-1}(\alpha/2)} \leq \sigma^2 \leq \frac{ns^2}{\chi^2_{n-1}(1-\alpha/2)} } \]
+        となる. 但し, \(\chi^2_{n-1}(\alpha)\) は自由度\(n-1\)の\(\chi^2\)分布の上側\(\alpha\)点, \(s^2\) は標本分散である.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例 </h4>
+        <p>
+        正規分布に従う母集団から, 無作為に大きさ\(100\)の標本を抽出した所, 標本分散が \(6.7\) となったとします. 母分散の 95% 信頼区間を求めましょう.
+        </p>
+        </div>
+        <p style="font-size:80%">
+        以下の計算より \(5.2 \leq \sigma^2 \leq 9.1\) となります.
+        </p>
+<pre><code class="python" style="font-size:80%;max-height:400px">>>> from scipy import stats
+>>> left = stats.chi2.ppf(0.975, 99)    # 上側α/2点
+>>> right = stats.chi2.ppf(0.025, 99)   # 上側1-α/2点
+>>> 100*6.7 / left
+5.2171750887470614
+>>> 100*6.7 / right
+9.1329080522400083
+</code></pre>
+        </section>
+
+        <section>
         <h2> 今回はここで終わります。 </h2>
         <p>
-        次回は推定の続き, 検定, サンプルサイズの決定について説明します. 時間があれば多変量分布についても解説します.
+        次回は検定, 標本数の決定について説明します. 時間があれば多変量分布についても解説します.
         </p>
         </section>
 
