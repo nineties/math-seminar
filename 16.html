@@ -204,7 +204,7 @@
         <section>
         <h2> \(\chi^2\) 適合度検定 </h2>
         <p>
-        <strong> 度数分布 </strong>, つまり試行を～が \(x\) 回生じたという形の確率分布に対しては \(\chi^2\) 適合度検定を利用する事が出来ます. 
+        <strong> 度数分布 </strong>, つまり～が \(x\) 回生じたという形の確率分布に対しては \(\chi^2\) 適合度検定を利用する事が出来ます. 
         </p>
         </section>
 
@@ -346,10 +346,6 @@
         </p>
         </section>
 
-        <section graphics="spring-constant-regression" style="font-size:80%">
-        <svg></svg>
-        </section>
-
         <section>
         <h2> 最小二乗法(1変数) </h2>
         <p>
@@ -471,14 +467,15 @@
         </section>
 
         <section style="font-size:80%">
+        <p> 第4回にやったニュートン法を復習しておきます. </p>
         <div class="block" style="border-color:pink;font-size:80%">
-        <h4 style="color:pink"> 復習:ニュートン法 </h4>
+        <h4 style="color:pink"> ニュートン法 </h4>
         <p>
         方程式\(f(x)=0\)の解を\(\alpha\)とする。
         </p>
         <p>
         \(x=\alpha\)を含む適当な区間で\(f'(x)\neq 0\),\(f(x),f'(x),f''(x)\)が連続ならば,この区間内に初期値\(x_0\)を取れば数列
-        \[ x_{n+1} = x_{n} - \frac{f(x_n)}{f'(x_{n+1})} \]
+        \[ x_{n+1} = x_{n} - \frac{f(x_n)}{f'(x_{n})} \]
 が\(\alpha\)に収束する。
         </p>
         </div>
@@ -545,7 +542,7 @@ print a
 
         <section>
         <div class="block" style="border-color:pink;font-size:90%">
-        <h4 style="color:pink"> 最小二乗法(多変数線型モデル・母分散が一定) </h4>
+        <h4 style="color:pink"> 最小二乗法(線型モデル・母分散が一定) </h4>
         <p>
         モデル \(Y=f(X)\) が既知の関数 \(g_1(x),g_2(x),\ldots,g_m(x)\)とパラメータ \(a_1,a_2,\ldots,a_m\) によって
         \[ f(x)=a_1g_1(x) + a_2g_2(x) + \cdots + a_mg_m(x) \]
