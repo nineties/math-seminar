@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>プログラマの為の数学勉強会</title>
+
+    <!-- For reveal.js -->
+    <link rel="stylesheet" href="lib/reveal/css/reveal.css">
+    <link rel="stylesheet" href="lib/reveal/css/theme/night.css">
+    <link rel="stylesheet" href="lib/reveal/lib/css/ir_black.css">
+
+    <!-- For Graphics -->
+    <link rel="stylesheet" href="css/graphics.css">
+
+    <style>
+      .reveal .chapter-title {
+        margin-top: 3em;
+      }
+
+      .reveal {
+        font-size: 32px;
+        line-height: 1.4em;
+      }
+
+      .reveal .slides {
+        text-align: left;
+      }
+
+      .reveal section img {
+        border: none;
+        background: 0;
+        margin-left: 1em;
+        margin-right: 1em;
+        box-shadow: none;
+      }
+
+      .reveal strong {
+        color: yellow;
+      }
+
+      .reveal sup {
+        font-size: 40%;
+      }
+
+      .reveal table {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        border: 2px solid lightblue;
+      }
+
+      .reveal pre {
+        font-size: 0.7em;
+      }
+
+      .reveal pre code {
+        max-height: 600px;
+      }
+
+      .reveal .note {
+        font-size: 50%;
+      }
+
+      .reveal .controls div.navigate-up,
+      .reveal .controls div.navigate-down {
+        display: none;
+      }
+
+      .reveal .block {
+        border: solid 2px;
+        position: relative;
+        border-radius: 8px;
+        margin-top: 0.8em;
+        margin-bottom: 0.8em;
+        padding: 1em 0.8em 1em 0.8em;
+      }
+
+      .reveal .block:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .reveal .answer {
+        color: #111111;
+      }
+
+      .reveal .block h4 {
+        position: absolute;
+        top: -0.5em;
+        margin: 0 auto;
+        background: #111111;
+        font-weight: bold;
+      }
+
+    </style>
+
+    <!-- Setup libraries for RequireJS-->
+    <script src="lib/require.js"></script>
+
+    <script>
+      requirejs.config({
+        baseUrl: "js",
+        paths: {
+          d3: "../lib/d3/d3.v3.min",
+          numeric: "../lib/numeric-1.2.6",
+          MathJax: "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"
+        },
+        shim: {
+          d3: { exports: "d3" },
+          numeric: { exports: "numeric" },
+          MathJax: { exports: "MathJax" }
+        }
+      });
+    </script>
+
+    <!-- Initialize MathJax -->
+    <script type="text/x-mathjax-config">
+      require(["MathJax"], function (MathJax){
+        MathJax.Hub.Register.StartupHook("AsciiMath Jax Config", function () {
+          var AM = MathJax.InputJax.AsciiMath.AM;
+          AM.symbols.push(
+            {input:"mathbi",tag:"mstyle",atname:"mathvariant",atval:"bold-italic",
+             output:"mathbi",tex:null,ttype:AM.TOKEN.UNARY}
+          );
+        });
+
+        MathJax.Hub.Config({
+          showProcessingMessages: false,
+          skipStartupTypeset: false,
+          tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ["\\[","\\]"] ]
+          }
+        });
+      });
+    </script>
+    <script>
+    </script>
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <section style="text-align: center">
+        <h1> プログラマの為の<br>数学勉強会<br>第17回</h1>
+        <span>
+          (於)ワークスアプリケーションズ<br>
+          中村晃一<br>
+          2013年1月23日
+        </span>
+        </section>
+
+        <section>
+        <h2>謝辞</h2>
+        <p>
+        この会の企画・会場設備の提供をして頂きました<br>
+        &#12849; ワークスアプリケーションズ様<br>
+        にこの場をお借りして御礼申し上げます。
+        </p>
+        </section>
+
+        <section>
+        <h2> この資料について </h2>
+        <p>
+        <ul>
+          <li> <a href="http://nineties.github.com/math-seminar">
+            http://nineties.github.com/math-seminar
+            </a>に置いてあります。 </li>
+            <li> SVGに対応したブラウザで見て下さい。主要なブラウザで古いバージョンでなければ大丈夫だと思います。</li>
+            <li> 内容の誤り、プログラムのバグは<a href="http://twitter.com/9_ties">@9_ties</a>かkoichi.nakamur AT gmail.comまでご連絡下さい。</li>
+            <li> サンプルプログラムはPython及びMaximaで記述しています。 </li>
+        </ul>
+        </p>
+        </section>
+
+        <section>
+        <h2 class="chapter-title"> 回帰分析(続き) </h2>
+        </section>
+
+        <section>
+        <h2> 重回帰分析 </h2>
+        <p>
+        独立変数が \(m\) 個のモデルでの回帰分析を<strong>重回帰分析</strong>と呼びます.
+        </p>
+        <div align="center"> <img width="600px" src="fig/multiregression.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        最小二乗法による重回帰分析は一変数(単回帰分析)の場合とほとんど同じです. 観測値 \(Y\) と理論値 \(f(X_1,X_2,\ldots,X_m)\) の誤差 \(Y-f(X_1,X_2,\ldots,X_m)\) が正規分布に従うと仮定して, 最尤推定法で \(f(X_1,X_2,\ldots,X_n)\) を決定します.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 最小二乗法(重回帰分析) </h4>
+        <p>
+        観測値の誤差分布の分散が一定であると仮定出来る場合, データ列
+        \((\mathbf{x}_1,y_1),(\mathbf{x}_2,y_2),\ldots,(\mathbf{x}_n,y_n)\)
+        に対して残差平方和
+        \[ \sum_{i=1}^n\left\{ y_i-f(\mathbf{x}_i) \right\}^2 \]
+        を最小とする \(f\) としてモデルを決定する.
+        </p>
+        </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:pink;font-size:80%">
+          <h4 style="color:pink"> 最小二乗法:線型回帰 </h4>
+          モデル \(y=f(\mathbf{x})\) が既知の関数 \(g_1(\mathbf{x}),g_2(\mathbf{x}),\ldots,g_m(\mathbf{x})\) とパラメータ \(a_1,a_2,\ldots,a_m\) によって
+          \[ f(\mathbf{x}) = a_1g_1(\mathbf{x})+a_2g_2(\mathbf{x})+\cdots+a_mg_m(\mathbf{x}) \]
+          と表される場合,
+          \[ \begin{aligned}
+          G &= (g_j(\mathbf{x}_i))_{1\leq i\leq n, 1\leq j\leq m} \\
+          \mathbf{a}&=(a_1,a_2,\ldots,a_m)^T \\
+          \mathbf{y}&=(y_1,y_2,\ldots,y_n)^T
+          \end{aligned} \]
+          とおけば <strong> 正規方程式 </strong>
+          \[ \color{yellow}{ G^TG\mathbf{a}=G^T\mathbf{y} } \]
+          の解が最小二乗法による \(a_1,a_2,\ldots,a_m\) の推定値を与える.
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        例えば, 従属変数 \(Z\) を \(X,Y\) で説明するモデルが
+        \[ z = ax+by + c \]
+        という形の場合は, 観測データ \((x_1,y_1,z_1),(x_2,y_2,z_2),\ldots,(x_n,y_n,z_n) \) に対して
+        \[ 
+        G = \begin{pmatrix}
+        x_1 & y_1 & 1 \\
+        x_2 & y_2 & 1 \\
+        \vdots & \vdots & \vdots \\
+        x_n & y_n & 1
+        \end{pmatrix}, \mathbf{a} = (a,b,c)^T, \mathbf{z} = (z_1,z_2,\ldots,z_n)^T \]
+        とおいて,
+        \[ G^TG\mathbf{a}=G^T\mathbf{z} \]
+        を解きます.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        \[ z = ax^2+bxy+cy^2+dx+ey+f \]
+        という形ならば,
+        \[ \begin{aligned}
+        G &= \begin{pmatrix}
+        x_1^2 & x_1y_1 & y_1^2 & x_1 & y_1 & 1 \\
+        x_2^2 & x_2y_2 & y_2^2 & x_2 & y_2 & 1 \\
+        \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+        x_n^2 & x_ny_n & y_n^2 & x_n & y_n & 1 \\
+        \end{pmatrix}\\
+        \mathbf{a} &= (a,b,c,d,e,f)^T\\
+        \mathbf{z} &= (z_1,z_2,\ldots,z_n)^T
+        \end{aligned} \] 
+        とおいて,
+        \[ G^TG\mathbf{a}=G^T\mathbf{z} \]
+        を解きます.
+        </p>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p>
+        以下のデータ(<a href="data/ex17-1.dat">ex17-1.dat</a>)に対して \(z=ax+by+c\) というモデルを最小二乗法によって当てはめて下さい.
+        </p>
+<pre><code class="python" style="font-size:90%;max-height:400px">#x	y	z
+9.83	-5.50	635.99
+-9.97	-13.53	163.78
+-3.91	-1.23	86.94
+-3.94	6.07	245.35
+-13.67	1.94	1132.88
+-14.04	2.79	1239.55
+4.81	-5.43	214.01
+7.65	15.57	67.94
+5.50	7.26	-1.48
+-3.34	1.34	104.18
+</code></pre>
+        </div>
+        </section>
+
+        <section>
+        <p>
+        以下がコーディング例です.
+        </p>
+<pre><code class="python" style="font-size:90%;max-height:400px">import numpy as np
+from scipy import linalg as LA
+
+data = np.loadtxt("ex17-1.dat", comments="#", delimiter="\t")
+x = data[:,0]
+y = data[:,1]
+z = data[:,2]
+N = len(x)
+
+G = np.array([x, y, np.ones(N)]).T
+print LA.solve(G.T.dot(G), G.T.dot(z))
+</code></pre>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        実行結果は
+        \[ a= -30.0, b = 3.65, c = 322\]
+        とまりました. つまり,
+        \[ z = -30.0x + 3.65y+ 322 \]
+        という方程式を得る事が出来ました.
+        </p>
+        <div align="center"> <img width="700px" src="fig/ex17-1-1.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p>
+        例題と同一のデータ(<a href="data/ex17-1.dat">ex17-1.dat</a>)に対して \(z=ax^2+bxy+cy^2+dx+ey+f\) というモデルを当てはめて下さい.
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        結果は
+        \[ z = 4.86x^2 -4.25xy + 1.25y^2-7.56x+2.68y-6.87 \]
+        となります.
+        </p>
+        <div align="center"> <img width="700px" src="fig/ex17-1-2.png"> </div>
+        </section>
+
+        <section>
+        <h2> 独立変数の選び方 </h2>
+        <p>
+        変数 \(Y\) を説明する変数 \(X_1,X_2,\ldots,X_n\) は<strong>無相関である</strong>事が仮定されます. そうでなければ <strong> 多重共線性 </strong> という性質が生じて以下の様な問題が発生します.
+        </p>
+        <ul>
+          <li> 回帰方程式の係数が期待されるものとは異なる </li>
+          <li> 正規方程式が解を持たない, もしくは大きな誤差が発生する </li>
+        </li>
+        <p>
+        変数はむやみに増やせば良いものではないという事に注意してください.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        例えば, 以下のデータに対して\(z = ax+by+c\)というモデルを当てはめてみましょう.
+        \[ \begin{array}{|c|cccccccccc|}\hline
+x&30&36&47&48&50&52&55&55&55&60\\ \hline
+y&16&29&54&55&33&56&48&57&62&72\\ \hline
+z&48&69&108&114&67&124&91&106&116&132\\ \hline
+        \end{array} \]
+        </p>
+        <p class="fragment">
+        表を見ると, \(x\) が増加すると \(z\) も増加する傾向にある事がわかります.
+        </p>
+        <p class="fragment">
+        しかし, 重回帰の結果は
+        \[ z = \color{yellow}{-0.8}x + 2.0y + 43.0 \]
+        となり, \(x\) の係数が負になってしまいます.
+        </p>
+        <p class="fragment">
+        \(x,y\) の相関係数は約 \(\color{yellow}{0.9}\) となりますので, \(x,y\) には強い正の相関が存在します. これがこの直感に反する結果の原因です.
+        </p>
+        </section>
+
+        <section>
+        <h2> 質的なデータの利用 </h2>
+        <p>
+        説明変数として「男か女か？」の様な数量ではない<strong>質的なデータ</strong>を利用したい場合があります. この様な場合には以下のような<strong>ダミー変数</strong>を用意して, 先ほどと同様に重回帰を行います.
+        \[ X = \left\{\begin{array}{cc}
+        1 & (\text{男の場合}) \\
+        0 & (\text{女の場合})
+        \end{array}\right. \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        3つ以上のカテゴリを持つデータの場合は注意が必要です. \(n\) 個のカテゴリ \(C_1,C_2,\ldots,C_n\) を持つデータに対して
+        \[ X = \left\{\begin{array}{cc}
+        1 & (\text{$C_1$ の場合}) \\
+        2 & (\text{$C_2$ の場合}) \\
+        \vdots & \vdots \\
+        n & (\text{$C_n$ の場合})
+        \end{array}\right. \]
+        の様に１つの変数を割り当てるのはよくある誤りです. 
+        </p>
+        </section>
+
+        <section>
+        <p>
+        このような場合は \(n-1\)個のダミー変数 \(X_1,X_2,\ldots,X_{n-1}\) を用意して
+        \[ X_i = \left\{\begin{array}{cc}
+        1 & (\text{$C_i$ の場合}) \\
+        0 & (\text{それ以外})
+        \end{array}\right. \]
+        とします. \(X_1=X_2=\ldots=X_{n-1}=0\) の場合にカテゴリ \(C_n\) のデータであるという事になります.
+        </p>
+        <p class="fragment">
+        \(n\) が大きいと独立変数の数が増えるので, 解析に必要な標本数も増加します. また多重共線性の問題が生じる可能性も高まる事に注意が必要です.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p>
+        以下のデータに対して重回帰分析を行いましょう.
+        \[ \begin{array}{|cccccccccccc|} \hline
+A& A& A& A& B& B& B& B& C& C& C& C \\ \hline
+S& S& T& T& S& S& T& T& S& S& T& T \\ \hline
+65& 80& 33& 36& 108& 117& 45& 62& 142& 150& 82& 89 \\ \hline
+\end{array} \]
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        1行目をダミー変数 \(X_A,X_B\), 2行目をダミー変数 \(X_S\) に置き換えれば以下の様になります.
+        \[ \begin{array}{|c|cccccccccccc|} \hline
+X_A & 1& 1& 1& 1& 0& 0& 0& 0& 0& 0& 0& 0 \\ \hline
+X_B & 0& 0& 0& 0& 1& 1& 1& 1& 0& 0& 0& 0 \\ \hline
+X_S & 1& 1& 0& 0& 1& 1& 0& 0& 1& 1& 0& 0 \\ \hline
+Y   & 65& 80& 33& 36& 108& 117& 45& 62& 142& 150& 82& 89 \\ \hline
+\end{array} \]
+        これに重回帰分析を行えば回帰方程式
+        \[ y = -62.25x_A -32.75 x_B + 52.5 x_S + 89.5 \]
+        を得る事が出来ます.
+        </p>
+        </section>
+
+        <section>
+        <h2> 決定係数 </h2>
+        <p>
+        回帰方程式の当てはまりの良さを表す量として利用される <strong>決定係数</strong> を紹介します.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 決定係数 </h4>
+        <p>
+        観測値を\(y_1,y_2,\ldots,y_n\), 回帰方程式の基づく理論値を\(f_1,f_2,\ldots,f_n\) とする. また,\(y_i\) の平均を\(\overline{y}\) とする. 以下の量を<strong>決定係数</strong>と呼ぶ. 
+        \[ R^2 = 1 - \frac{\sum_{i=1}^n (y_i-f_i)^2}{\sum_{i=1}^n (y_i-\overline{y})^2} \]
+        </p>
+        </div>
+        <p>
+        \(y_i-f_i\) が観測値と理論値の誤差なので, <strong> \(R^2\) が \(1\) に近いほど当てはまりが良い</strong> と考える事が出来ます.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p> 以下の2つのデータセットに対して \(y=x\) という回帰方程式を当てはめた場合の決定係数を計算してみましょう.
+        </p>
+        <p>
+        データセット1
+        \[ \begin{array}{|c|cccccccccc|} \hline
+X&17.6&10.7&7.3&15.5&4.9&11.1&10.0&12.7&4.1&18.4 \\ \hline
+Y&14.4&10.0&8.0&14.9&4.5&8.4&8.4&11.8&2.8&19.8 \\ \hline
+        \end{array} \]
+        </p>
+
+        <p>
+        データセット2
+        \[ \begin{array}{|c|cccccccccc|} \hline
+X&5.6&15.7&13.5&2.1&15.2&9.0&18.0&8.8&11.2&12.9\\ \hline
+Y&20.6&7.7&17.8&-5.0&18.6&11.8&19.3&5.6&10.0&8.0\\ \hline
+        \end{array} \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        データセット1に対しては\(R^2 = 0.89\) となります.
+        </p>
+        <div align="center"> <img width="700px" src="fig/ex17-4-1.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        データセット2に対しては\(R^2 = 0.27\) となります.
+        </p>
+        <div align="center"> <img width="700px" src="fig/ex17-4-2.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        決定係数 \(R^2\) には回帰方程式の項の数が増えるほどより良くなる傾向があります. そこで, 項の数が異なるモデル同士を比較する場合には<strong>自由度調整済みの決定係数</strong>を利用します.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 自由度調整済みの決定係数 </h4>
+        <p>
+        観測値を\(y_1,y_2,\ldots,y_n\), 回帰方程式の基づく理論値を\(f_1,f_2,\ldots,f_n\) とする. \(y_i\) の平均を\(\overline{y}\) とする. また, 回帰方程式が
+        \[ y= a_1g_1(\mathbf{x}) + a_2g_2(\mathbf{x}) + \cdots + a_mg_m(\mathbf{x}) \]
+        という線型回帰方程式であるとする. この時 以下の量を<strong>自由度調整済みの決定係数</strong>と呼ぶ. 
+        \[ R^2 = 1 - \frac{\sum_{i=1}^n (y_i-f_i)^2/(n-m)}{\sum_{i=1}^n (y_i-\overline{y})^2/(n-1)} \]
+        </p>
+        </div>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p> 以下のデータセットに対して \(y=ax+b,y=ax^2+bx+c\) という2つの回帰方程式を当てはめた場合の決定係数を比較してみましょう.
+        \[ \begin{array}{|c|cccccccccc|} \hline
+X & -1.2&1.9&-3.4&-0.4&2.9&2.9&3.5&-0.6&2.0&3.7 \\ \hline
+Y & 4.6& -0.6&22.3&-0.0&-0.0&5.0&3.1&5.3&1.9&8.4 \\ \hline
+        \end{array} \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        モデル \(y=ax+b\) で回帰分析を行うと
+        \[ y =-1.6x + 6.8 \]
+        となり, 決定係数は\(m=1\)の場合の計算を行って\(R^2 = 0.32\) となります.
+        </p>
+        <div align="center"> <img width="500px" src="fig/ex17-5-1.png"> </div>
+        </section>
+
+        <section>
+        <p>
+        モデル \(y=ax^2+bx+c\) で回帰分析を行うと
+        \[ y = 1.1x^2 -2.5x + 0.9 \]
+        となり, 決定係数は \(m=2\) の場合の計算を行って \(R^2 = 0.90\) となります.
+        </p>
+        <div align="center"> <img width="500px" src="fig/ex17-5-2.png"> </div>
+        </section>
+
+        <section>
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 練習問題 </h4>
+        <p> 例題のデータセットに対して, 9次方程式を当てはめた場合の決定係数を求めて下さい.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        回帰方程式は
+        \[\small{ y=-0.01x^9+0.05x^8+0.11x^7-0.39x^6-1.0x^5-2.7x^4+16x^3+7.8x^2-32x-11 } \]
+        となります. 決定係数は自由度調整をしないと \(R^2 = 0.97\) となり2次のモデルより良くなってしまいます. 一方,自由度調整を行うと \(R^2 = 0.72\) となります.
+        </p>
+        <div align="center"> <img width="500px" src="fig/ex17-5-3.png"> </div>
+        </section>
+
+        <section>
+        <h2> 重回帰分析と \(t\)検定 </h2>
+        <p>
+        回帰分析の結果得られたモデルが例えば
+        \[ y = 0.001x^2 + 2x + 3 \]
+        の様な形になった場合「(x^2\)の係数は \(0\) にしちゃって良いのでは？」といった疑問が生じます.
+        </p>
+        <p class="fragment" data-fragment-index="1">
+        このような場合には検定の出番です. 帰無仮説・対立仮説を以下のように設定して検定を行います. 重回帰方程式の係数(偏回帰係数)の検定には \(t\) 検定が利用されます.
+        </p>
+        <ul class="fragment" data-fragment-index="1">
+          <li> 帰無仮説: \(x^2\) の係数は \(0\) である. </li>
+          <li> 対立仮説: \(x^2\) の係数は \(0\) ではない.
+        </ul>
+        </section>
+
+        <section>
+        <p>
+        当日板書
+        </p>
+        </section>
+
+        <section>
+        <h2> 今回はここで終わります。 </h2>
+        <p>
+        次回はベイズ統計学の初歩的な内容を取り上げます. 各種アルゴリズムの実装は難しいので既存のツールを使うかもしれません. 上手く行くと統計学編は来週で終了となります.
+        </p>
+        </section>
+
+      </div>
+
+    </div>
+
+
+    <script src="lib/reveal/lib/js/head.min.js"></script>
+    <script src="lib/reveal/js/reveal.js"></script>
+
+    <script>
+      Reveal.initialize({
+        width: 960,
+        height: 640,
+        controls: true,
+        progress: false,
+        history: true,
+        overview: false,
+        touch: true,
+        center: false,
+        rollingLinks: false,
+        transition: "page",
+        transitionSpeed: "default",
+
+        // When scale != 1, positions of mouse events will be incorrect.
+        minScale: 1.0,
+        maxScale: 1.0,
+
+        dependencies: [
+					{ src: "lib/reveal/lib/js/classList.js", condition: function() { return !document.body.classList; } },
+					{ src: "lib/reveal/plugin/highlight/highlight.js", async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: "lib/reveal/plugin/zoom-js/zoom.js", async: true, condition: function() { return !!document.body.classList; } },
+					{ src: "lib/reveal/plugin/notes/notes.js", async: true, condition: function() { return !!document.body.classList; } }
+          ]
+      });
+
+      // register event listeners
+      require(["MathJax"], function (MathJax) {
+
+        // Delay typesetting of slides
+        function typeset (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            if (!slide.typeset) {
+              MathJax.Hub.Typeset(slide);
+              slide.typeset = true;
+            }
+          }
+        }
+
+        function initializeGraphics (idx) {
+          for (var i = idx - 2, n = idx + 2; i <= n; i++) {
+            var slide = Reveal.getSlide(i);
+            if (!slide) continue;
+            var graphics = slide.getAttribute("graphics");
+            if (graphics && !slide.initialized) {
+              slide.initialized = true;
+              (function () {
+                var p = slide;
+                require([graphics], function(g) {
+                  if (g.initialize) g.initialize(p);
+                });
+              })();
+            }
+          }
+        }
+
+        function start (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.start) g.start(slide); });
+          }
+        }
+
+        function stop (slide) {
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.stop) g.stop(slide); });
+          }
+        }
+
+        function simpleEvent (type) {
+          var event = document.createEvent("HTMLEvents");
+          event.initEvent(type, true, true);
+          return event;
+        }
+
+        Reveal.addEventListener("slidechanged", function (event) {
+          typeset(event.indexh);
+          initializeGraphics(event.indexh);
+          start(event.currentSlide);
+          stop(event.previousSlide);
+        });
+
+        Reveal.addEventListener("fragmentshown", function (event) {
+          var slide = Reveal.getCurrentSlide();
+          var graphics = slide.getAttribute("graphics");
+          if (graphics) {
+            require([graphics], function(g) { if (g.proceed) g.proceed(slide); });
+          }
+        });
+
+        console.log(Reveal.getIndices().h);
+        typeset(Reveal.getIndices().h);
+        initializeGraphics(Reveal.getIndices().h);
+        start(Reveal.getCurrentSlide());
+      });
+    </script>
+  </body>
+</htl>
