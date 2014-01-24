@@ -434,10 +434,14 @@ Y   & 65& 80& 33& 36& 108& 117& 45& 62& 142& 150& 82& 89 \\ \hline
         </section>
 
         <section>
-        <h2> 決定係数 </h2>
+        <h2> モデルの良さの評価 </h2>
         <p>
-        回帰方程式の当てはまりの良さを表す量として利用される <strong>決定係数</strong> を紹介します.
+        回帰分析の結果を評価する為には決定係数や赤池情報量基準などの指標が利用されます. また, 検定の手法を応用してより細かく回帰方程式を調べていく事が出来ます.
         </p>
+        </section>
+
+        <section>
+        <h2> 決定係数 </h2>
         <div class="block" style="border-color:pink;font-size:90%">
         <h4 style="color:pink"> 決定係数 </h4>
         <p>
@@ -494,9 +498,9 @@ Y&20.6&7.7&17.8&-5.0&18.6&11.8&19.3&5.6&10.0&8.0\\ \hline
         <h4 style="color:pink"> 自由度調整済みの決定係数 </h4>
         <p>
         観測値を\(y_1,y_2,\ldots,y_n\), 回帰方程式の基づく理論値を\(f_1,f_2,\ldots,f_n\) とする. \(y_i\) の平均を\(\overline{y}\) とする. また, 回帰方程式が
-        \[ y= a_1g_1(\mathbf{x}) + a_2g_2(\mathbf{x}) + \cdots + a_mg_m(\mathbf{x}) \]
+        \[ y= a_1g_1(\mathbf{x}) + a_2g_2(\mathbf{x}) + \cdots + a_mg_m(\mathbf{x})+c\quad (\text{$c$ は定数}) \]
         という線型回帰方程式であるとする. この時 以下の量を<strong>自由度調整済みの決定係数</strong>と呼ぶ. 
-        \[ R^2 = 1 - \frac{\sum_{i=1}^n (y_i-f_i)^2/(n-m)}{\sum_{i=1}^n (y_i-\overline{y})^2/(n-1)} \]
+        \[ R^2 = 1 - \frac{\sum_{i=1}^n (y_i-f_i)^2/(n-m-1)}{\sum_{i=1}^n (y_i-\overline{y})^2/(n-1)} \]
         </p>
         </div>
         </section>
@@ -510,6 +514,7 @@ X & -1.2&1.9&-3.4&-0.4&2.9&2.9&3.5&-0.6&2.0&3.7 \\ \hline
 Y & 4.6& -0.6&22.3&-0.0&-0.0&5.0&3.1&5.3&1.9&8.4 \\ \hline
         \end{array} \]
         </p>
+        </div>
         </section>
 
         <section>
@@ -541,31 +546,307 @@ Y & 4.6& -0.6&22.3&-0.0&-0.0&5.0&3.1&5.3&1.9&8.4 \\ \hline
         <p>
         回帰方程式は
         \[\small{ y=-0.01x^9+0.05x^8+0.11x^7-0.39x^6-1.0x^5-2.7x^4+16x^3+7.8x^2-32x-11 } \]
-        となります. 決定係数は自由度調整をしないと \(R^2 = 0.97\) となり2次のモデルより良くなってしまいます. 一方,自由度調整を行うと \(R^2 = 0.72\) となります.
+        となります. 決定係数は自由度調整をしないと \(R^2 = 0.97\) となり2次のモデルより良いという結果になります. しかし, 下のグラフを見れば分かるようにデータのノイズまで忠実に再現してしまっており決して良いモデルとはいえません.
+        </p>
+        <p>
+        一方で, 自由度調整を行うと \(R^2 = 0.72\) となり 2次のモデルの方が良いと判断する事が出来ます.
         </p>
         <div align="center"> <img width="500px" src="fig/ex17-5-3.png"> </div>
         </section>
 
         <section>
-        <h2> 重回帰分析と \(t\)検定 </h2>
+        <h2> 赤池情報量基準 </h2>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 赤池情報量基準 </h4>
         <p>
-        回帰分析の結果得られたモデルが例えば
-        \[ y = 0.001x^2 + 2x + 3 \]
-        の様な形になった場合「(x^2\)の係数は \(0\) にしちゃって良いのでは？」といった疑問が生じます.
+        \[ \mathrm{AIC} = -2\ln L + 2k \]
+        \(L\) は尤度の最大値, \(k\) は
         </p>
-        <p class="fragment" data-fragment-index="1">
-        このような場合には検定の出番です. 帰無仮説・対立仮説を以下のように設定して検定を行います. 重回帰方程式の係数(偏回帰係数)の検定には \(t\) 検定が利用されます.
+        </div>
+        <p>
+        モデルとデータがよく一致するほど尤度 \(L\) が大きくなるので \(\mathrm{AIC}\) は小さくなります. \(2k\) はモデルが複雑になることに対するペナルティであり, \(\mathrm{AIC}\) が小さいほど良い値であると言えます.
         </p>
-        <ul class="fragment" data-fragment-index="1">
-          <li> 帰無仮説: \(x^2\) の係数は \(0\) である. </li>
-          <li> 対立仮説: \(x^2\) の係数は \(0\) ではない.
-        </ul>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        最小二乗法では, 誤差 \(Y-f(X_1,X_2,\ldots,X_n)\) が正規分布 \(N(0,\sigma^2)\) に従うと仮定しているので, データ列\((\mathbf{x}_1,y_1),(\mathbf{x}_2,y_2),\ldots,(\mathbf{x}_n,y_n)\) に対して 尤度は
+        \[ L = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(y_i-f(\mathbf{x}_i))^2}{2\sigma^2}\right\} \]
+        となります. 従って
+        \[ \begin{aligned}
+        \ln L &= -\frac{n}{2}\ln(2\pi\sigma^2)-\frac{1}{2\sigma^2}\sum_{i=1}^n(y_i-f(\mathbf{x}_i))^2\\
+              &= -\frac{n}{2}\ln(2\pi\sigma^2)-\frac{RSS}{2\sigma^2}
+        \end{aligned} \]
+        となります.但し, \(RSS=\sum(y_i-f(\mathbf{x}_i))^2\) です.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        ここで\(\sigma^2\)の値はわからないので, (母集団が正規分布の場合の母分散の最尤推定量である)標本分散によって
+        \[ \sigma^2 = \frac{1}{n}\sum_{i=1}^n(y_i-f(\mathbf{x}_i))^2 = \frac{RSS}{n} \]
+        とおくと
+        \[ \ln L = -\frac{n}{2}\ln\left(\frac{2\pi}{n}RSS\right)-\frac{n}{2} \]
+        となるので
+        \[ \mathrm{AIC}=-2\ln L+2k = n\ln\left(\frac{RSS}{n}\right)+2k+n(\ln 2\pi+1) \]
+        となります. 最後の項はモデルの選び方によらない定数なので\(\mathrm{AIC}\)の大小には関係ありません. 従って, 最小二乗法を使う場合には,
+        \[ \color{yellow}{ n\ln\left(\frac{RSS}{n}\right)+2k } \]
+        が小さいほど良いモデルであると言えます.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        先ほどの例題のデータについて
+        \[ y=a_kx^k+a_{k-1}x^{k-1}+\cdots+a_1k+a_0 \]
+        というモデルで \(\mathrm{AIC}\) を計算すると以下の様になります.
+        </p>
+        \[ \begin{array}{|c|c|c|c|c|}\hline
+        k            & 1    & 2    & 3    & 4    & \cdots \\ \hline
+        \mathrm{AIC} & 63.5 & 45.3 & 47.2 & 48.9 & \cdots \\ \hline
+        \end{array} \]
+        <p>
+        従って最も良いモデルは2次のものだと判断出来ます.
+        </p>
+        <div align="center"> <img width="400px" src="fig/ex17-5-2.png"> </div>
         </section>
 
         <section>
         <p>
-        当日板書
+        \(\mathrm{AIC}\)の計算には以下のコードを利用しました.
         </p>
+<pre><code class="python" style="font-size:90%;max-height:400px"># -*- coding: utf-8 -*-
+import numpy as np
+from scipy import linalg as LA
+from math import log, pi
+
+data = np.loadtxt("ex17-5.dat", comments="#", delimiter="\t")
+x = data[:,0]
+y = data[:,1]
+N = len(x)
+
+k = 4   # パラメータの数x^kの項まで使う
+
+# 回帰分析
+G = np.array([x**i for i in range(k+1)]).T
+a = LA.solve(G.T.dot(G), G.T.dot(y))
+
+# AICの計算(最後の項もつけておいた)
+f = G.dot(a)
+AIC = N*log(np.sum((y-f)**2)/N) + 2*k + N*(log(2*pi)+1)
+
+print AIC
+</code></pre>
+        </section>
+
+        <section>
+        <h2> 回帰分析と検定 </h2>
+        <p>
+        回帰方程式
+        \[ y=a_0+a_1x_1+a_2x_2+\cdots+a_mx_m \]
+        の各係数について詳しく調べる為には検定の手法を利用します.
+        </p>
+        <p>
+        全く同一の独立変数 \(\mathbf{x}_1,\mathbf{x}_2,\ldots,\mathbf{x}_n\) を用いて回帰分析を行っても, その都度誤差が生じて \(\mathbf{y}\) 及び \(\mathbf{a}=(a_1,a_2,\ldots,a_m)^T\) の推定値も変化します. つまり, 実際には \(\mathbf{a}\)の推定値は確率変数であると考える事が出来ます.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        データセット \((\mathbf{x}_1,y_1),(\mathbf{x}_2,y_2),\ldots,(\mathbf{x}_n,y_n)\) に対して
+        \[ \mathbf{y}=G\mathbf{a}+\mathbf{\varepsilon} \]
+        が成立しているとします. ここで \(G\) は既に説明したものであり, \(\mathbf{\varepsilon}\) は誤差項です. ここで幾つかの仮定をおきます.
+        </p>
+        <ul>
+          <li> \(\mathbf{\varepsilon},\mathbf{y}\)は確率変数であって, \(\mathbf{x}_1,\mathbf{x}_2,\ldots,\mathbf{x}_n\)は確率変数ではない.  </li>
+          <li> 誤差は平均が\(0\)で分散が同一の正規分布に従い, 無相関である. つまり,
+          \[ \begin{aligned}
+          E[\varepsilon] &= \mathbf{0}\\
+          E[\varepsilon_i\varepsilon_i]&=\sigma^2\\
+          E[\varepsilon_i\varepsilon_j]&=0\quad (i\neq j)
+          \end{aligned} \]
+          </li>
+        </ul>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        \(\mathbf{a}\) の推定値は
+        \[ \hat{\mathbf{a}} = (G^TG)^{-1}G^T\mathbf{y} \]
+        だったので, 
+        \[ \begin{aligned}
+        E[\hat{\mathbf{a}}] &= (G^TG)^{-1}G^TE[\mathbf{y}]\\
+        &= (G^TG)^{-1}G^TE[G\mathbf{a}+\mathbf{\varepsilon}]\\
+        &=(G^TG)^{-1}G^TGE[\mathbf{a}]+\mathbf{0}\\
+        &=\mathbf{a}
+        \end{aligned} \]
+        が成り立ちます(これから\(\hat{\mathbf{a}}\) が不偏推定量である事もわかります.).
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        また\(\hat{\mathbf{a}}\)の分散共分散行列は
+        \[ \begin{aligned}
+        V[\hat{\mathbf{a}}]&=E[(\hat{\mathbf{a}}-\mathbf{a})(\hat{\mathbf{a}}-\mathbf{a})^T] \\
+        &=E[(G^TG)^{-1}G^T\mathbf{\varepsilon}\mathbf{\varepsilon}^TG(G^TG)^{-1}] \\
+        &=(G^TG)^{-1}G^TE[\mathbf{\varepsilon}\mathbf{\varepsilon}^T]G(G^TG)^{-1} \\
+        &=\sigma^2(G^TG)^{-1}G^TG(G^TG)^{-1} \\
+        &= \sigma^2(G^TG)^{-1}
+        \end{aligned} \]
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上の結果と正規分布の再生性から以下の事が言えます.
+        </p>
+        <div class="block" style="border-color:pink;font-size:90%">
+        <h4 style="color:pink"> 回帰方程式の係数の分布 </h4>
+        <p>
+        重回帰分析による回帰方程式の係数の推定量 \(\hat{\mathbf{a}}\) は多変量正規分布 \(N(\mathbf{a},\sigma^2 (G^TG)^{-1})\) に従う.
+        </p>
+        </div>
+        <p>
+        この事が分かってしまえば, 既に学習した推定や検定の手法を利用する事が出来ます.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <div class="block" style="border-color:lightgreen;font-size:80%">
+        <h4 style="color:lightgreen"> 例題 </h4>
+        <p> 以下のデータセットに対して \(z=ax+by+c\) というモデルで回帰分析を行った場合のパラメータ\(\mathbf{a}=(a,b,c)^T\)の推定値の分布を調べてみましょう.
+        </p>
+        <p>
+        \(x,y\) は定数ですが, \(z\) は確率変数であり下の表のデータは１つの実現値です.
+        </p>
+        \[ \begin{array}{|c|cccccccccc|} \hline
+x & 5.4& 6.2& 4.3& 1.2& 6.2& 4.0& 4.0& 3.9& 6.4& 6.6 \\ \hline
+y & 4.7& 0.2& 0.5& 5.1& 3.6& 7.3& 10.0& 5.5& 9.6& 8.9 \\ \hline
+z & 11.8& 0.3& 2.8& 8.2& 10.9& 19.3& 15.8& 17.9& 21.7& 18.1 \\ \hline
+        \end{array} \]
+        </div>
+        <p>
+\[ \sigma^2(G^TG)^{-1} = \sigma^2\begin{pmatrix}
+  0.04 &  -0.0004 & -0.2 \\
+ -0.0004&   0.009 & -0.05 \\
+ -0.2 &  -0.05 &  1 
+\end{pmatrix} \]
+となるので, 回帰分析で得られる推定値 \(\hat{\mathbf{a}}=(\hat{a},\hat{b},\hat{c})^T\) は真の値 \(\mathbf{a}=(a,b,c)^T\) が平均で上の行列が分散共分散行列である多変量正規分布に従います.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        ここで \(a=0\) であるか否かを検定してみましょう. \(a=0\) ならば \(z = by+c\) となるので 変数 \(x\) と \(z\) には全く関係ないという事になります.
+        \[ \begin{aligned}
+        H_0 &: a=0 \\
+        H_1 &: a\neq 0
+        \end{aligned} \]
+        </p>
+        <p>
+        前頁の結果より \(a\) の推定値 \(\hat{a}\) は \(H_0\) の元で \(N(0, 0.04\sigma^2)\) に従います. ここで \(\sigma^2\) の値は分からないのでその推定量として
+        \[ S^2=\frac{\sum\{z_i-(\hat{a}x_i+\hat{b}y_i+\hat{c})\}^2}{n-2-1} \]
+        を使うと(分母の\(-2\)は独立変数が\(2\)つある事より),
+        \[ t = \frac{\hat{a}}{\sqrt{0.04S^2}} \]
+        は自由度 \(n-2-1\) の\(t\) 分布に従います.
+        </p>
+        </section>
+
+        <section style="font-size:80%">
+        <p>
+        \(\hat{b},\hat{c}\) についても全く同様に計算すると
+        \[ \begin{array}{|c|ccc|} \hline
+        \text{係数}   & \hat{a} & \hat{b} & \hat{c} \\ \hline
+        \text{推定値} & 0.42    & 1.8     & 0.45 \\ \hline
+        t             & 0.59    & 5.5     & 0.11 \\ \hline
+        \end{array} \]
+        有意水準を\(\alpha=0.05\) とすると自由度\(n-2-1=7\)の\(t\)分布の両側\(\alpha\)点は \(t_\alpha = 2.26\) となるので, これよりも外れている \(\hat{b}\) については帰無仮説を棄却する事が出来ます. つまり有意に \(b\neq 0\) と言えます. 一方, \(a\neq 0\) という事は言えないので \(x\) には \(z\) を説明する変数として意味があるとは言えません.
+        </p>
+        </section>
+
+        <section>
+        <p> 以下が \(t\)検定の為に利用したコードです. </p>
+<pre><code class="python" style="font-size:90%;max-height:400px"># -*- coding: utf-8 -*-
+import numpy as np
+from scipy import linalg as LA
+from scipy import stats
+from math import log,sqrt,pi
+
+data = np.loadtxt("ex17-6.dat", comments="#", delimiter="\t")
+x = data[:,0]
+y = data[:,1]
+z = data[:,2]
+N = len(x)
+
+# 回帰分析
+G = np.array([x, y, np.ones(N)]).T
+m = 2 # 変数の数
+a = LA.solve(G.T.dot(G), G.T.dot(z))
+
+## a について t検定
+S2 = np.sum( (z-G.dot(a))**2 )/(N-m-1)
+t = a/np.sqrt(np.diag(LA.inv(G.T.dot(G)))*S2)
+
+print "a_hat = ", a
+print "t = ", t
+
+# 両側α点 (α=0.05)
+print "t_alpha = %.3f" % stats.t.ppf(0.975, N-m-1)
+</code></pre>
+        </section>
+
+        <section>
+        <p>
+        同様にして,
+        \[ \begin{aligned}
+        H_0&:\text{定数項以外の係数は全て0} \\
+        H_1&:\text{定数項以外の少なくとも１つの項の係数は0ではない}
+        \end{aligned} \]
+        という検定を行う事も出来ます. 回帰分析の結果に意味があると言える為には \(H_0\) が棄却される必要があります. 詳しくは省略しますが, この場合は \(F\) 分布を利用した検定を利用します.
+        </p>
+        </section>
+
+        <section>
+        <p>
+        以上で行った様な計算は統計解析ツールで簡単に出来ますので, 実際に使うときはそちらを使いましょう. 但し, 一度自分で実装する事は理屈を良く理解する事に役立ちます. 以下は \(R\) という言語での例です.
+        </p>
+<pre><code class="R" style="font-size:90%;max-height:400px">
+> data <- read.csv("ex17-6.dat", sep="\t", header=F)
+> data
+    V1   V2   V3
+1  5.4  4.7 11.8
+2  6.2  0.2  0.3
+3  4.3  0.5  2.8
+4  1.2  5.1  8.2
+5  6.2  3.6 10.9
+6  4.0  7.3 19.3
+7  4.0 10.0 15.8
+8  3.9  5.5 17.9
+9  6.4  9.6 21.7
+10 6.6  8.9 18.1
+> fm <- lm(V3 ~ V1 + V2, data) # 回帰分析
+> summary(fm)
+
+Call:
+lm(formula = V3 ~ V1 + V2, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max
+-4.7719 -2.0030  0.0345  1.1379  5.6762
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   0.4506     4.0054   0.113 0.913584
+V1            0.4156     0.7037   0.591 0.573370
+V2            1.8459     0.3390   5.445 0.000961 ***    <- 係数(Estimate)とt値(t value). Pr(>|t|)が有意水準αより小さいならば重要な変数.
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 3.544 on 7 degrees of freedom
+Multiple R-squared: 0.8115,     Adjusted R-squared: 0.7576  <- 自由度調整済み決定係数(Adjusted R-squared)
+F-statistic: 15.07 on 2 and 7 DF,  p-value: 0.002909    <- この回帰分析に意味があったか(F検定)？ p-valueが有意水準αより小さいならばOK.
+</code></pre>
         </section>
 
         <section>
