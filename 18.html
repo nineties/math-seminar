@@ -190,7 +190,7 @@
         </section>
         <section>
         <p>
-        ベイズ統計では, 考察の対象 \(A\) に対して予め<strong>事前確率</strong>\(P(A)\)を定めておきます. (A\) と関係する事象が生起 \(B\) したならば <strong>ベイズ改訂</strong> を行って <strong>事後確率</strong> \(P(A|B)\) へと確率を更新する事が出来ます. これを繰り返せば確率の客観性を高めていく事が出来ます.
+        ベイズ統計では, 考察の対象 \(A\) に対して予め<strong>事前確率</strong>\(P(A)\)を定めておきます. \(A\) と関係する事象\(B\)が生起したならば <strong>ベイズ改訂</strong> を行って <strong>事後確率</strong> \(P(A|B)\) へと確率を更新する事が出来ます. これを繰り返せば確率の客観性を高めていく事が出来ます.
         </p>
         <div align="center"> <img width="600px" src="fig/bayesian-revision.png"> </div>
         </section>
@@ -266,7 +266,7 @@
         <p class="fragment" data-fragment-index="1">
         従って
         \[ P(A|E) = \frac{\frac{1}{3}\cdot\frac{1}{2}}{\frac{1}{3}\cdot\frac{1}{2}+\frac{1}{3}\cdot 0+\frac{1}{3}\cdot 1} = \frac{1}{3}\]
-        となるので, \(P(A)=P(A|E)\) であるので 証言 \(E\) を聞いた所で \(A\) が処刑を免れる確率は変化しません.
+        となります. \(P(A)=P(A|E)\) であるので 証言 \(E\) を聞いた所で \(A\) が処刑を免れる確率は変化しません.
         </p>
         </section>
 
@@ -285,8 +285,7 @@
         \(A,B\) が独立ならば
         \[ P(A|B) = P(A) \]
         となります. つまり, この場合 \(B\) は証拠として意味がないという事になります.
-        ベイズの定理の計算を行う際には, 考える事象と証拠, もしくは証拠同士の独立性に注目する事が
-        ポイントとなります.
+        ベイズの定理の計算を行う際には, 事象の独立性に注目する事がポイントとなります.
         </p>
         </section>
 
@@ -300,7 +299,8 @@
                =&P(A)P(B_1|A)P(B_2,\ldots,B_n|A,B_1) \\
                =&P(A)P(B_1|A)P(B_2|A,B_1)P(B_3,\ldots,B_n|A,B_1,B_2)\\
                =&\cdots \\
-               =&P(A)P(B_1|A)P(B_2|A,B_1)P(B_3|A,B_1,B_2)\cdots P(B_n|A,B_1,B_2,\ldots,B_{n-1})
+               =&P(A)P(B_1|A)P(B_2|A,B_1)P(B_3|A,B_1,B_2)\\
+                &\qquad \cdots P(B_n|A,B_1,B_2,\ldots,B_{n-1})
         \end{aligned} \]
         となります.
         </p>
@@ -325,7 +325,7 @@
         <div class="block" style="border-color:lightgreen;font-size:80%">
         <h4 style="color:lightgreen"> 例題 </h4>
         <p>
-        非常に簡単な迷惑メール判定の問題を考えてみましょう. ここでは3つの単語「連絡」「無料」「登録」「経理」のみに注目します.
+        非常に簡単な迷惑メール判定の問題を考えてみましょう. ここでは4つの単語「連絡」「無料」「登録」「経理」のみに注目します.
         これらがメールの中に出現する確率は以下のようになっているとします.
         \[ \begin{array}{|c|c|c|c|} \hline
         & \text{連絡} & \text{無料} & \text{登録} & \text{経理}\\ \hline
@@ -370,6 +370,17 @@
         </section>
 
         <section>
+        <h2> ベイジアンネットワーク </h2>
+        <p>
+        今回は詳しい解説をする時間がないのですが, 事象の独立性を<strong>ベイジアンネットワーク</strong>というグラフ構造の上で表す事が出来ます.
+        グラフ上の幾つかのノードに対して証拠が与えられた時に,それ以外のノードに関する全確率をベイズに定理に基いて計算する事が出来ます.
+        </p>
+        <div align="center">
+          <img width="500px" src="fig/bayesian-network-example.png">
+        </div>
+        </section>
+
+        <section>
         <h2> ベイズ推定 </h2>
         <p>
         確率分布の母数\(\theta\)に対する推定を行うには以下の定理を利用します.
@@ -383,7 +394,7 @@
           </p>
         </div>
         <p>
-        \(p(\theta|X=x)\) を最大にする\(\theta\)の値を <strong> ベイズ推定値 </strong> (もしくはベイズ(maximum a posterior estimator)推定値)と呼びます.
+        \(p(\theta|X=x)\) を最大にする\(\theta\)の値を <strong> ベイズ推定値 </strong> (もしくはMAP(maximum a posterior estimator)推定値)と呼びます.
         </p>
         </section>
 
@@ -492,7 +503,7 @@
 
         <section>
         <p>
-        一方, ベイズ推定では事前分布として私達の常識的な知識を使う事が出来ます. \(p\) の値は \(p=1/2\) の付近にあるはずなので, 事前分布\(\pi(p)\) として \(B(2,2)\) を仮定しましょう.
+        一方, ベイズ推定では事前分布として私達の常識的な知識を使う事が出来ます. \(p\) の値は \(p=1/2\) の付近にあるはずなので, 事前分布\(\pi(p)\) として \(Be(2,2)\) を仮定しましょう.
         </p>
         <div align="center">
           <img width="600px" src="fig/ex18-2.png"><br>
@@ -537,7 +548,7 @@
         となります.
         </p>
         <p>
-        \(\mu\) の事前分布 \(p(\mu)\) ですが平均が\(100\)の正規分布としましょう. 分散は分からないのでかなり緩やかな100とします. つまり
+        \(\mu\) の事前分布 \(p(\mu)\) ですが平均が\(100\)の正規分布としましょう. 分散は大きめに100とします. つまり
         \[ p(\mu)\propto \exp\left\{-\frac{(\mu-100)^2}{200}\right\} \]
         となります.
         </p>
@@ -655,21 +666,36 @@
         </p>
         <p>
         すると, 事後分布は
-        \[ p(\mathbf{a}|D) \propto \exp\left\{-\frac{1}{2}\left(-\frac{1}{\sigma^2}(\mathbf{y}-G\mathbf{a})^T(\mathbf{y}-G\mathbf{a})+(\mathbf{a}-\mathbf{\mu}_0)^T\Sigma_0^{-1}(\mathbf{a}-\mathbf{\mu}_0)\right) \right\} \]
-        となります. これを整理すると 事後分布は多変量正規分布 \(N(\mathbf{\mu},\Sigma)\) に従う事が判ります. 従って \(\mathbf{\mu}'\) が \(\mathbf{a}\) のベイズ推定値となります. 但し
+        \[ p(\mathbf{a}|D) \propto \exp\left\{-\frac{1}{2}\left(\frac{1}{\sigma^2}(\mathbf{y}-G\mathbf{a})^T(\mathbf{y}-G\mathbf{a})+(\mathbf{a}-\mathbf{\mu}_0)^T\Sigma_0^{-1}(\mathbf{a}-\mathbf{\mu}_0)\right) \right\} \]
+        となります. これを整理すると 事後分布は多変量正規分布 \(N(\mathbf{\mu},\Sigma)\) に従う事が判ります. 従って \(\mathbf{\mu}\) が \(\mathbf{a}\) のベイズ推定値となります. 但し
         \[ \color{yellow}{ \Sigma^{-1} = \frac{1}{\sigma^2}G^TG + \Sigma_0^{-1}, \mathbf{\mu} = \Sigma\left(\frac{1}{\sigma^2}G^T\mathbf{y}+\Sigma_0^{-1}\mathbf{\mu}_0\right) } \]
         です.
         </p>
         </section>
 
+        <section style="font-size:70%">
+        <p>
+        【証明】<br>
+        分散共分散行列が対称行列 (\(\Sigma^T=\Sigma\)) である事に注意すると
+        \[ \begin{aligned}
+        &(\mathbf{a}-\mathbf{\mu})^T\Sigma^{-1}(\mathbf{a}-\mathbf{\mu}) \\
+        = &\mathbf{a}^T\Sigma^{-1}\mathbf{a} -2\mathbf{a}^T\Sigma^{-1}\mathbf{\mu}+(\text{定数})\\
+        = &\mathbf{a}^T\left(\frac{1}{\sigma^2}G^TG+\Sigma_0^{-1}\right)\mathbf{a} - 2\mathbf{a}^T\left(\frac{1}{\sigma^2}G^T\mathbf{y}+\Sigma_0^{-1}\mathbf{\mu}_0\right) + (\text{定数}) \\
+        =& \frac{1}{\sigma^2}(\mathbf{a}^TG^TG\mathbf{a}-2\mathbf{a}^TG^T\mathbf{y})+(\mathbf{a}^T\Sigma_0^{-1}\mathbf{a}-2\mathbf{a}^T\Sigma_0^{-1}\mathbf{\mu}_0)+(\text{定数}) \\
+        =& \frac{1}{\sigma^2}(\mathbf{y}-G\mathbf{a})^T(\mathbf{y}-G\mathbf{a}) + (\mathbf{a}-\mathbf{\mu}_0)^T\Sigma_0^{-1}(\mathbf{a}-\mathbf{\mu}_0) + (\text{定数})
+        \end{aligned} \]
+        となるから. <span style="float:right">□</span>
+        </p>
+        </section>
+
         <section>
         <p>
-        前頁の式から \(\Sigma\) を消去するとベイズ線型回帰の正規方程式
+        先ほどの式から \(\Sigma\) を消去するとベイズ線型回帰の正規方程式
         \[ G^TG\mathbf{\mu}-G^T\mathbf{y}+\sigma^2\Sigma_0^{-1}(\mathbf{\mu}-\mathbf{\mu}_0) = 0 \]
         が得られます.
         </p>
         <p>
-        もしパラメータ \(\mathbf{a}\) について一切の情報がないならば, 分散が無限大となって(\(\Sigma_0=0\) となるから)最小二乗法の正規方程式
+        もしパラメータ \(\mathbf{a}\) について一切の情報がないならば, 分散が無限大となって(\(\Sigma_0^{-1}=0\) となるから)最小二乗法の正規方程式
         \[ G^TG\mathbf{\mu}-G^T\mathbf{y}=0 \]
         と一致する事が判ります.
         </p>
@@ -689,30 +715,72 @@ Y & 4.6& -0.6&22.3&-0.0&-0.0&5.0&3.1&5.3&1.9&8.4 \\ \hline
 
         <section style="font-size:80%">
         <p>
-        これは前回もやった問題です. 単純な最小二乗法では
+        単純な最小二乗法では
         \[\small{ y=-0.01x^9+0.05x^8+0.11x^7-0.39x^6-1.0x^5-2.7x^4+16x^3+7.8x^2-32x-11 } \]
-        となり以下の様なグラフになってしまうのでした.
+        となり以下の様にノイズを忠実に拾った回帰方程式となってしまうのでした.
         </p>
-        <div align="center"> <img width="500px" src="fig/ex17-5-3.png"> </div>
+        <div align="center"> <img width="500px" src="fig/ex18-4-1.png"> </div>
+        </section>
+
+        <section style="font-size:70%">
+        <p>
+        ベイズ線型回帰でやってみます. ここで次数の高い項の係数ほど \(0\) に近いはずという事を事前分布として導入してみましょう.
+        </p>
+        <p>
+        そこで, \(x^k\) の係数は \(N(0, 10^{-k})\) に従うと仮定します. つまり,
+        \[ \mathbf{\mu}_0 = \mathbf{0},
+        \Sigma_0 = \begin{pmatrix}
+        1 & 0 & \cdots & 0 \\
+        0 & 10^{-1} & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & \cdots & \cdots & 10^{-9}
+        \end{pmatrix} \]
+        とおきましょう. つまり
+        \[ 
+        \Sigma_0^{-1} = \begin{pmatrix}
+        1 & 0 & \cdots & 0 \\
+        0 & 10 & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & \cdots & \cdots & 10^9
+        \end{pmatrix} \]
+        となります. 誤差分布の分散の \(\sigma^2\) の値は分かりませんので適当な値を仮定します.
+        </p>
         </section>
 
         <section>
         <p>
-        ベイズ線型回帰でやってみます. 回帰方程式の係数はあまり絶対値の大きな値ではないという仮定をおきましょう.
+        正規方程式を解くと
+        \[\begin{aligned}
+        &\small{ y=-2.3\cdot 10^{-5}x^9+2.4\cdot 10^{-4}x^8 -3.2\cdot 10^{-4}x^7 + 1.9\cdot 10^{-3}x^6}\\
+        &\quad\small{ - 3.5\cdot 10^{-3}x^5 + 1.5\cdot 10^{-2}x^4 -3.9\cdot 10^{-2}x^3 +0.13x^2 -0.67x + 2.1} 
+        \end{aligned} \]
+        となり以下のグラフ(緑の線)のようになります. 高次の急激な変動を除去する事ができている事がわかります.
+        </p>
+        <div align="center"> <img width="500px" src="fig/ex18-4-2.png"> </div>
+
+        </section>
+
+        <section>
+        <p>
+        以上でベイズ統計の基本の説明を終わります.
         </p>
         <p>
-        そこで方程式の係数は全て \(N(0, \sigma_0^2)\) に従うと仮定しましょう. すると
-        \[ \mathbf{\mu}_0=0, \Sigma_0=\sigma_0^2E\qquad(E:\text{単位行列}) \]
-        となるので, 正規方程式は
-        \[ G^TG\mathbf{\mu}-G^T\mathbf{y}+\frac{\sigma^2}{\sigma_0^2}\mathbf{\mu} = 0 \]
-        つまり
-        \[ (G^TG+\lambda)\mathbf{\mu}=G^T\mathbf{y} \qquad (\lambda=\sigma^2/\sigma_0^2)\]
-        となります. \(\lambda\)の値は分からないので適当に推定する事が必要です.
+        事前分布を主観的に定めてしまうという考え方は慣れるまでは(慣れても?)奇妙に感じるかもしれませんが,
+        データ数が少ない場合の統計的解析には大変協力です. 是非, 復習を行って下さい.
         </p>
         </section>
 
         <section>
-        <h2> 以上で統計編を終わります. </h2>
+        <h2> 以上でプログラマの為の数学勉強会を終わります. </h2>
+        <p>
+        全18回お付き合いいただきありがとうございました.
+        非常に初歩的な所から始めましたが, 結構実用的なレベルの所まで解説する事が出来たと思います.
+        </p>
+        <p>
+        今後ですが, せっかく統計まで講義を行いましたので最近はやりのパターン認識・機械学習の勉強会を開催したいと思います.
+        そちらではこの勉強会で解説した程度の基礎的な数学知識は前提とし, 積極的に難しいテーマにも取り組んでいこうと思います.
+        是非お越しください.
+        </p>
         </section>
 
       </div>
