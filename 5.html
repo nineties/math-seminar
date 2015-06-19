@@ -725,7 +725,7 @@ for i in range(100):
         これを解くには例えば前進差分と二階差分を使って
         \[ \begin{aligned}
         \frac{\partial u}{\partial t} &\approx \frac{u(x_i, t_{j+1})-u(x_i, t_j)}{\Delta t} \\
-        \frac{\partial^2 u}{\partial x^2} &\approx D \frac{u(x_{i+1},t_j)-2u(x_i,t_j)+u(x_{i-1},t_j)}{\Delta x^2} 
+        \frac{\partial^2 u}{\partial x^2} &\approx \frac{u(x_{i+1},t_j)-2u(x_i,t_j)+u(x_{i-1},t_j)}{\Delta x^2} 
         \end{aligned} \]
         と近似して
         \[ u(x_i, t_{j+1}) = u(x_i, t_j) + D\frac{\Delta t}{\Delta x^2}(u(x_{i+1},t_j)-2u(x_i,t_j)+u(x_{i-1},t_j)) \]
